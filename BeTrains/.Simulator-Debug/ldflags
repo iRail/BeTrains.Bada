@@ -1,1 +1,0 @@
--L"C:/bada/1.1.0b1/Model/WaveWQ_LP1/Simulator" -L"C:/bada/1.1.0b1/Lib" -L"C:/bada/1.1.0b1/IDE/workspace/BeTrains/lib" -shared -o"BeTrains.exe"
