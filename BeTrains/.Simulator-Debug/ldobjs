@@ -1,1 +1,0 @@
-./src/View/IView.o ./src/Model/Connection.o ./src/Model/ConnectionNode.o ./src/Model/Request.o ./src/Model/Station.o ./src/Model/Trip.o ./src/Controller/Controller.o ./src/Controller/IRoutePlannerController.o ./src/BeTrains.o ./src/BeTrainsEntry.o 
