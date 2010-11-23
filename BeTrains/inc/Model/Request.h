@@ -16,37 +16,34 @@ using namespace Osp::Base::Collection;
 
 class Request {
 private:
-	DateTime dateTime;
+	DateTime *dateTime; //dateTime ownership
 	bool departure;
-	Station fromStation;
-	Station toStation;
-	//TODO arraylist results
-	//ArrayList<Trip> results;
+	Station *fromStation; //fromStation: no ownership
+	Station *toStation; //toStation: no ownership
+	ArrayListT<Trip*> results; //ownership over all connection 's
 public:
-	Request(Station const &fromStation_, Station const &toStation_) :
-		fromStation(fromStation_), toStation(toStation_) {
-		//TODO init construct empty results
+	Request(Station *fromStation_, Station *toStation_) :
+		fromStation(fromStation_), toStation(toStation_)
+	{
+		results.Construct();
 	}
 	virtual ~Request();
 	void switchStation();
 	void toggleDepartArrival();
-	//TODO add trip method
-	//void addTrip(Trip &trip);
 
-	bool operator==(const Request &c2) const {
-		return false;
-		//TODO operator overloading implementation
-	}
+	//getters and setters
+	void setDateTime(int seconds);
+	DateTime *getDateTime()const;
+	void setFromStation(Station *station);
+	Station *getFromStation()const;
+	void setToStation(Station *station);
+	Station *getToStation()const;
+	bool isDeparture()const{ return departure; }
+	ArrayListT<Trip*> * getResults();
 
-	Request & operator=(const Request &c2) {
-		//TODO operator overloading implementation
-		return *this;
-	}
-
-	bool operator!=(const Request &c2) const {
-		return true;
-		//TODO operator overloading implementation
-	}
+	bool operator==(const Request &c2) const;
+	Request & operator=(const Request &c2);
+	bool operator!=(const Request &c2) const;
 };
 
 #endif /* REQUEST_H_ */

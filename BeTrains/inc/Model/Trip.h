@@ -16,36 +16,22 @@ using namespace Osp::Base::Collection;
 
 class Trip {
 private:
-	TimeSpan duration;
-	//ArrayList<Connection> connections;
+	TimeSpan *duration; //owernership
+	ArrayListT<Connection*> connections; //ownership over all connection 's
 public:
-	//if not duration is not defined like this an error arises
+	//if duration is not defined like this an error arises
 	Trip() :
-		duration(TimeSpan(0, 0, 0))
+		duration(new TimeSpan(0, 0, 0))
 	{
-		//connections.Construct();
+		connections.Construct();
 	}
 	virtual ~Trip();
-	TimeSpan getDuration();
+	TimeSpan *getDuration() const;
 	void setDuration(int seconds);
-	//TODO add/get connection method
-	void addConnection(Connection &conn);
-
-	bool operator==(const Trip &c2) const {
-		return false;
-		//TODO operator overloading implementation
-	}
-
-	Trip & operator=(const Trip &c2) {
-		//TODO operator overloading implementation
-		return *this;
-	}
-
-	bool operator!=(const Trip &c2) const {
-		return true;
-		//TODO operator overloading implementation
-	}
-
+	ArrayListT<Connection*> * getConnections();
+	bool operator==(const Trip &c2) const;
+	Trip & operator=(const Trip &c2);
+	bool operator!=(const Trip &c2) const;
 };
 
 #endif /* TRIP_H_ */

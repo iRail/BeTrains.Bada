@@ -8,12 +8,10 @@
 #include "View/IView.h"
 
 IView::IView() {
-	// TODO Auto-generated constructor stub
 
 }
 
 IView::~IView() {
-	// TODO Auto-generated destructor stub
 }
 
 void IView::update(){}

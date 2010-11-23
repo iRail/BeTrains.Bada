@@ -9,6 +9,7 @@
 #define CONNECTIONNODE_H_
 
 #include <FBase.h>
+#include <FBaseDateTime.h>
 #include "Station.h"
 
 using namespace Osp::Base;
@@ -17,41 +18,32 @@ using namespace Osp::Base::Collection;
 class ConnectionNode {
 private:
 	int platform;
-	TimeSpan delay;
-	DateTime dateTime;
-	Station station;
+	TimeSpan *delay; //ownership
+	DateTime *dateTime; //ownership
+	Station *station; //no ownership
 public:
 	ConnectionNode() :
-		delay(TimeSpan(0, 0, 0)) {
+		delay(new TimeSpan(0, 0, 0)) {
 	}
 	virtual ~ConnectionNode();
 
-	void setStation(Station const &station);
-	Station getStation() const;
+	void setStation(Station *station);
+	Station * getStation() const;
 
 	void setPlatform(int platform);
-	int getPlatform();
+	int getPlatform() const;
 
 	void setDelay(int seconds);
-	TimeSpan getDelay();
+	TimeSpan * getDelay()const;
 
 	void setDateTime(int seconds);
-	DateTime getDateTime();
+	DateTime * getDateTime()const;
 
-	bool operator==(const ConnectionNode &c2) const {
-		return false;
-		//TODO operator overloading implementation
-	}
+	bool operator==(const ConnectionNode &c2) const;
 
-	ConnectionNode & operator=(const ConnectionNode &c2) {
-		//TODO operator overloading implementation
-		return *this;
-	}
+	ConnectionNode & operator=(const ConnectionNode &c2);
 
-	bool operator!=(const ConnectionNode &c2) const {
-		return true;
-		//TODO operator overloading implementation
-	}
+	bool operator!=(const ConnectionNode &c2) const;
 };
 
 #endif /* CONNECTIONNODE_H_ */

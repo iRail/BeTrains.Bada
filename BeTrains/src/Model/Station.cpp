@@ -10,15 +10,34 @@
 Station::~Station() {
 }
 
-int Station::getLatitude() const {
+double Station::getLatitude() const {
 	return latitude;
 }
-int Station::getLongtitude() const{
+double Station::getLongtitude() const {
 	return longtitude;
 }
-String const & Station::getCountry() const{
-	return country;
+String Station::getCountry() const {
+	return String(*country);
 }
-String const & Station::getName() const{
-	return name;
+String Station::getName() const {
+	return String(*name);
+}
+
+bool Station::operator==(const Station &c2) const {
+	return country->Equals(c2.getCountry()) &&
+			name->Equals(c2.getName()) &&
+			latitude == c2.getLatitude() &&
+			longtitude == c2.getLongtitude();
+}
+
+Station & Station::operator=(const Station &c2) {
+	latitude = c2.getLatitude();
+	longtitude = c2.getLongtitude();
+	country = new String(c2.getCountry());
+	name = new String(c2.getName());
+	return *this;
+}
+
+bool Station::operator!=(const Station &c2) const {
+	return !((*this) == c2);
 }

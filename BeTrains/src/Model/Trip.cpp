@@ -9,14 +9,45 @@
 
 
 Trip::~Trip() {
+	delete duration;
+	/*
+	Connection* conn;
+	for(int i=0;i<connections.GetCount();i++){
+		connections.GetAt(i,conn);
+		connections.RemoveAt(i);
+		delete conn;
+	}
+	*/
 }
 
-TimeSpan Trip::getDuration(){
+TimeSpan * Trip::getDuration() const{
 	return duration;
 }
 
-void Trip::setDuration(int seconds){}
+void Trip::setDuration(int seconds){
+	if(duration != null){
+		delete duration;
+	}
+	duration = new TimeSpan(seconds*1000);
+	//TODO check if this method sets delay correctly
+}
 
-void Trip::addConnection(Connection &conn){
-	//TODO
+ArrayListT<Connection*> * Trip::getConnections(){
+	return &connections;
+}
+
+bool Trip::operator==(const Trip &c2) const {
+	return this == &c2; //checks if pointers are equal
+	//return duration.Equals(c2.getDuration());
+	//checks only duration wich is actualy very wrong
+}
+
+Trip & Trip::operator=(const Trip &c2) {
+	duration = new TimeSpan(*c2.getDuration());
+	//TODO copy constructor connections
+	return *this;
+}
+
+bool Trip::operator!=(const Trip &c2) const {
+	return !((*this) == c2);
 }

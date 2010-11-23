@@ -14,35 +14,29 @@ using namespace Osp::Base::Collection;
 
 class Station {
 private:
-	int latitude;
-	int longtitude;
-	String country;
-	String name;
+	double latitude;
+	double longtitude;
+	String *country;
+	String *name;
 public:
 	Station(int latitude_,int longtitude_,String country_,String name_)
-		:latitude(latitude_),longtitude(longtitude_),country(country_),name(name_){}
+		:latitude(latitude_),longtitude(longtitude_),country(new String(country_)),name(new String(name_)){}
 	Station(){}
 	virtual ~Station();
-	int getLatitude() const;
-	int getLongtitude() const;
-	String const &getCountry() const;
-	String const &getName() const;
+	//returns a copy of latitude
+	double getLatitude() const;
+	//returns a copy of longtitude
+	double getLongtitude() const;
+	//returns a copy of country
+	String getCountry() const;
+	//returns a copy of name
+	String getName() const;
 
-	bool operator==(const Station &c2) const {
-		return false;
-		//TODO operator overloading implementation
-	}
+	bool operator==(const Station &c2) const;
 
-	Station & operator=(const Station &c2) {
-		//TODO operator overloading implementation
-		return *this;
-	}
+	Station & operator=(const Station &c2);
 
-	bool operator!=(const Station &c2) const {
-		return true;
-		//TODO operator overloading implementation
-	}
-
+	bool operator!=(const Station &c2) const;
 };
 
 #endif /* STATION_H_ */
