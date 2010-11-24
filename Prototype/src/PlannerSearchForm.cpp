@@ -1,6 +1,7 @@
 
 #include "PlannerSearchForm.h"
 #include "BetrainsPrototype.h"
+#include <FUiITouchEventListener.h>
 
 using namespace Osp::Base;
 using namespace Osp::Ui;
@@ -20,6 +21,11 @@ PlannerSearchForm::Initialize()
 {
 	Form::Construct(L"IDF_PLANNER_SEARCH_");
 
+	// set the listener for the two fields
+	EditField* to = static_cast<EditField*>(GetControl(L"PLANNER_SEARCH_TO_STATION" ));
+	EditField* from = static_cast<EditField*>(GetControl(L"PLANNER_SEARCH_FROM_STATION" ));
+	to->AddTouchEventListener(*this);
+	from->AddTouchEventListener(*this);
 	return true;
 }
 
@@ -60,9 +66,10 @@ PlannerSearchForm::OnActionPerformed(const Osp::Ui::Control &source, int actionI
 	BetrainsPrototype* app = (BetrainsPrototype*)this->GetParent();
 	EditField* to = static_cast<EditField*>(GetControl(L"PLANNER_SEARCH_TO_STATION" ));
 	EditField* from = static_cast<EditField*>(GetControl(L"PLANNER_SEARCH_FROM_STATION" ));
+
 	String to_ = to->GetText();
 	String from_ = from->GetText();
-
+	AppLog("action id is %S",Integer::ToString(actionId).GetPointer());
 	switch ( actionId ) {
 		case Constants::PLANNER_SEARCH:
 			app->showPlannerResults(from_,to_);
@@ -148,7 +155,9 @@ void
 PlannerSearchForm::OnTouchPressed(const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo)
 {
 	// TODO: Add your implementation codes here
-
+	AppLog("touch is caught !!");
+	BetrainsPrototype* app = (BetrainsPrototype*)this->GetParent();
+	app->showSearchStationName();
 }
 
 void

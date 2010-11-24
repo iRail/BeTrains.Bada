@@ -10,11 +10,6 @@
         <layout mode="Portrait" style="FORM_STYLE_INDICATOR||FORM_STYLE_SOFTKEY_1|FORM_STYLE_SOFTKEY_0"/>
         <layout mode="Landscape" style="FORM_STYLE_INDICATOR||FORM_STYLE_SOFTKEY_1|FORM_STYLE_SOFTKEY_0"/>
     </Form>
-    <EditField id="PLANNER_SEARCH_FROM_STATION" parent="IDF_PLANNER_SEARCH_">
-        <property GroupStyle="GROUP_STYLE_SINGLE" InputStyle="INPUT_STYLE_FULLSCREEN" KeypadEnabled="TRUE" LimitLength="1000" bShowTitleText="FALSE" guideText="" text="" titleText=""/>
-        <layout height="80" mode="Portrait" style="EDIT_FIELD_STYLE_NORMAL" width="341" x="141" y="30"/>
-        <layout height="80" mode="Landscape" style="EDIT_FIELD_STYLE_NORMAL" width="266" x="245" y="41"/>
-    </EditField>
     <EditDate id="IDC_EDITDATE1" parent="IDF_PLANNER_SEARCH_">
         <property titleText=""/>
         <layout height="76" mode="Portrait" width="468" x="10" y="392"/>
@@ -39,5 +34,10 @@
         <property GroupStyle="GROUP_STYLE_NONE" InputStyle="INPUT_STYLE_FULLSCREEN" KeypadEnabled="TRUE" LimitLength="1000" bShowTitleText="FALSE" guideText="" text="" titleText=""/>
         <layout height="80" mode="Portrait" style="EDIT_FIELD_STYLE_NORMAL" width="336" x="142" y="126"/>
         <layout height="80" mode="Landscape" style="EDIT_FIELD_STYLE_NORMAL" width="266" x="286" y="79"/>
+    </EditField>
+    <EditField id="PLANNER_SEARCH_FROM_STATION" parent="IDF_PLANNER_SEARCH_">
+        <property GroupStyle="GROUP_STYLE_SINGLE" InputStyle="INPUT_STYLE_FULLSCREEN" KeypadEnabled="TRUE" LimitLength="1000" bShowTitleText="FALSE" guideText="" text="" titleText=""/>
+        <layout height="80" mode="Portrait" style="EDIT_FIELD_STYLE_NORMAL" width="341" x="139" y="30"/>
+        <layout height="80" mode="Landscape" style="EDIT_FIELD_STYLE_NORMAL" width="266" x="245" y="41"/>
     </EditField>
 </Scene>
