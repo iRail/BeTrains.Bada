@@ -10,14 +10,13 @@
 
 Trip::~Trip() {
 	delete duration;
-	/*
-	Connection* conn;
-	for(int i=0;i<connections.GetCount();i++){
+	int size = connections.GetCount();
+	for(int i=size-1;i>=0;i--){
+		Connection* conn;
 		connections.GetAt(i,conn);
 		connections.RemoveAt(i);
 		delete conn;
 	}
-	*/
 }
 
 TimeSpan * Trip::getDuration() const{

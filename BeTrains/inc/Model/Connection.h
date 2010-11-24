@@ -23,7 +23,7 @@ private:
 	ConnectionNode *endNode; //ownership
 public:
 	Connection()
-		:timeBetween(new TimeSpan(0,0,0)){
+		:timeBetween(new TimeSpan(0,0,0)),startNode(null),endNode(null){
 	}
 	virtual ~Connection();
 

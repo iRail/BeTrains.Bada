@@ -35,17 +35,16 @@ BeTrains::CreateInstance(void)
 bool
 BeTrains::OnAppInitializing(AppRegistry& appRegistry)
 {
+	String s1 = L"test";
 	Connection *c = new Connection();
-	if(c == null){
-		AppLog("2:null");
-	}
-	Trip *p = new Trip();
-	p->getConnections()->Add(c);
-	delete p;
-	if(c == null){
-		AppLog("2:null");
-	}
-	AppLog("OKaytjes");
+	c->setVehicleName(s1);
+	String s2 = L"test2";
+	Connection *c2 = new Connection();
+	c2->setVehicleName(s2);
+	Trip *t = new Trip();
+	t->getConnections()->Add(c);
+	t->getConnections()->Add(c2);
+	delete t;
 	// Uncomment the following statement to listen to the screen on/off events.
 	//PowerManager::SetScreenEventListener(*this);
 

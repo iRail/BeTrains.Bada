@@ -23,7 +23,7 @@ private:
 	ArrayListT<Trip*> results; //ownership over all connection 's
 public:
 	Request(Station *fromStation_, Station *toStation_) :
-		fromStation(fromStation_), toStation(toStation_)
+		fromStation(fromStation_), toStation(toStation_),dateTime(null)
 	{
 		results.Construct();
 	}

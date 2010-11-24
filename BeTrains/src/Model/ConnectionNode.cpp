@@ -8,6 +8,8 @@
 #include "Model/ConnectionNode.h"
 
 ConnectionNode::~ConnectionNode() {
+	if(delay) delete delay;
+	if(dateTime) delete dateTime;
 }
 
 void ConnectionNode::setStation(Station *station){

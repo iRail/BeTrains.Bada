@@ -8,9 +8,9 @@
 #include "Model/Connection.h"
 
 Connection::~Connection() {
-	delete timeBetween;
-	delete startNode;
-	delete endNode;
+	if(timeBetween) delete timeBetween;
+	if(startNode) delete startNode;
+	if(endNode) delete endNode;
 }
 
 void Connection::setTimeBetween(int seconds) {

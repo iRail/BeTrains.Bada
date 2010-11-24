@@ -21,7 +21,7 @@ private:
 public:
 	Station(int latitude_,int longtitude_,String country_,String name_)
 		:latitude(latitude_),longtitude(longtitude_),country(new String(country_)),name(new String(name_)){}
-	Station(){}
+	Station():country(null),name(null){}
 	virtual ~Station();
 	//returns a copy of latitude
 	double getLatitude() const;

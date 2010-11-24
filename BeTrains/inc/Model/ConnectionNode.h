@@ -23,7 +23,7 @@ private:
 	Station *station; //no ownership
 public:
 	ConnectionNode() :
-		delay(new TimeSpan(0, 0, 0)) {
+		delay(new TimeSpan(0, 0, 0)),dateTime(null),station(null) {
 	}
 	virtual ~ConnectionNode();
 
