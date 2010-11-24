@@ -1,41 +1,43 @@
-
 #include "SearchStationName.h"
 
 using namespace Osp::Base;
 using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
 
-
-Search_Station_Name::Search_Station_Name(void)
-{
+SearchStationName::SearchStationName(void) {
 }
 
-Search_Station_Name::~Search_Station_Name(void)
-{
+SearchStationName::~SearchStationName(void) {
 }
 
-bool
-Search_Station_Name::Initialize()
-{
-	Form::Construct(L"IDF_SEARCH_STATION");
+bool SearchStationName::Initialize() {
+	Form::Construct(L"IDF_FORM2");
 
+	pScrollPanel = static_cast<ScrollPanel *> (GetControl(L"IDC_SCROLLPANEL1",false));
+	 pEditField = static_cast<EditField *>(GetControl(L"IDPC_EDITFIELD1",true));
+
+	//3
+	 pEditField->AddActionEventListener(*this);
+	 pEditField ->AddScrollPanelEventListener(*this);
+	//4
+	 pEditField ->SetOverlayKeypadCommandButton(COMMAND_BUTTON_POSITION_LEFT, L"Done", ID_BUTTON_EDITFIELD_DONE);
+	 pEditField ->SetOverlayKeypadCommandButton(COMMAND_BUTTON_POSITION_RIGHT, L"Close", ID_BUTTON_EDITFIELD_CLOSE);
+
+
+
+	//AppLog("hmm %S",stations[0]);
 	return true;
 }
 
-result
-Search_Station_Name::OnInitializing(void)
-{
+result SearchStationName::OnInitializing(void) {
 	result r = E_SUCCESS;
 
 	// TODO: Add your initialization code here
 
-
 	return r;
 }
 
-result
-Search_Station_Name::OnTerminating(void)
-{
+result SearchStationName::OnTerminating(void) {
 	result r = E_SUCCESS;
 
 	// TODO: Add your termination code here
@@ -43,4 +45,43 @@ Search_Station_Name::OnTerminating(void)
 	return r;
 }
 
+void SearchStationName::OnActionPerformed(const Osp::Ui::Control& source,
+		int actionId) {
+
+	switch (actionId) {
+	case ID_BUTTON_EDITFIELD_DONE: {
+		pScrollPanel->CloseOverlayWindow();
+		pEditField->Draw();
+		pEditField->Show();
+
+	}
+		break;
+	case ID_BUTTON_EDITFIELD_CLOSE:
+		pScrollPanel->CloseOverlayWindow();
+		pEditField->Draw();
+		pEditField->Show();
+		break;
+
+	default:
+		break;
+	}
+}
+
+//6
+void SearchStationName::OnOverlayControlCreated(const Osp::Ui::Control& source) {
+
+}
+
+void SearchStationName::OnOverlayControlOpened(const Osp::Ui::Control& source) {
+
+}
+
+void SearchStationName::OnOverlayControlClosed(const Osp::Ui::Control& source) {
+
+	SetFocus();
+}
+
+void SearchStationName::OnOtherControlSelected(const Osp::Ui::Control& source) {
+
+}
 

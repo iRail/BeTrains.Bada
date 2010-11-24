@@ -73,7 +73,7 @@ void BetrainsPrototype::showRoutePlanner(void) {
 }
 
 void BetrainsPrototype::showSearchStationName() {
-	Search_Station_Name* pSearchStationNameForm = new Search_Station_Name();
+	SearchStationName* pSearchStationNameForm = new SearchStationName();
 	pSearchStationNameForm->Initialize();
 	Frame *pFrame = Application::GetInstance()->GetAppFrame()->GetFrame();
 	Form *form = pFrame->GetCurrentForm();

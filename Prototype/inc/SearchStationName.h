@@ -1,30 +1,48 @@
-#ifndef _SEARCH_STATION_NAME_H_
-#define _SEARCH_STATION_NAME_H_
+
+#ifndef _SEARCHSTATIONNAME_H_
+#define _SEARCHSTATIONNAME_H_
 
 #include <FBase.h>
 #include <FUi.h>
-#include <FBaseString.h>
 
-using namespace Osp::Base;
 
-class Search_Station_Name: public Osp::Ui::Controls::Form {
 
-	// Construction
+class SearchStationName :
+	public Osp::Ui::Controls::Form,
+	public Osp::Ui::IActionEventListener,
+	 public Osp::Ui::IScrollPanelEventListener
+{
+
+// Construction
 public:
-	Search_Station_Name(void);
-	virtual ~Search_Station_Name(void);
+	SearchStationName(void);
+	virtual ~SearchStationName(void);
 	bool Initialize();
-	result OnInitializing(void);
-	result OnTerminating(void);
 
-	// Implementation
+
+
+// Implementation
 protected:
-	// TODO count all the stations with perl script
-	String listOfStations[];
-	// Generated call-back functions
+
+
+// Generated call-back functions
 public:
+	virtual result OnInitializing(void);
+	 virtual result OnTerminating(void);
+	 virtual void
+	 OnActionPerformed(const Osp::Ui::Control& source, int actionId);
+	//1
+	 virtual void OnOverlayControlCreated(const Osp::Ui::Control& source);
+	 virtual void OnOverlayControlOpened(const Osp::Ui::Control& source);
+	 virtual void OnOverlayControlClosed(const Osp::Ui::Control& source);
+	 virtual void OnOtherControlSelected(const Osp::Ui::Control& source);
+private:
+	static const int ID_BUTTON_EDITFIELD_DONE = 101;
+	static const int ID_BUTTON_EDITFIELD_CLOSE = 102;
+
+	Osp::Ui::Controls::ScrollPanel* pScrollPanel;
+	Osp::Ui::Controls::EditField* pEditField;
 
 };
-
 
 #endif
