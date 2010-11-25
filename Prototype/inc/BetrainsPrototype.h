@@ -33,6 +33,8 @@ public:
 
 	void showTraffic(void);
 
+	void showSearchStationName(void);
+
 	void showPlannerResults(Osp::Base::String from,Osp::Base::String to);
 
 	// Called when the application is initializing.
