@@ -20,4 +20,9 @@
         <layout height="182" mode="Portrait" style="CUSTOM_LIST_STYLE_NORMAL" width="240" x="0" y="54"/>
         <layout height="36" mode="Landscape" style="CUSTOM_LIST_STYLE_NORMAL" width="167" x="26" y="26"/>
     </CustomList>
+    <List id="IDC_LIST1" parent="IDF_SEARCH_STATION">
+        <property ListItemFormat="LIST_ITEM_SINGLE_IMAGE" colorOfEmptyListText="" column1Width="50" column2Width="50" row1Height="80" row2Height="50" textOfEmptyList=""/>
+        <layout height="46" mode="Portrait" style="LIST_STYLE_NORMAL" width="100" x="116" y="129"/>
+        <layout height="36" mode="Landscape" style="LIST_STYLE_NORMAL" width="166" x="193" y="59"/>
+    </List>
 </Scene>
