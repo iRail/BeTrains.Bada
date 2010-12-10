@@ -10,8 +10,6 @@
 
 class IView {
 public:
-	IView();
-	virtual ~IView();
 	virtual void update()=0;
 };
 

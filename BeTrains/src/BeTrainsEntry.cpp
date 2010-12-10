@@ -1,4 +1,4 @@
-#include "BeTrains.h"
+#include "View/BeTrains.h"
 
 using namespace Osp::Base;
 using namespace Osp::Base::Collection;

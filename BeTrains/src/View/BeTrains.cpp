@@ -1,0 +1,119 @@
+/**
+ * Name        : BeTrains
+ * Version     : 
+ * Vendor      : iRail Betrains
+ * Description : 
+ * Author	   : Bart Bruynooghe
+ */
+
+
+#include "View/BeTrains.h"
+#include "Model/Connection.h"
+#include "Model/Trip.h"
+#include "Controller/Controller.h"
+
+using namespace Osp::App;
+using namespace Osp::Base;
+using namespace Osp::System;
+using namespace Osp::Ui;
+using namespace Osp::Ui::Controls;
+
+BeTrains::BeTrains()
+{
+	mainForm = null;
+	stationselectform = null;
+}
+
+BeTrains::~BeTrains()
+{
+}
+
+Application* BeTrains::CreateInstance(void)
+{
+	return new BeTrains();
+}
+
+bool BeTrains::OnAppInitializing(AppRegistry& appRegistry)
+{
+	getController()->addView(this);
+	showMainMenu();
+	//showRoutePlannerStationSelector();
+	return true;
+}
+
+Controller* BeTrains::getController(){ //TODO make const pointer
+	return &controller;
+}
+
+void BeTrains::setForm(Form *form){
+	Frame *pFrame = GetAppFrame()->GetFrame();
+	pFrame->AddControl(*form);
+	pFrame->SetCurrentForm(*form);
+	form->Draw();
+	form->Show();
+}
+
+void BeTrains::showMainMenu(){
+	if(!mainForm){
+		mainForm = new MainForm();
+		mainForm->Initialize();
+	}
+	setForm(mainForm);
+}
+
+void BeTrains::showRoutePlanner(){
+
+}
+
+void BeTrains::update(){
+	AppLog("Update method invocation");
+}
+
+void BeTrains::showRoutePlannerStationSelector(){
+	if(!stationselectform){
+		stationselectform = new Stationselectform();
+		stationselectform->Initialize();
+	}
+	setForm(stationselectform);
+}
+
+void BeTrains::showRoutePlannerResults(){
+
+}
+
+bool
+BeTrains::OnAppTerminating(AppRegistry& appRegistry, bool forcedTermination)
+{
+	return true;
+}
+
+void
+BeTrains::OnForeground(void)
+{
+}
+
+void
+BeTrains::OnBackground(void)
+{
+}
+
+void
+BeTrains::OnLowMemory(void)
+{
+}
+
+void
+BeTrains::OnBatteryLevelChanged(BatteryLevel batteryLevel)
+{
+
+}
+
+void
+BeTrains::OnScreenOn (void)
+{
+}
+
+void
+BeTrains::OnScreenOff (void)
+{
+}
