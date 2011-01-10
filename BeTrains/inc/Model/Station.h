@@ -14,23 +14,21 @@ using namespace Osp::Base::Collection;
 
 class Station {
 private:
-	double latitude;
-	double longtitude;
-	String *country;
-	String *name;
+	float latitude;
+	float longtitude;
+	String * country; //ownership
+	String * name; //no ownership: because there are +- 600 stations for 1 country
 public:
-	Station(int latitude_,int longtitude_,String country_,String name_)
-		:latitude(latitude_),longtitude(longtitude_),country(new String(country_)),name(new String(name_)){}
+	Station(int latitude_,int longtitude_,String* country_,String* name_)
+		:latitude(latitude_),longtitude(longtitude_),country(country_),name(name_){}
 	Station():country(null),name(null){}
 	virtual ~Station();
 	//returns a copy of latitude
-	double getLatitude() const;
+	float getLatitude() const;
 	//returns a copy of longtitude
-	double getLongtitude() const;
-	//returns a copy of country
-	String getCountry() const;
-	//returns a copy of name
-	String getName() const;
+	float getLongtitude() const;
+	const String * const getCountry() const;
+	const String * const getName() const;
 
 	bool operator==(const Station &c2) const;
 

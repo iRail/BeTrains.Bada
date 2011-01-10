@@ -11,29 +11,31 @@ Connection::~Connection() {
 	if(timeBetween) delete timeBetween;
 	if(startNode) delete startNode;
 	if(endNode) delete endNode;
+	if(vehicleName) delete vehicleName;
+	if(vehicleType) delete vehicleType;
 }
 
-void Connection::setTimeBetween(int seconds) {
-
+void Connection::setTimeBetween(TimeSpan *timeBetween_) {
+	timeBetween = timeBetween_;
 }
 
 TimeSpan * Connection::getTimeBetween() const {
 	return timeBetween;
 }
 
-void Connection::setVehicleName(String &name) {
+void Connection::setVehicleName(String *name) {
 	vehicleName = name;
 }
 
-String Connection::getVehicleName() const{
+String* Connection::getVehicleName() const{
 	return vehicleName;
 }
 
-void Connection::setVehicleType(String &type) {
+void Connection::setVehicleType(String *type) {
 	vehicleType = type;
 }
 
-String Connection::getVehicleType() const {
+String* Connection::getVehicleType() const {
 	return vehicleType;
 }
 

@@ -22,6 +22,7 @@ BeTrains::BeTrains()
 {
 	mainForm = null;
 	stationselectform = null;
+	plannerForm = null;
 }
 
 BeTrains::~BeTrains()
@@ -37,16 +38,15 @@ bool BeTrains::OnAppInitializing(AppRegistry& appRegistry)
 {
 	getController()->addView(this);
 	showMainMenu();
-	//showRoutePlannerStationSelector();
 	return true;
 }
 
-Controller* BeTrains::getController(){ //TODO make const pointer
+Controller* const BeTrains::getController(){
 	return &controller;
 }
 
 void BeTrains::setForm(Form *form){
-	Frame *pFrame = GetAppFrame()->GetFrame();
+	Frame *pFrame = Application::GetInstance()->GetAppFrame()->GetFrame();
 	pFrame->AddControl(*form);
 	pFrame->SetCurrentForm(*form);
 	form->Draw();
@@ -54,15 +54,15 @@ void BeTrains::setForm(Form *form){
 }
 
 void BeTrains::showMainMenu(){
-	if(!mainForm){
-		mainForm = new MainForm();
-		mainForm->Initialize();
-	}
+	mainForm = new MainForm();
+	mainForm->Initialize();
 	setForm(mainForm);
 }
 
 void BeTrains::showRoutePlanner(){
-
+	plannerForm = new PlannerForm();
+	plannerForm->Initialize();
+	setForm(plannerForm);
 }
 
 void BeTrains::update(){
@@ -70,10 +70,8 @@ void BeTrains::update(){
 }
 
 void BeTrains::showRoutePlannerStationSelector(){
-	if(!stationselectform){
-		stationselectform = new Stationselectform();
-		stationselectform->Initialize();
-	}
+	stationselectform = new Stationselectform();
+	stationselectform->Initialize();
 	setForm(stationselectform);
 }
 
@@ -85,35 +83,4 @@ bool
 BeTrains::OnAppTerminating(AppRegistry& appRegistry, bool forcedTermination)
 {
 	return true;
-}
-
-void
-BeTrains::OnForeground(void)
-{
-}
-
-void
-BeTrains::OnBackground(void)
-{
-}
-
-void
-BeTrains::OnLowMemory(void)
-{
-}
-
-void
-BeTrains::OnBatteryLevelChanged(BatteryLevel batteryLevel)
-{
-
-}
-
-void
-BeTrains::OnScreenOn (void)
-{
-}
-
-void
-BeTrains::OnScreenOff (void)
-{
 }

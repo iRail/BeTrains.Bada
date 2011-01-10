@@ -25,11 +25,9 @@ void Request::toggleDepartArrival() {
 	departure = !departure;
 }
 
-void Request::setDateTime(int seconds) {
+void Request::setDateTime(DateTime* dateTime_) {
 	if(dateTime == null) dateTime = new DateTime();
-	dateTime = new DateTime();
-	//ConvertSecondsToDate(seconds,dateTime);
-	//TODO test if datetime may be null or if it should be null
+	dateTime = dateTime_;
 }
 
 DateTime *Request::getDateTime() const {

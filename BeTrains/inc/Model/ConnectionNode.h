@@ -17,26 +17,26 @@ using namespace Osp::Base::Collection;
 
 class ConnectionNode {
 private:
-	int platform;
-	TimeSpan *delay; //ownership
-	DateTime *dateTime; //ownership
-	Station *station; //no ownership
+	String* platform; //ownership
+	TimeSpan* delay; //ownership
+	DateTime* dateTime; //ownership
+	Station* station; //no ownership
 public:
 	ConnectionNode() :
-		delay(new TimeSpan(0, 0, 0)),dateTime(null),station(null) {
+		delay(null),dateTime(null),station(null),platform(null) {
 	}
 	virtual ~ConnectionNode();
 
 	void setStation(Station *station);
 	Station * getStation() const;
 
-	void setPlatform(int platform);
-	int getPlatform() const;
+	void setPlatform(String* platform);
+	String* getPlatform() const;
 
-	void setDelay(int seconds);
+	void setDelay(TimeSpan* delay_);
 	TimeSpan * getDelay()const;
 
-	void setDateTime(int seconds);
+	void setDateTime(DateTime * dateTime_);
 	DateTime * getDateTime()const;
 
 	bool operator==(const ConnectionNode &c2) const;

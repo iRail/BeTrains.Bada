@@ -16,10 +16,10 @@ using namespace Osp::Base::Collection;
 
 class Request {
 private:
-	DateTime *dateTime; //dateTime ownership
+	DateTime* dateTime; //dateTime ownership
 	bool departure;
-	Station *fromStation; //fromStation: no ownership
-	Station *toStation; //toStation: no ownership
+	Station* fromStation; //fromStation: no ownership
+	Station* toStation; //toStation: no ownership
 	ArrayListT<Trip*> results; //ownership over all connection 's
 public:
 	Request(Station *fromStation_, Station *toStation_) :
@@ -32,7 +32,7 @@ public:
 	void toggleDepartArrival();
 
 	//getters and setters
-	void setDateTime(int seconds);
+	void setDateTime(DateTime* dateTime_);
 	DateTime *getDateTime()const;
 	void setFromStation(Station *station);
 	Station *getFromStation()const;

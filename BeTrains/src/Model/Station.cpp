@@ -8,33 +8,39 @@
 #include "Model/Station.h"
 
 Station::~Station() {
+	delete name;
 }
 
-double Station::getLatitude() const {
+float Station::getLatitude() const {
 	return latitude;
 }
-double Station::getLongtitude() const {
+float Station::getLongtitude() const {
 	return longtitude;
 }
-String Station::getCountry() const {
-	return String(*country);
+
+const String * const Station::getName() const {
+	return name;
 }
-String Station::getName() const {
-	return String(*name);
+
+const String * const Station::getCountry() const{
+	return country;
 }
 
 bool Station::operator==(const Station &c2) const {
+	return this == &c2;
+	/* all stations are made in the init of the application, there are no doubles so pointers can be compared
 	return country->Equals(c2.getCountry()) &&
 			name->Equals(c2.getName()) &&
 			latitude == c2.getLatitude() &&
 			longtitude == c2.getLongtitude();
+			*/
 }
 
 Station & Station::operator=(const Station &c2) {
 	latitude = c2.getLatitude();
 	longtitude = c2.getLongtitude();
-	country = new String(c2.getCountry());
-	name = new String(c2.getName());
+	country = new String(*c2.getCountry());
+	name = new String(*c2.getName());
 	return *this;
 }
 

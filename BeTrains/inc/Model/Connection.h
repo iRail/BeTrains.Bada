@@ -16,25 +16,23 @@ using namespace Osp::Base::Collection;
 
 class Connection {
 private:
-	TimeSpan *timeBetween; //ownership
-	String vehicleName;
-	String vehicleType;
-	ConnectionNode *startNode; //ownership
-	ConnectionNode *endNode; //ownership
+	TimeSpan* timeBetween; //ownership
+	String* vehicleName; //ownership
+	String* vehicleType; //ownership
+	ConnectionNode* startNode; //ownership
+	ConnectionNode* endNode; //ownership
 public:
 	Connection()
-		:timeBetween(new TimeSpan(0,0,0)),startNode(null),endNode(null){
+		:timeBetween(null),startNode(null),endNode(null),vehicleName(null),vehicleType(null){
 	}
 	virtual ~Connection();
 
-	void setTimeBetween(int seconds);
+	void setTimeBetween(TimeSpan *timeBetween_);
 	TimeSpan * getTimeBetween()const;
-	void setVehicleName(String &name);
-	//returns String copy of vehicle name
-	String getVehicleName()const;
-	void setVehicleType(String &type);
-	//returns String copy of vehicle type
-	String getVehicleType()const;
+	void setVehicleName(String *name);
+	String* getVehicleName()const;
+	void setVehicleType(String *type);
+	String* getVehicleType()const;
 	void setStartNode(ConnectionNode * node);
 	ConnectionNode * getStartNode()const;
 	void setEndNode(ConnectionNode * node);

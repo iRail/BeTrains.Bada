@@ -23,12 +23,11 @@ TimeSpan * Trip::getDuration() const{
 	return duration;
 }
 
-void Trip::setDuration(int seconds){
+void Trip::setDuration(TimeSpan *duration_){
 	if(duration != null){
 		delete duration;
 	}
-	duration = new TimeSpan(seconds*1000);
-	//TODO check if this method sets delay correctly
+	duration = duration_;
 }
 
 ArrayListT<Connection*> * Trip::getConnections(){

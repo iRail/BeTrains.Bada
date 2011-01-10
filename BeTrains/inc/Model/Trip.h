@@ -21,13 +21,13 @@ private:
 public:
 	//if duration is not defined like this an error arises
 	Trip() :
-		duration(new TimeSpan(0, 0, 0))
+		duration(null)
 	{
-		connections.Construct();
+		connections.Construct(3); //I assume most traintrips don't have more than 3trains: naturaly this don't mean it can't be more
 	}
 	virtual ~Trip();
 	TimeSpan *getDuration() const;
-	void setDuration(int seconds);
+	void setDuration(TimeSpan *duration_);
 	ArrayListT<Connection*> * getConnections();
 	bool operator==(const Trip &c2) const;
 	Trip & operator=(const Trip &c2);

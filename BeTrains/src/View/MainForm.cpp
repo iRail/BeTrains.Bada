@@ -21,6 +21,8 @@ bool
 MainForm::Initialize()
 {
 	Form::Construct(L"MAIN_FORM");
+	SetSoftkeyActionId(SOFTKEY_1, ACTION_EXIT);
+	AddSoftkeyActionListener(SOFTKEY_1, *this);
 	addItem(L"Route Planner",L"/Home/btn_planner.png",MENU_ITEM_PLANNER);
 	addItem(L"Map",L"/Home/btn_map.png",MENU_ITEM_MAP);
 	addItem(L"Chat",L"/Home/btn_chat.png",MENU_ITEM_CHAT);
@@ -60,12 +62,22 @@ void MainForm::OnItemStateChanged(const Control &source, int index, int itemId, 
 		BeTrains* app = (BeTrains*)this->GetParent();
 		switch ( itemId ) {
 		  case MENU_ITEM_PLANNER:
-			  AppLog("show route planner");
-			  app->showRoutePlannerStationSelector();
+			  app->showRoutePlanner();
 			  break;
 		  default :
 			  AppLog("default");
-			  //app->showMainMenu();
+			  app->showMainMenu();
 		}
+	}
+}
+
+void MainForm::OnActionPerformed(const Osp::Ui::Control &source, int actionId)
+{
+	switch ( actionId ) {
+		case ACTION_EXIT:
+			Application::GetInstance()->Terminate();
+			break;
+		default :
+			AppLog("default");
 	}
 }

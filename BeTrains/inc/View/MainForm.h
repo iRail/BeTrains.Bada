@@ -11,10 +11,11 @@
 
 class MainForm :
 	public Osp::Ui::Controls::Form,
-	public Osp::Ui::IItemEventListener
+	public Osp::Ui::IItemEventListener,
+	public Osp::Ui::IActionEventListener
 {
 private:
-	enum ACTIONS {BACK, MENU_ITEM_PLANNER, MENU_ITEM_MAP, MENU_ITEM_CHAT,
+	enum ACTIONS {ACTION_EXIT, MENU_ITEM_PLANNER, MENU_ITEM_MAP, MENU_ITEM_CHAT,
 				MENU_ITEM_STARRED, MENU_ITEM_TRAFFIC, MENU_ITEM_OPTIONS,PLANNER_SEARCH};
 	enum LIST_ITEMS {LIST_STATIONS,LIST_TIMES,LIST_DURATION,LIST_TRAINS};
 	void addItem(const Osp::Base::String& text,const Osp::Base::String& iconpath,const int id);
@@ -25,6 +26,7 @@ public:
 	result OnInitializing(void);
 	result OnTerminating(void);
 	void OnItemStateChanged(const Osp::Ui::Control&, int, int, Osp::Ui::ItemStatus);
+	void OnActionPerformed(const Osp::Ui::Control &source, int actionId);
 };
 
 #endif

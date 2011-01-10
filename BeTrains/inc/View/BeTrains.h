@@ -8,6 +8,7 @@
 
 #include "View/MainForm.h"
 #include "View/Stationselectform.h"
+#include "View/PlannerForm.h"
 #include "View/IView.h"
 #include "Controller/Controller.h"
 
@@ -16,10 +17,9 @@ using namespace Osp::Base;
 using namespace Osp::System;
 using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
-/**
- * [BeTrains] application must inherit from Application class
- * which provides basic features necessary to define an application.
- */
+
+class PlannerForm;
+
 class BeTrains :
 	public Osp::App::Application,
 	public Osp::System::IScreenEventListener,
@@ -28,11 +28,9 @@ class BeTrains :
 private:
 		MainForm *mainForm;
 		Stationselectform *stationselectform;
+		PlannerForm *plannerForm;
 		Controller controller;
 public:
-	/**
-	 * [BeTrains] application must have a factory method that creates an instance of itself.
-	 */
 	BeTrains();
 	~BeTrains();
 	static Osp::App::Application* CreateInstance(void);
@@ -41,17 +39,17 @@ public:
 	void showRoutePlanner();
 	void showRoutePlannerStationSelector();
 	void showRoutePlannerResults();
-	Controller* getController();
+	Controller* const getController(); //const pointer, controller state can be changed
 	void update();
 
 	bool OnAppInitializing(Osp::App::AppRegistry& appRegistry);
 	bool OnAppTerminating(Osp::App::AppRegistry& appRegistry, bool forcedTermination = false);
-	void OnForeground(void);
-	void OnBackground(void);
-	void OnLowMemory(void);
-	void OnBatteryLevelChanged(Osp::System::BatteryLevel batteryLevel);
-	void OnScreenOn (void);
-	void OnScreenOff (void);
+	void OnForeground(void){}
+	void OnBackground(void){}
+	void OnLowMemory(void){}
+	void OnBatteryLevelChanged(Osp::System::BatteryLevel batteryLevel){}
+	void OnScreenOn (void){}
+	void OnScreenOff (void){}
 };
 
 #endif

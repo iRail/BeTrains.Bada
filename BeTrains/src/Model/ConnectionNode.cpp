@@ -10,6 +10,7 @@
 ConnectionNode::~ConnectionNode() {
 	if(delay) delete delay;
 	if(dateTime) delete dateTime;
+	if(platform) delete platform;
 }
 
 void ConnectionNode::setStation(Station *station){
@@ -19,25 +20,26 @@ Station * ConnectionNode::getStation() const{
 	return station;
 }
 
-void ConnectionNode::setPlatform(int platform){
+void ConnectionNode::setPlatform(String * platform){
 	this->platform = platform;
 }
-int ConnectionNode::getPlatform() const{
+
+String* ConnectionNode::getPlatform() const{
 	return platform;
 }
 
-void ConnectionNode::setDelay(int seconds){
+void ConnectionNode::setDelay(TimeSpan* delay_){
 	if(delay != null) delete delay;
-	delay = new TimeSpan(seconds*1000);
+	delay = delay_;
 }
 
 TimeSpan * ConnectionNode::getDelay() const{
 	return delay;
 }
 
-void ConnectionNode::setDateTime(int seconds){
+void ConnectionNode::setDateTime(DateTime * dateTime_){
 	if(dateTime == null) dateTime = new DateTime();
-	//TODO Convert seconds to date
+	dateTime = dateTime_;
 }
 
 DateTime * ConnectionNode::getDateTime() const{
@@ -45,7 +47,7 @@ DateTime * ConnectionNode::getDateTime() const{
 }
 
 bool ConnectionNode::operator==(const ConnectionNode &c2) const {
-	return platform == c2.getPlatform() &&
+	return *platform == *c2.getPlatform() &&
 			*dateTime == *c2.getDateTime() &&
 			*station == *c2.getStation();
 }
@@ -53,7 +55,7 @@ bool ConnectionNode::operator==(const ConnectionNode &c2) const {
 ConnectionNode & ConnectionNode::operator=(const ConnectionNode &c2) {
 	if(delay != null) delete delay;
 	if(dateTime != null) delete dateTime;
-	platform = c2.getPlatform();
+	platform = new String(*c2.getPlatform());
 	delay = new TimeSpan(*c2.getDelay());
 	dateTime = new DateTime(*c2.getDateTime());
 	station = c2.getStation();//shallow copy because there is a fixed list of stations
