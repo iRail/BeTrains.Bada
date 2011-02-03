@@ -29,6 +29,7 @@ Controller::Controller() {
 	*/
 
 	//PRINTS info about trip
+
 	testRoutePlanner();
 
 }

@@ -60,9 +60,13 @@ void MainForm::addItem(const Osp::Base::String& text,const Osp::Base::String& ic
 void MainForm::OnItemStateChanged(const Control &source, int index, int itemId, ItemStatus status){
 	if(status == Osp::Ui::ITEM_SELECTED){
 		BeTrains* app = (BeTrains*)this->GetParent();
+		//AppLog("app pointer : %d",app);
 		switch ( itemId ) {
 		  case MENU_ITEM_PLANNER:
 			  app->showRoutePlanner();
+			  break;
+		  case MENU_ITEM_MAP:
+			  app->showMap();
 			  break;
 		  default :
 			  AppLog("default");

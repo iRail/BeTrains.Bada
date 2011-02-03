@@ -9,7 +9,7 @@
 
 IRailAPI::IRailAPI() {
 	initialiseStations();
-	testRoutePlanner();
+	//testRoutePlanner();
 }
 
 IRailAPI::~IRailAPI() {}

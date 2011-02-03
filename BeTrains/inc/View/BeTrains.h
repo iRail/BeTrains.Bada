@@ -11,6 +11,7 @@
 #include "View/PlannerForm.h"
 #include "View/IView.h"
 #include "Controller/Controller.h"
+#include "View/Dummyshowresultsform.h";
 
 using namespace Osp::App;
 using namespace Osp::Base;
@@ -29,6 +30,7 @@ private:
 		MainForm *mainForm;
 		Stationselectform *stationselectform;
 		PlannerForm *plannerForm;
+		Dummyshowresultsform *dummyForm; // gebruikt om simpele lijst met resultaten te tonen
 		Controller controller;
 		ArrayListT<Request *> requests;
 public:
@@ -37,6 +39,7 @@ public:
 	static Osp::App::Application* CreateInstance(void);
 	void setForm(Form *form);
 	void showMainMenu();
+	void showMap();
 	void showRoutePlanner();
 	void showRoutePlannerStationSelector();
 	void showRoutePlannerResults();
