@@ -55,7 +55,7 @@ void PlannerForm::searchAction(BeTrains* app){
 	EditField* to = static_cast<EditField*>(GetControl(L"TO_FIELD"));
 	String from_ = from->GetText();
 	String to_ = to->GetText();
-	//app->showPlannerResults(from_,to_);
+	//app->showRoutePlannerResults(from_,to_);
 	//TODO
 }
 

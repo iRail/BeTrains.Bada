@@ -8,7 +8,8 @@
 #include "Controller/Controller.h"
 
 Controller::Controller() {
-	/*// Prints all station names
+	// Prints all station names
+	/*
 	for(int i=0;i<stations->GetCount();i++){
 		Station *s;
 		stations->GetAt(i,s);
@@ -26,6 +27,10 @@ Controller::Controller() {
 		AppLog("station not found");
 	}
 	*/
+
+	//PRINTS info about trip
+	testRoutePlanner();
+
 }
 
 Controller::~Controller() {

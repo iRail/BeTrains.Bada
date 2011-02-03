@@ -30,6 +30,7 @@ private:
 		Stationselectform *stationselectform;
 		PlannerForm *plannerForm;
 		Controller controller;
+		ArrayListT<Request *> requests;
 public:
 	BeTrains();
 	~BeTrains();

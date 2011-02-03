@@ -20,9 +20,11 @@ using namespace Osp::Ui::Controls;
 
 BeTrains::BeTrains()
 {
+	// initialize variables , a list of request is forseen with a default capacity of 5
 	mainForm = null;
 	stationselectform = null;
 	plannerForm = null;
+	requests.Construct(10);
 }
 
 BeTrains::~BeTrains()
@@ -76,6 +78,7 @@ void BeTrains::showRoutePlannerStationSelector(){
 }
 
 void BeTrains::showRoutePlannerResults(){
+// TODO : implement
 
 }
 

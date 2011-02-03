@@ -21,6 +21,16 @@ using namespace Osp::Io;
 using namespace Osp::Base::Collection;
 
 class IRailAPI {
+public:
+	IRailAPI();
+	virtual ~IRailAPI();
+	//creates a List with stations from an xml buffer(stream from site)
+	ArrayListT<Station *> * createStationsList(ByteBuffer* buf);
+	//creates a list with trips
+	ArrayListT<Trip *> * createTripList(ByteBuffer* buf);
+	ArrayListT<Station *> * getStations();
+	//getStation returns null if station is not found
+	Station * getStation(String &stationName); //TODO perhaps this method should be private
 private:
 	int getInt(xmlChar * xmlchar); //returns integer from an xmlchar
 	String getString(const xmlChar *& xmlchar); //returns an string from an xml Node content
@@ -34,17 +44,10 @@ private:
 	DateTime* getTimeAttribute(xmlNodePtr xmlNode);
 	void createVia(xmlNodePtr via,ArrayListT<Connection*>* connections);
 	void initialiseStations();
-	void testRoutePlanner();
 protected:
 	ArrayListT<Station *> *stations;
-public:
-	IRailAPI();
-	virtual ~IRailAPI();
-	ArrayListT<Station *> * createStationsList(ByteBuffer* buf);
-	ArrayListT<Trip *> * createTripList(ByteBuffer* buf);
-	ArrayListT<Station *> * getStations();
-	//getStation returns null if station is not found
-	Station * getStation(String &stationName); //TODO perhaps this method should be private
+	void testRoutePlanner();
+
 };
 
 #endif /* IRAILAPI_H_ */

@@ -14,9 +14,16 @@ IRailAPI::IRailAPI() {
 
 IRailAPI::~IRailAPI() {}
 
+
+/*
+ *	CREATES LIST FROM STATIONS from a char buffer (thas like a string)
+ *	transfroms the char buffer to an xml document
+ *	takes all the station info from the xml and transforms into homebrew infrastructure
+ *	WORKED AND CHECKED
+ */
 ArrayListT<Station *> * IRailAPI::createStationsList(ByteBuffer* buf){
 	ArrayListT<Station *> * stationList = new ArrayListT<Station*>();
-	//TODO pointer to string country: nobody is owner yet thought:(it should be destructed when the stationList is destroyed)
+	//TODO pointer to string country: nobody is owner yet thought:(it should be destructed when the stationList is destroyed) memoryleak
 	String * country = new String(L"BE"); //TODO this is not yet in the irail api
 	stationList->Construct(570);
 	xmlDocPtr doc =	xmlParseMemory((char*) (buf->GetPointer()), buf->GetLimit());
@@ -50,6 +57,11 @@ ArrayListT<Station *> * IRailAPI::createStationsList(ByteBuffer* buf){
 	return stationList;
 }
 
+/*
+ * Creates a list of trips: you give a xml buffer stream to it, with the requested info in
+ *
+ *
+ */
 ArrayListT<Trip *> * IRailAPI::createTripList(ByteBuffer* buf){
 	//Carefull: we don't use the same naming as irail and that can be confusing:
 	//every xml node is named as the irail
@@ -83,7 +95,6 @@ Trip * IRailAPI::createTrip(xmlNodePtr connection){
 				conn->setStartNode(dep);
 			}else if(nodeName == "arrival"){
 				arr = createConnectionNode(child,conn);
-				//conn->setEndNode(arr);
 			}else if(nodeName == "duration"){
 				int seconds = getInt(child->children->content);
 				trip->setDuration(getTimeSpan(seconds));
@@ -103,21 +114,28 @@ Trip * IRailAPI::createTrip(xmlNodePtr connection){
 
 void IRailAPI::createVia(xmlNodePtr via,ArrayListT<Connection*>* connections){
 	Connection* last;
-	//connections->GetAt(trip->getConnections()->GetCount()-1,last);
+	//gets last connection from the arrayList
+	connections->GetAt(connections->GetCount()-1,last);
+	//new connection added
 	Connection* conn = new Connection;
 	connections->Add(conn);
 	xmlNodePtr child = null;
 	for (child = via->children; child; child = child->next){
 		String nodeName = getString(child->name);
 		if (nodeName == "arrival"){
+			//TODO make arrival node in last
 			last->setEndNode(null);
 		}else if(nodeName == "departure"){
-
+			//TODO make depart node in new
+			conn->setStartNode(null);
 		}else if(nodeName == "station"){
+			//TODO add information
 			String st = getString(child->children->content);
 		}else if(nodeName == "vehicle"){
+			//TODO add information
 			String *ve = getStringN(child->children->content);
 		}else if(nodeName == "timeBetween"){
+			//TODO add information
 			int seconds = getInt(child->children->content);
 		}
 	}
@@ -188,7 +206,7 @@ void IRailAPI::initialiseStations(){
 	int filesize = sourcefilemeta.GetFileSize();
 	ByteBuffer buffer;
 	buffer.Construct(filesize);
-	AppLog("Read buffer size %d", buffer.GetLimit());
+	//AppLog("Read buffer size %d", buffer.GetLimit());
 	r = file->Construct(fileName, L"r"); //for write: w or w+
 	switch (r) {
 		case E_SUCCESS:
