@@ -103,7 +103,7 @@ Trip * IRailAPI::createTrip(xmlNodePtr connection){
 
 void IRailAPI::createVia(xmlNodePtr via,ArrayListT<Connection*>* connections){
 	Connection* last;
-	connections->GetAt(trip->getConnections()->GetCount()-1,last);
+	//connections->GetAt(trip->getConnections()->GetCount()-1,last);
 	Connection* conn = new Connection;
 	connections->Add(conn);
 	xmlNodePtr child = null;
