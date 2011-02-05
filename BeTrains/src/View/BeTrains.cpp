@@ -11,6 +11,7 @@
 #include "Model/Connection.h"
 #include "Model/Trip.h"
 #include "Controller/Controller.h"
+#include "View/Dummyshowresultsform.h";
 
 using namespace Osp::App;
 using namespace Osp::Base;
@@ -20,9 +21,12 @@ using namespace Osp::Ui::Controls;
 
 BeTrains::BeTrains()
 {
+	// initialize variables , a list of request is forseen with a default capacity of 5
 	mainForm = null;
 	stationselectform = null;
 	plannerForm = null;
+	dummyForm = null;
+	requests.Construct(10);
 }
 
 BeTrains::~BeTrains()
@@ -59,6 +63,14 @@ void BeTrains::showMainMenu(){
 	setForm(mainForm);
 }
 
+void BeTrains::showMap(){
+	// dummy form, gewoon om de lijst met resultaten te testen
+	dummyForm = new Dummyshowresultsform();
+	dummyForm->Initialize();
+	dummyForm->Fill();
+	setForm(dummyForm);
+}
+
 void BeTrains::showRoutePlanner(){
 	plannerForm = new PlannerForm();
 	plannerForm->Initialize();
@@ -76,6 +88,7 @@ void BeTrains::showRoutePlannerStationSelector(){
 }
 
 void BeTrains::showRoutePlannerResults(){
+// TODO : implement
 
 }
 
