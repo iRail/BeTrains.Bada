@@ -4,10 +4,10 @@
 using namespace Osp::Base;
 using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
+using namespace Osp::Base::Collection;
 
-
-StationSelectForm::StationSelectForm(void)
-{
+StationSelectForm::StationSelectForm(ArrayListT<Station *> * stations){
+	this->stations = stations;
 }
 
 StationSelectForm::~StationSelectForm(void)
@@ -28,16 +28,35 @@ StationSelectForm::OnInitializing(void)
 	//2
 	vpScrollPanel = static_cast<ScrollPanel *> (GetControl(L"IDN_PANEL2", false));
 	vpEditFiled = static_cast<EditField *>(GetControl(L"EditFieldInput",true));
+	stationSuggestionList = static_cast<List *>(GetControl(L"StationSuggestionList",true));
 
 	//3
 	vpEditFiled->AddActionEventListener(*this);
-	vpEditFiled ->AddScrollPanelEventListener(*this);
+	vpEditFiled->AddScrollPanelEventListener(*this);
+	vpEditFiled->AddTextEventListener(*this);
 	//4
 	vpEditFiled ->SetOverlayKeypadCommandButton(COMMAND_BUTTON_POSITION_LEFT, L"Done", ID_BUTTON_EDITFIELD_DONE);
 	vpEditFiled ->SetOverlayKeypadCommandButton(COMMAND_BUTTON_POSITION_RIGHT, L"Close", ID_BUTTON_EDITFIELD_CLOSE);
 
 	vpEditFiled->Show();
 	vpEditFiled->SetKeypadEnabled(true);
+	/*
+	String een = "sqdf";
+	String twee ="qmlsdkjf";
+	String drie = "sdmlkfjq";
+	String vier = "vier";
+	String vijf = "vijf";
+	stationSuggestionList->AddItem(&een,null,null,null);
+	stationSuggestionList->AddItem(&twee,null,null,null);
+	stationSuggestionList->AddItem(&drie,null,null,null);
+	stationSuggestionList->AddItem(&vier,null,null,null);
+	stationSuggestionList->AddItem(&vijf,null,null,null);
+	*/
+	for(int i=0;i<stations->GetCount();i++){
+		Station *station=null;
+		stations->GetAt(i,station);
+		stationSuggestionList->AddItem(station->getName(),null,null,null);
+	}
 	return r;
 }
 
@@ -81,11 +100,33 @@ void StationSelectForm::OnOverlayControlOpened(const Osp::Ui::Control& source) {
 }
 
 void StationSelectForm::OnOverlayControlClosed(const Osp::Ui::Control& source) {
-
- SetFocus();
+	SetFocus();
 }
 
 void StationSelectForm::OnOtherControlSelected(const Osp::Ui::Control& source) {
 
 }
 
+void StationSelectForm::StationSelectForm::OnTextValueChangeCanceled (const Osp::Ui::Control &source){
+
+}
+
+void StationSelectForm::StationSelectForm::OnTextValueChanged (const Osp::Ui::Control &source){
+	String inputText = vpEditFiled->GetText();
+	inputText.ToLower();
+	stationSuggestionList->RemoveAllItems();
+	for(int i=0;i<stations->GetCount();i++){
+		Station *station=null;
+		stations->GetAt(i,station);
+		String stationName;
+		station->getName()->ToLower(stationName);
+		if(stationName.StartsWith(inputText,0)){
+			stationSuggestionList->AddItem(station->getName(),null,null,null);
+		}
+	}
+
+
+
+	stationSuggestionList->RequestRedraw();
+	AppLog("text changed");
+}

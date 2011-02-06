@@ -43,7 +43,6 @@ bool BeTrains::OnAppInitializing(AppRegistry& appRegistry)
 	getController()->addView(this);
 	//showMainMenu();
 	showRoutePlannerStationSelector();
-
 	return true;
 }
 
@@ -84,7 +83,8 @@ void BeTrains::update(){
 }
 
 void BeTrains::showRoutePlannerStationSelector(){
-	stationselectform = new StationSelectForm();
+	ArrayListT<Station *> * stations = controller.getStations();
+	stationselectform = new StationSelectForm(stations);
 	stationselectform->Initialize();
 	setForm(stationselectform);
 	stationselectform->setKeyboard();
