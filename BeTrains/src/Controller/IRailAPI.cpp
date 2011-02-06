@@ -9,7 +9,7 @@
 
 IRailAPI::IRailAPI() {
 	initialiseStations();
-	//testRoutePlanner();
+	testRoutePlanner();
 }
 
 IRailAPI::~IRailAPI() {}
@@ -138,9 +138,9 @@ void IRailAPI::createVia(xmlNodePtr via,ArrayListT<Connection*>* connections){
 				conn->setStartNode(departure);
 			}else if(nodeName == "station"){
 				String st = getString(child->children->content);
-				station = getStation(st);
-				Station * st2 = getStation(st);
 				AppLog("%S",st.GetPointer());
+				Station * stationo = getStation(st);
+				//TODO error obtaining station for the list
 			}else if(nodeName == "vehicle"){
 				String *ve = getStringN(child->children->content);
 				conn->setVehicleName(ve);
@@ -200,11 +200,11 @@ ArrayListT<Station *> * IRailAPI::getStations(){
 Station * IRailAPI::getStation(String &stationName){
 	Station *found = null;
 	int i=0;
-	stations;
 	while(!found && i<stations->GetCount()){
 		Station* st;
 		stations->GetAt(i,st);
-		if(*(st->getName()) == stationName ){
+		if(st->getName()->Equals(stationName,false)){
+		//if(*(st->getName()) == stationName ){
 			found = st;
 		}
 		i++;

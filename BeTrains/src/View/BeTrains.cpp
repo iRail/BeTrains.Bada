@@ -11,7 +11,7 @@
 #include "Model/Connection.h"
 #include "Model/Trip.h"
 #include "Controller/Controller.h"
-#include "View/Dummyshowresultsform.h";
+#include "View/Dummyshowresultsform.h"
 
 using namespace Osp::App;
 using namespace Osp::Base;
@@ -41,7 +41,9 @@ Application* BeTrains::CreateInstance(void)
 bool BeTrains::OnAppInitializing(AppRegistry& appRegistry)
 {
 	getController()->addView(this);
-	showMainMenu();
+	//showMainMenu();
+	showRoutePlannerStationSelector();
+
 	return true;
 }
 
@@ -67,7 +69,7 @@ void BeTrains::showMap(){
 	// dummy form, gewoon om de lijst met resultaten te testen
 	dummyForm = new Dummyshowresultsform();
 	dummyForm->Initialize();
-	dummyForm->Fill();
+	//dummyForm->Fill();
 	setForm(dummyForm);
 }
 
@@ -82,9 +84,10 @@ void BeTrains::update(){
 }
 
 void BeTrains::showRoutePlannerStationSelector(){
-	stationselectform = new Stationselectform();
+	stationselectform = new StationSelectForm();
 	stationselectform->Initialize();
 	setForm(stationselectform);
+	stationselectform->setKeyboard();
 }
 
 void BeTrains::showRoutePlannerResults(){

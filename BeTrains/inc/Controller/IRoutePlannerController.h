@@ -10,7 +10,7 @@
 
 #include "Model/Request.h"
 
-class IRoutePlannerController {
+class IRoutePlannerController{
 public:
 	virtual void getTrainInfo(Request * const req)=0;
 	virtual void nextTrains()=0;

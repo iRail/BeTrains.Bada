@@ -7,11 +7,11 @@
 #include <FUi.h>
 
 #include "View/MainForm.h"
-#include "View/Stationselectform.h"
+#include "View/StationSelectForm.h"
 #include "View/PlannerForm.h"
 #include "View/IView.h"
 #include "Controller/Controller.h"
-#include "View/Dummyshowresultsform.h";
+#include "View/Dummyshowresultsform.h"
 
 using namespace Osp::App;
 using namespace Osp::Base;
@@ -28,7 +28,7 @@ class BeTrains :
 {
 private:
 		MainForm *mainForm;
-		Stationselectform *stationselectform;
+		StationSelectForm *stationselectform;
 		PlannerForm *plannerForm;
 		Dummyshowresultsform *dummyForm; // gebruikt om simpele lijst met resultaten te tonen
 		Controller controller;

@@ -5,24 +5,30 @@
 #include <FBase.h>
 #include <FUi.h>
 
-using namespace Osp::Ui::Controls;
 
-class Stationselectform :
+
+class StationSelectForm :
 	public Osp::Ui::Controls::Form,
-	public Osp::Ui::ITextEventListener
+	public Osp::Ui::IActionEventListener,
+	public Osp::Ui::IScrollPanelEventListener
 {
 private:
-	EditField *editField;
-	List *list;
-	ScrollPanel* scrollPanel;
+	static const int ID_BUTTON_EDITFIELD_DONE=101;
+	static const int ID_BUTTON_EDITFIELD_CLOSE = 102;
+	Osp::Ui::Controls::ScrollPanel* vpScrollPanel;
+	Osp::Ui::Controls::EditField* vpEditFiled;
 public:
-	Stationselectform(void);
-	virtual ~Stationselectform(void);
+	StationSelectForm(void);
+	virtual ~StationSelectForm(void);
 	bool Initialize();
 	result OnInitializing(void);
 	result OnTerminating(void);
-	void OnTextValueChangeCanceled (const Osp::Ui::Control &source);
-	void OnTextValueChanged (const Osp::Ui::Control &source);
+	virtual void OnActionPerformed(const Osp::Ui::Control& source, int actionId);
+	virtual void OnOverlayControlCreated(const Osp::Ui::Control& source);
+	virtual void OnOverlayControlOpened(const Osp::Ui::Control& source);
+	virtual void OnOverlayControlClosed(const Osp::Ui::Control& source);
+	virtual void OnOtherControlSelected(const Osp::Ui::Control& source);
+	void setKeyboard();
 };
 
 #endif
