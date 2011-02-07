@@ -11,7 +11,7 @@
 #include "Model/Connection.h"
 #include "Model/Trip.h"
 #include "Controller/Controller.h"
-#include "View/Dummyshowresultsform.h"
+#include "View/TripListForm.h"
 
 using namespace Osp::App;
 using namespace Osp::Base;
@@ -25,7 +25,7 @@ BeTrains::BeTrains()
 	mainForm = null;
 	stationselectform = null;
 	plannerForm = null;
-	dummyForm = null;
+	tripListForm = null;
 	requests.Construct(10);
 }
 
@@ -41,7 +41,21 @@ Application* BeTrains::CreateInstance(void)
 bool BeTrains::OnAppInitializing(AppRegistry& appRegistry)
 {
 	getController()->addView(this);
-	showMainMenu();
+	//showMainMenu();
+
+	String fileName(L"/Home/test.xml");
+	File *file = new File();
+	FileAttributes sourcefilemeta;
+	File::GetAttributes(fileName, sourcefilemeta);
+	int filesize = sourcefilemeta.GetFileSize();
+	ByteBuffer buffer;
+	buffer.Construct(filesize);
+	file->Construct(fileName, L"r");
+	file->Read(buffer);
+	delete file;
+	buffer.SetPosition(0);
+	ArrayListT<Trip *> * testTripList = controller.createTripList(&buffer);
+	showTripList(testTripList);
 	return true;
 }
 
@@ -64,17 +78,18 @@ void BeTrains::showMainMenu(){
 }
 
 void BeTrains::showMap(){
-	// dummy form, gewoon om de lijst met resultaten te testen
-	dummyForm = new Dummyshowresultsform();
-	dummyForm->Initialize();
-	//dummyForm->Fill();
-	setForm(dummyForm);
 }
 
 void BeTrains::showRoutePlanner(){
 	plannerForm = new PlannerForm();
 	plannerForm->Initialize();
 	setForm(plannerForm);
+}
+
+void BeTrains::showTripList(ArrayListT<Trip *> * trips){
+	tripListForm = new TripListForm(trips);
+	tripListForm->Initialize();
+	setForm(tripListForm);
 }
 
 void BeTrains::update(){

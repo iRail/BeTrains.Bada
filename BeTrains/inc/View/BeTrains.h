@@ -11,8 +11,9 @@
 #include "View/PlannerForm.h"
 #include "View/IView.h"
 #include "Controller/Controller.h"
-#include "View/Dummyshowresultsform.h"
+#include "View/TripListForm.h"
 #include "Model/Station.h"
+
 
 using namespace Osp::App;
 using namespace Osp::Base;
@@ -31,7 +32,7 @@ private:
 	MainForm *mainForm;
 	StationSelectForm *stationselectform;
 	PlannerForm *plannerForm;
-	Dummyshowresultsform *dummyForm; // gebruikt om simpele lijst met resultaten te tonen
+	TripListForm *tripListForm;
 	Controller controller;
 	ArrayListT<Request *> requests;
 public:
@@ -41,11 +42,14 @@ public:
 	void setForm(Form *form);
 	Controller* const getController(); //const pointer, controller state can be changed
 	void update();
+
 	void showMainMenu();
 	void showMap();
 	void showRoutePlanner();
 	void showRoutePlannerStationSelector(Station *selectedStation,ArrayListT<Station *> * stations);
 	void showRoutePlannerResults();
+	void showTripList(ArrayListT<Trip *> * trips);
+
 	bool OnAppInitializing(Osp::App::AppRegistry& appRegistry);
 	bool OnAppTerminating(Osp::App::AppRegistry& appRegistry, bool forcedTermination = false);
 	void OnForeground(void){}

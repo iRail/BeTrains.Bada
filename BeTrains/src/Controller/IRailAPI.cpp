@@ -9,7 +9,7 @@
 
 IRailAPI::IRailAPI() {
 	initialiseStations();
-	testRoutePlanner();
+	//testRoutePlanner();
 }
 
 IRailAPI::~IRailAPI() {}
@@ -21,6 +21,7 @@ IRailAPI::~IRailAPI() {}
  *	takes all the station info from the xml and transforms into homebrew infrastructure
  *	WORKED AND CHECKED
  */
+
 ArrayListT<Station *> * IRailAPI::createStationsList(ByteBuffer* buf){
 	ArrayListT<Station *> * stationList = new ArrayListT<Station*>();
 	//TODO pointer to string country: nobody is owner yet thought:(it should be destructed when the stationList is destroyed) memoryleak
@@ -282,7 +283,7 @@ void IRailAPI::initialiseStations(){
 	stations = createStationsList(&buffer);
 }
 
-void IRailAPI::testRoutePlanner(){
+ArrayListT<Trip *> * IRailAPI::testRoutePlanner(){
 	result r = E_SUCCESS;
 	String fileName(L"/Home/test.xml");
 	File *file = new File();
@@ -298,6 +299,7 @@ void IRailAPI::testRoutePlanner(){
 	buffer.SetPosition(0);
 	ArrayListT<Trip *> * test = createTripList(&buffer);
 	AppLog("completed trips");
+	return test;
 }
 
 int IRailAPI::getInt(xmlChar * xmlchar){

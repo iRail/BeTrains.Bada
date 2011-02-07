@@ -15,24 +15,25 @@ ItemFactory::~ItemFactory() {
 void ItemFactory::Initialise(const int listWidth)
 {
     pFormat = createFormat(listWidth);
-    pDefaultFont->Construct(Osp::Graphics::FONT_STYLE_PLAIN,35);
+    pDefaultFont->Construct(Osp::Graphics::FONT_STYLE_PLAIN,20);
 }
 
 CustomListItemFormat* ItemFactory::createFormat(const int listWidth)
 {
     CustomListItemFormat *format = new CustomListItemFormat();
     format->Construct();
-    const int INDENT = 13;
-    format->AddElement(Constants::LIST_STATIONS, Rectangle(0, 0, listWidth-INDENT, 50));
-    format->AddElement(Constants::LIST_TRAINS, Rectangle(listWidth-INDENT, 0, INDENT, 50));
-    format->AddElement(Constants::LIST_TIMES, Rectangle(0, 50, listWidth/2, 50));
-    format->AddElement(Constants::LIST_DURATION, Rectangle(listWidth/2, 50, listWidth/2, 50));
+    const int INDENT = 23;
+
+    format->AddElement(Constants::LIST_STATIONS, Rectangle(0, 0, listWidth-INDENT, 25));
+    format->AddElement(Constants::LIST_TRAINS, Rectangle(listWidth-INDENT, 0, INDENT-10, 25));
+    format->AddElement(Constants::LIST_TIMES, Rectangle(0, 25, listWidth/2, 25));
+    format->AddElement(Constants::LIST_DURATION, Rectangle(listWidth/2, 25, listWidth/2-10, 25));
     return format;
 }
 
 CustomListItem* ItemFactory::createItem(const String& stationNames, const String& times, const String& duration, int trains){
 	CustomListItem* item = new CustomListItem();
-	item->Construct(100); //TODO generic
+	item->Construct(50); //TODO generic
 	item->SetItemFormat(*pFormat);
 
 	item->SetElement(Constants::LIST_STATIONS,
@@ -44,7 +45,6 @@ CustomListItem* ItemFactory::createItem(const String& stationNames, const String
 	item->SetElement(Constants::LIST_DURATION,
 			*(createTextItem(duration, TextItem::RIGHT)));
 	return item;
-
 }
 
 TextItem* ItemFactory::createTextItem(const String& text, const TextItem::Align alignment)

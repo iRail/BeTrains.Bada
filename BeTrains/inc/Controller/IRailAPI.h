@@ -31,6 +31,7 @@ public:
 	ArrayListT<Station *> * getStations();
 	//getStation returns null if station is not found
 	Station * getStation(String &stationName); //TODO perhaps this method should be private
+	ArrayListT<Trip *> * testRoutePlanner();
 private:
 	int getInt(xmlChar * xmlchar); //returns integer from an xmlchar
 	String getString(const xmlChar *& xmlchar); //returns an string from an xml Node content
@@ -46,8 +47,6 @@ private:
 	void initialiseStations();
 protected:
 	ArrayListT<Station *> *stations;
-	void testRoutePlanner();
-
 };
 
 #endif /* IRAILAPI_H_ */
