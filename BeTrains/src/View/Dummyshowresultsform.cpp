@@ -14,15 +14,14 @@ Dummyshowresultsform::~Dummyshowresultsform(void) {
 
 bool Dummyshowresultsform::Initialize() {
 	Form::Construct(L"DummyShowResultsForm");
-
-
 	return true;
 }
 
 result Dummyshowresultsform::OnInitializing(void) {
 	result r = E_SUCCESS;
-
+	Fill();
 	// TODO: Add your initialization code here
+
 
 	return r;
 }
@@ -42,7 +41,7 @@ void Dummyshowresultsform::Fill(){
 	 */
 
 	BeTrains* app = (BeTrains*)this->GetParent();
-	AppLog("app pointer : %d",app);
+	//AppLog("app pointer in Fill methode : %d",app);
 	result r = E_SUCCESS;
 	String fileName(L"/Home/test.xml");
 	File *file = new File();
@@ -56,16 +55,19 @@ void Dummyshowresultsform::Fill(){
 	r = file->Read(buffer); //to write: file->Write *beware of the permission w instead of r
 	delete file; //closes the file, there is no default close method for files, its gets closed when its scope is closed
 	buffer.SetPosition(0);
-	ArrayListT<Trip *> * test = app->getController()->createTripList(&buffer);
+	Controller* c = app->getController();
+	//AppLog("controller pointer is : %d",c);
+	ArrayListT<Trip *> * test = c->createTripList(&buffer);
 
 	/*
 	 * put the dummy data in the list
 	 */
-/*
+
 	SlidableList* list = static_cast<SlidableList*>(GetControl(L"SlideableList", false));
 	pItemFactory->Initialise(list->GetWidth());
 
 	for(int i=0;i<test->GetCount();i++){
+		//AppLog("aantal trips : %d",test->GetCount());
 		Trip* trip;
 		test->GetAt(i,trip);
 		/*
@@ -73,16 +75,17 @@ void Dummyshowresultsform::Fill(){
 		 * laatste kan natuurlijk == zijn eerste connection
 		 */
 
-	/*
+
 		Connection* firstConn;
 		Connection* secondConn;
 		ArrayListT<Connection*>* connections = trip->getConnections();
 		connections->GetAt(0,firstConn);
 		connections->GetAt(connections->GetCount()-1,secondConn);
 		String stations;
-		stations += *firstConn->getStartNode()->getStation()->getName();
+		AppLog("pointer check : %d",firstConn->getStartNode()->getStation());
+		stations += L"Yelo";//*firstConn->getStartNode()->getStation()->getName();
 		stations += L" - ";
-		stations += *secondConn->getEndNode()->getStation()->getName();
+		stations += L"Owla";//*secondConn->getEndNode()->getStation()->getName();
 		String times = L"02:00";
 		//times = Integer::ToString(conn.getFromTime().GetHour()) + L":" + Integer::ToString(conn.getFromTime().GetMinute())+L" - ";
 		//times += Integer::ToString(conn.getToTime().GetHour()) + L":" + Integer::ToString(conn.getToTime().GetMinute());
@@ -101,5 +104,5 @@ void Dummyshowresultsform::Fill(){
 
 		this->RequestRedraw(true);
 
-	AppLog("Done");*/
+	AppLog("Done");
 }
