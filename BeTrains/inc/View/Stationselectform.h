@@ -10,29 +10,33 @@ class StationSelectForm :
 	public Osp::Ui::Controls::Form,
 	public Osp::Ui::IActionEventListener,
 	public Osp::Ui::IScrollPanelEventListener,
+	public Osp::Ui::IItemEventListener,
 	public Osp::Ui::ITextEventListener
 {
 private:
 	static const int ID_BUTTON_EDITFIELD_DONE=101;
 	static const int ID_BUTTON_EDITFIELD_CLOSE = 102;
-	Osp::Ui::Controls::ScrollPanel* vpScrollPanel;
-	Osp::Ui::Controls::EditField* vpEditFiled;
-	Osp::Ui::Controls::List* stationSuggestionList;
+	Osp::Ui::Controls::ScrollPanel* vpScrollPanel; //owner
+	Osp::Ui::Controls::EditField* vpEditFiled; //owner
+	Osp::Ui::Controls::List* stationSuggestionList; //owner
 	Osp::Base::Collection::ArrayListT<Station *> * stations;
+	Osp::Base::Collection::ArrayListT<Station *> suggestionStations;
+	Station* selectedStation;
 public:
-	StationSelectForm(Osp::Base::Collection::ArrayListT<Station *> * stations);
+	StationSelectForm(Osp::Base::Collection::ArrayListT<Station *> * stations,Station* &selectedStation);
 	virtual ~StationSelectForm(void);
 	bool Initialize();
 	result OnInitializing(void);
 	result OnTerminating(void);
-	virtual void OnActionPerformed(const Osp::Ui::Control& source, int actionId);
-	virtual void OnOverlayControlCreated(const Osp::Ui::Control& source);
-	virtual void OnOverlayControlOpened(const Osp::Ui::Control& source);
-	virtual void OnOverlayControlClosed(const Osp::Ui::Control& source);
-	virtual void OnOtherControlSelected(const Osp::Ui::Control& source);
+	void OnActionPerformed(const Osp::Ui::Control& source, int actionId);
+	void OnOverlayControlCreated(const Osp::Ui::Control& source);
+	void OnOverlayControlOpened(const Osp::Ui::Control& source);
+	void OnOverlayControlClosed(const Osp::Ui::Control& source);
+	void OnOtherControlSelected(const Osp::Ui::Control& source);
 	void setKeyboard();
-	virtual void  OnTextValueChangeCanceled (const Osp::Ui::Control &source);
-	virtual void  OnTextValueChanged (const Osp::Ui::Control &source);
+	void  OnTextValueChangeCanceled (const Osp::Ui::Control &source);
+	void  OnTextValueChanged (const Osp::Ui::Control &source);
+	void OnItemStateChanged(const Osp::Ui::Control&, int, int, Osp::Ui::ItemStatus);
 };
 
 #endif

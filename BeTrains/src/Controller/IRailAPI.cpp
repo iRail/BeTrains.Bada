@@ -138,7 +138,7 @@ void IRailAPI::createVia(xmlNodePtr via,ArrayListT<Connection*>* connections){
 				conn->setStartNode(departure);
 			}else if(nodeName == "station"){
 				String st = getString(child->children->content);
-				AppLog("%S",st.GetPointer());
+				//AppLog("%S",st.GetPointer());
 				Station * stationo = getStation(st);
 				//TODO error obtaining station for the list
 			}else if(nodeName == "vehicle"){
@@ -153,7 +153,6 @@ void IRailAPI::createVia(xmlNodePtr via,ArrayListT<Connection*>* connections){
 	}
 	departure->setStation(station);
 	arrival->setStation(station);
-	AppLog("end create Via");
 }
 
 ConnectionNode * IRailAPI::createConnectionNode(xmlNodePtr xmlNode,Connection* conn){//connection should be passed so vehicle name can be inserted
@@ -223,13 +222,14 @@ void IRailAPI::initialiseStations(){
 	buffer.Construct(filesize);
 	//AppLog("Read buffer size %d", buffer.GetLimit());
 	r = file->Construct(fileName, L"r"); //for write: w or w+
+	/*
 	switch (r) {
 		case E_SUCCESS:
 			AppLog("E_SUCCESS");
 			break;
 		case E_INVALID_STATE:
-		  AppLog("E_INVALID_STATE");
-		  break;
+			AppLog("E_INVALID_STATE");
+			break;
 		case E_INVALID_ARG:
 			AppLog("E_INVALID_ARG");
 			break;
@@ -251,7 +251,9 @@ void IRailAPI::initialiseStations(){
 		default :
 			AppLog("default");
 	}
+	*/
 	r = file->Read(buffer); //to write: file->Write *beware of the permission w instead of r
+	/*
 	switch (r) {
 		case E_SUCCESS:
 			AppLog("E_SUCCESS");
@@ -274,6 +276,7 @@ void IRailAPI::initialiseStations(){
 		default:
 			AppLog("default");
 	}
+	*/
 	delete file; //closes the file, there is no default close method for files, its gets closed when its scope is closed
 	buffer.SetPosition(0);
 	stations = createStationsList(&buffer);
@@ -288,13 +291,13 @@ void IRailAPI::testRoutePlanner(){
 	int filesize = sourcefilemeta.GetFileSize();
 	ByteBuffer buffer;
 	buffer.Construct(filesize);
-	AppLog("Read buffer size %d", buffer.GetLimit());
+	//AppLog("Read buffer size %d", buffer.GetLimit());
 	r = file->Construct(fileName, L"r"); //for write: w or w+
 	r = file->Read(buffer); //to write: file->Write *beware of the permission w instead of r
 	delete file; //closes the file, there is no default close method for files, its gets closed when its scope is closed
 	buffer.SetPosition(0);
 	ArrayListT<Trip *> * test = createTripList(&buffer);
-	AppLog("Done");
+	AppLog("completed trips");
 }
 
 int IRailAPI::getInt(xmlChar * xmlchar){

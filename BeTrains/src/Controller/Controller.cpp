@@ -37,7 +37,7 @@ Controller::~Controller() {
 }
 
 void Controller::addView(IView *view){
-	view->update();
+	//TODO Controller probleem
 }
 
 void Controller::getTrainInfo(Request * const req){
@@ -46,6 +46,7 @@ void Controller::getTrainInfo(Request * const req){
 void Controller::nextTrains(){
 	//TODO
 }
+
 void Controller::previousTrains(){
 	//TODO
 }

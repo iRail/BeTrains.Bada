@@ -1,13 +1,16 @@
 
 #include "View/StationSelectForm.h"
+#include "View/BeTrains.h"
 
 using namespace Osp::Base;
 using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
 using namespace Osp::Base::Collection;
 
-StationSelectForm::StationSelectForm(ArrayListT<Station *> * stations){
+StationSelectForm::StationSelectForm(ArrayListT<Station *> * stations,Station* &selectedStation){
 	this->stations = stations;
+	this->selectedStation = selectedStation;
+	suggestionStations.Construct(700);
 }
 
 StationSelectForm::~StationSelectForm(void)
@@ -34,24 +37,11 @@ StationSelectForm::OnInitializing(void)
 	vpEditFiled->AddActionEventListener(*this);
 	vpEditFiled->AddScrollPanelEventListener(*this);
 	vpEditFiled->AddTextEventListener(*this);
+	stationSuggestionList->AddItemEventListener(*this);
 	//4
 	vpEditFiled ->SetOverlayKeypadCommandButton(COMMAND_BUTTON_POSITION_LEFT, L"Done", ID_BUTTON_EDITFIELD_DONE);
 	vpEditFiled ->SetOverlayKeypadCommandButton(COMMAND_BUTTON_POSITION_RIGHT, L"Close", ID_BUTTON_EDITFIELD_CLOSE);
 
-	vpEditFiled->Show();
-	vpEditFiled->SetKeypadEnabled(true);
-	/*
-	String een = "sqdf";
-	String twee ="qmlsdkjf";
-	String drie = "sdmlkfjq";
-	String vier = "vier";
-	String vijf = "vijf";
-	stationSuggestionList->AddItem(&een,null,null,null);
-	stationSuggestionList->AddItem(&twee,null,null,null);
-	stationSuggestionList->AddItem(&drie,null,null,null);
-	stationSuggestionList->AddItem(&vier,null,null,null);
-	stationSuggestionList->AddItem(&vijf,null,null,null);
-	*/
 	for(int i=0;i<stations->GetCount();i++){
 		Station *station=null;
 		stations->GetAt(i,station);
@@ -72,22 +62,16 @@ StationSelectForm::OnTerminating(void)
 }
 
 void StationSelectForm::OnActionPerformed(const Osp::Ui::Control& source, int actionId) {
-	/*
 	switch (actionId) {
-		case ID_BUTTON_EDITFIELD_DONE: {
-				vpScrollPanel->CloseOverlayWindow();
-				vpEditFiled->Draw();
-				vpEditFiled->Show();
-		}break;
+		case ID_BUTTON_EDITFIELD_DONE:
+			AppLog("Done");
+		break;
 		case ID_BUTTON_EDITFIELD_CLOSE:
-			vpScrollPanel->CloseOverlayWindow();
-			vpEditFiled->Draw();
-			vpEditFiled->Show();
+			AppLog("Close");
 		break;
 		default:
-			break;
-		}
-	*/
+		break;
+	}
 }
 
 //6
@@ -115,6 +99,7 @@ void StationSelectForm::StationSelectForm::OnTextValueChanged (const Osp::Ui::Co
 	String inputText = vpEditFiled->GetText();
 	inputText.ToLower();
 	stationSuggestionList->RemoveAllItems();
+	suggestionStations.RemoveAll();
 	for(int i=0;i<stations->GetCount();i++){
 		Station *station=null;
 		stations->GetAt(i,station);
@@ -122,11 +107,18 @@ void StationSelectForm::StationSelectForm::OnTextValueChanged (const Osp::Ui::Co
 		station->getName()->ToLower(stationName);
 		if(stationName.StartsWith(inputText,0)){
 			stationSuggestionList->AddItem(station->getName(),null,null,null);
+			suggestionStations.Add(station);
 		}
 	}
-
-
-
 	stationSuggestionList->RequestRedraw();
-	AppLog("text changed");
+}
+
+void StationSelectForm::OnItemStateChanged(const Control &source, int index, int itemId, ItemStatus status){
+	if(status == Osp::Ui::ITEM_SELECTED){
+		BeTrains* app = (BeTrains*)this->GetParent();
+		suggestionStations.GetAt(index,selectedStation);
+		AppLog("station selected: %S",selectedStation->getName()->GetPointer());
+		app->showMainMenu();
+	}
+
 }

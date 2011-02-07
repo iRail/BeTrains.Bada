@@ -12,6 +12,7 @@
 #include "View/IView.h"
 #include "Controller/Controller.h"
 #include "View/Dummyshowresultsform.h"
+#include "Model/Station.h"
 
 using namespace Osp::App;
 using namespace Osp::Base;
@@ -27,25 +28,24 @@ class BeTrains :
 	public IView
 {
 private:
-		MainForm *mainForm;
-		StationSelectForm *stationselectform;
-		PlannerForm *plannerForm;
-		Dummyshowresultsform *dummyForm; // gebruikt om simpele lijst met resultaten te tonen
-		Controller controller;
-		ArrayListT<Request *> requests;
+	MainForm *mainForm;
+	StationSelectForm *stationselectform;
+	PlannerForm *plannerForm;
+	Dummyshowresultsform *dummyForm; // gebruikt om simpele lijst met resultaten te tonen
+	Controller controller;
+	ArrayListT<Request *> requests;
 public:
 	BeTrains();
 	~BeTrains();
 	static Osp::App::Application* CreateInstance(void);
 	void setForm(Form *form);
+	Controller* const getController(); //const pointer, controller state can be changed
+	void update();
 	void showMainMenu();
 	void showMap();
 	void showRoutePlanner();
-	void showRoutePlannerStationSelector();
+	void showRoutePlannerStationSelector(Station *selectedStation,ArrayListT<Station *> * stations);
 	void showRoutePlannerResults();
-	Controller* const getController(); //const pointer, controller state can be changed
-	void update();
-
 	bool OnAppInitializing(Osp::App::AppRegistry& appRegistry);
 	bool OnAppTerminating(Osp::App::AppRegistry& appRegistry, bool forcedTermination = false);
 	void OnForeground(void){}

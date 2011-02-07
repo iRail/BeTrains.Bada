@@ -1,4 +1,3 @@
-
 #ifndef _DUMMYSHOWRESULTSFORM_H_
 #define _DUMMYSHOWRESULTSFORM_H_
 
@@ -6,11 +5,9 @@
 #include <FUi.h>
 #include "ItemFactory.h"
 
-
-class Dummyshowresultsform :
+class Dummyshowresultsform:
 	public Osp::Ui::Controls::Form
 {
-
 // Construction
 public:
 	Dummyshowresultsform(void);
@@ -21,12 +18,7 @@ public:
 	result OnTerminating(void);
 private:
 	ItemFactory* pItemFactory;
-// Implementation
-protected:
-
-// Generated call-back functions
-public:
-
+	// Implementation
 };
 
 #endif
