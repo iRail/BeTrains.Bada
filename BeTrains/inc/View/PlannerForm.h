@@ -18,7 +18,8 @@ private:
 	Osp::Ui::Controls::EditField* to;
 	Request* request;
 public:
-	PlannerForm(Request* request);
+	PlannerForm();
+	void update(Request* request);
 	virtual ~PlannerForm(void);
 	bool Initialize();
 	result OnInitializing(void);

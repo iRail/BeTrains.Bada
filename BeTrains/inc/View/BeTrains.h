@@ -29,10 +29,15 @@ class BeTrains :
 	public IView
 {
 private:
+	//FRAME
+	Frame* frame;
+	//FORMS
 	MainForm *mainForm;
-	StationSelectForm *stationselectform;
+	StationSelectForm *stationSelectForm;
 	PlannerForm *plannerForm;
 	TripListForm *tripListForm;
+
+	//DATA
 	Controller controller;
 	ArrayListT<Request *> previousRequests; //ownership
 	Request * currentRequest; //ownership
@@ -53,7 +58,7 @@ public:
 	void showRoutePlanner();
 	void showRoutePlannerStationSelector(bool isFromStation); //adress from the pointer to fill station in
 	void showRoutePlannerResults();
-	void showTripList(ArrayListT<Trip *> * trips);
+	void showTripList();
 	void cancelCurrentRequest();
 	void routePlannerSelectStation(bool isFromStation,Station* selectedStation);
 

@@ -6,6 +6,7 @@
 #include <FUi.h>
 #include "Model/Trip.h"
 #include "View/TextItem.h"
+#include "Model/Request.h"
 
 class TripListForm :
 	public Osp::Ui::Controls::Form
@@ -13,23 +14,21 @@ class TripListForm :
 
 // Construction
 public:
-	TripListForm(Osp::Base::Collection::ArrayListT<Trip *> * trips);
+	TripListForm();
+	void update(Request *request);
 	//TODO this needs an Request wich includes the trip arraylist so he can directly make a previous/next request
 	virtual ~TripListForm(void);
 	bool Initialize();
 	result OnInitializing(void);
 	result OnTerminating(void);
 private:
-	//Osp::Ui::Controls::CustomListItemFormat format;
-	//Osp::Graphics::Font* defaultFont;
-	Osp::Base::Collection::ArrayListT<Trip *> * trips;
+	//datamembers
+	Request* request; //no ownership, triplist is inside
 	Osp::Ui::Controls::CustomList * tripList;
 
-	//void createFormat(const int listWidth);
-	//void addItem(const String& stationNames, const String& times, const String& duration, int trains);
+	//methods
 	String formatTime(DateTime *dateTime);
 	String formatTime(TimeSpan *timeSpan);
-	//TextItem createTextItem(const String& text, const TextItem::Align alignment);
 };
 
 #endif

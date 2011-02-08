@@ -22,13 +22,14 @@ using namespace Osp::Ui::Controls;
 BeTrains::BeTrains()
 {
 	// initialize variables , a list of request is forseen with a default capacity of 5
-	mainForm = null;
-	stationselectform = null;
+	stationSelectForm = null;
 	plannerForm = null;
 	tripListForm = null;
-	previousRequests.Construct(10);
 	testTripList = null;
 	currentRequest = null;
+	previousRequests.Construct(10);
+
+	//TODO demo files, can be removed later
 	String fileName(L"/Home/test.xml");
 	File *file = new File();
 	FileAttributes sourcefilemeta;
@@ -54,49 +55,49 @@ Application* BeTrains::CreateInstance(void)
 
 bool BeTrains::OnAppInitializing(AppRegistry& appRegistry)
 {
-	//controller.addView(this);
+	frame = Application::GetInstance()->GetAppFrame()->GetFrame();
+	//create all Forms
+	mainForm = new MainForm();
+	stationSelectForm = new StationSelectForm();
+	plannerForm = new PlannerForm();
+	tripListForm = new TripListForm;
+
+	//initiate forms
+	mainForm->Initialize();
+	stationSelectForm->Initialize();
+	plannerForm->Initialize();
+	tripListForm->Initialize();
+
+	//add forms to frame
+	frame->AddControl(*mainForm);
+	frame->AddControl(*stationSelectForm);
+	frame->AddControl(*plannerForm);
+	frame->AddControl(*tripListForm);
+
+	//load mainform on front
 	showMainMenu();
 	return true;
 }
 
-ArrayListT<Station*> * BeTrains::getStationList(){
-	return controller.getStations();
-}
-
-Controller* const BeTrains::getController(){
-	return &controller;
-}
-
-void BeTrains::setForm(Form *form){
-	Frame *pFrame = Application::GetInstance()->GetAppFrame()->GetFrame();
-	pFrame->AddControl(*form);
-	pFrame->SetCurrentForm(*form);
-	form->Draw();
-	form->Show();
-}
-
 void BeTrains::showMainMenu(){
-	mainForm = new MainForm();
-	mainForm->Initialize();
-	setForm(mainForm);
+	frame->SetCurrentForm(*mainForm);
+	frame->RequestRedraw();
 }
 
 void BeTrains::showMap(){
-	showTripList(testTripList);
+	showTripList();
 }
 
 void BeTrains::showRoutePlanner(){
-	if(currentRequest ==null)
-		currentRequest = new Request();
-	plannerForm = new PlannerForm(currentRequest);
-	plannerForm->Initialize();
-	setForm(plannerForm);
+	plannerForm->update(currentRequest);
+	frame->SetCurrentForm(*plannerForm);
+	frame->RequestRedraw();
 }
 
-void BeTrains::showTripList(ArrayListT<Trip *> * trips){
-	tripListForm = new TripListForm(trips);
-	tripListForm->Initialize();
-	setForm(tripListForm);
+void BeTrains::showTripList(){
+	tripListForm->update(currentRequest);
+	frame->SetCurrentForm(*tripListForm);
+	frame->RequestRedraw();
 }
 
 void BeTrains::cancelCurrentRequest(){
@@ -115,20 +116,20 @@ void BeTrains::routePlannerSelectStation(bool isFromStation,Station* selectedSta
 	}else{
 		currentRequest->setToStation(selectedStation);
 	}
-	plannerForm = new PlannerForm(currentRequest);
-	plannerForm->Initialize();
-	setForm(plannerForm);
+	plannerForm->update(currentRequest);
+	frame->SetCurrentForm(*plannerForm);
+	frame->RequestRedraw();
 }
 
 void BeTrains::update(){
 	//AppLog("Update method invocation");
 }
 
-void BeTrains::showRoutePlannerStationSelector(bool isFromStation){ //adress from the pointer to fill station in
-	stationselectform = new StationSelectForm(getStationList(),isFromStation);
-	stationselectform->Initialize();
-	setForm(stationselectform);
-	stationselectform->setKeyboard();
+void BeTrains::showRoutePlannerStationSelector(bool isFromStation){
+	stationSelectForm->update(isFromStation);
+	frame->SetCurrentForm(*stationSelectForm);
+	frame->RequestRedraw();
+	stationSelectForm->setKeyboard();
 }
 
 void BeTrains::showRoutePlannerResults(){
@@ -139,4 +140,12 @@ bool
 BeTrains::OnAppTerminating(AppRegistry& appRegistry, bool forcedTermination)
 {
 	return true;
+}
+
+ArrayListT<Station*> * BeTrains::getStationList(){
+	return controller.getStations();
+}
+
+Controller* const BeTrains::getController(){
+	return &controller;
 }

@@ -5,24 +5,32 @@ using namespace Osp::Base;
 using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
 
-PlannerForm::PlannerForm(Request* request)
+PlannerForm::PlannerForm()
 {
-	this->request = request;
+	this->request = null;
 }
 
 PlannerForm::~PlannerForm(void)
 {
 }
 
+void PlannerForm::update(Request* request){
+	this->request = request;
+	if(request != null){
+		if(request->getFromStation() != null)
+			from->SetText(* request->getFromStation()->getName());
+		if(request->getToStation() != null)
+			to->SetText(* request->getToStation()->getName());
+	}
+}
+
 bool PlannerForm::Initialize()
 {
+	//load some components from xml file
 	Form::Construct(L"PLANNER_FORM");
 	from = static_cast<EditField*>(GetControl(L"FROM_FIELD"));
 	to = static_cast<EditField*>(GetControl(L"TO_FIELD"));
-	if(request->getFromStation() != null)
-		from->SetText(* request->getFromStation()->getName());
-	if(request->getToStation() != null)
-		to->SetText(* request->getToStation()->getName());
+	//all action listeners
 	SetSoftkeyActionId(SOFTKEY_0, ACTION_SEARCH);
 	AddSoftkeyActionListener(SOFTKEY_0, *this);
 	SetSoftkeyActionId(SOFTKEY_1, ACTION_BACK);
@@ -31,6 +39,7 @@ bool PlannerForm::Initialize()
 	to->AddTouchEventListener(*this);
 	from->SetEnabled(false);
 	to->SetEnabled(false);
+
 	return true;
 }
 
@@ -54,8 +63,7 @@ void PlannerForm::OnActionPerformed(const Osp::Ui::Control &source, int actionId
 			searchAction();
 			break;
 		case ACTION_BACK:
-			AppLog("pressed back button");
-			app->showMainMenu();
+			app->cancelCurrentRequest();
 		default:
 			app->showMainMenu();
 	}
@@ -63,10 +71,7 @@ void PlannerForm::OnActionPerformed(const Osp::Ui::Control &source, int actionId
 
 void PlannerForm::searchAction(){
 	BeTrains* app = (BeTrains*)BeTrains::GetInstance();
-	String from_ = from->GetText();
-	String to_ = to->GetText();
-	app->showMap();
-	//TODO
+	app->showMap();	//TODO this goes to an demo with
 }
 
 void PlannerForm::OnTouchDoublePressed (const Control &source, const Point &currentPosition, const TouchEventInfo &touchInfo){}
@@ -81,7 +86,7 @@ void PlannerForm::OnTouchPressed (const Control &source, const Point &currentPos
 	}else if(source.Equals(*to)){
 		app->showRoutePlannerStationSelector(false);
 	}
-	//TODO
 }
+
 void PlannerForm::OnTouchReleased (const Control &source, const Point &currentPosition, const TouchEventInfo &touchInfo){}
 

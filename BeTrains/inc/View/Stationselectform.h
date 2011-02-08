@@ -16,14 +16,15 @@ class StationSelectForm :
 private:
 	static const int ID_BUTTON_EDITFIELD_DONE=101;
 	static const int ID_BUTTON_EDITFIELD_CLOSE = 102;
-	Osp::Ui::Controls::ScrollPanel* vpScrollPanel; //owner
-	Osp::Ui::Controls::EditField* vpEditFiled; //owner
+	Osp::Ui::Controls::ScrollPanel* scrollPanel; //owner
+	Osp::Ui::Controls::EditField* editField; //owner
 	Osp::Ui::Controls::List* stationSuggestionList; //owner
 	Osp::Base::Collection::ArrayListT<Station *> * stations;
 	Osp::Base::Collection::ArrayListT<Station *> suggestionStations;
 	bool isFromStation;
 public:
-	StationSelectForm(Osp::Base::Collection::ArrayListT<Station *> * stations,bool isFromStation);
+	StationSelectForm();
+	void update(bool isFromStation);
 	virtual ~StationSelectForm(void);
 	bool Initialize();
 	result OnInitializing(void);

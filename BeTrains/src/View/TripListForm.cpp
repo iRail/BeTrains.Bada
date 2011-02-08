@@ -10,9 +10,9 @@ using namespace Osp::Ui::Controls;
 
 
 
-TripListForm::TripListForm(ArrayListT<Trip *> * trips)
+TripListForm::TripListForm()
 {
-	this->trips = trips;
+	request = null;
 }
 
 TripListForm::~TripListForm(void)
@@ -25,36 +25,41 @@ TripListForm::Initialize()
 	Form::Construct(L"TRIP_LIST_FORM");
 	//this->createFormat(tripList->GetWidth());
 	tripList = static_cast<CustomList*>(GetControl(L"TRIP_LIST", false));
-	ItemFactory* pItemFactory = new ItemFactory();
-	pItemFactory->Initialise(tripList->GetWidth());
-	for(int i=0;i<trips->GetCount();i++){
-		//AppLog("aantal trips : %d",test->GetCount());
-		Trip* trip;
-		trips->GetAt(i,trip);
-		/*
-		 * we werken met connections, dus om start en einde van de trip te weten :  from van het eerste station, en to van het laatste station
-		 * laatste kan natuurlijk == zijn eerste connection
-		 */
-		Connection* firstConn;
-		Connection* secondConn;
-		ArrayListT<Connection*>* connections = trip->getConnections();
-		connections->GetAt(0,firstConn);
-		connections->GetAt(connections->GetCount()-1,secondConn);
-		String stations;
-
-		stations += *firstConn->getStartNode()->getStation()->getName();
-		stations += L" - ";
-		stations += *secondConn->getEndNode()->getStation()->getName();
-		String startTime = formatTime(firstConn->getStartNode()->getDateTime());
-		String endTime = formatTime(secondConn->getEndNode()->getDateTime());
-		String times = startTime + L" - " + endTime;
-
-		String duration = formatTime(trip->getDuration());
-				//Integer::ToString(trip->getDuration()->GetHours()) + L":" + Integer::ToString(trip->getDuration()->GetMinutes());
-		tripList->AddItem(*(pItemFactory->createItem(stations, times, duration,trip->getConnections()->GetCount())));
-		//this->addItem(stations,times,duration,2);
-	}
 	return true;
+}
+
+void TripListForm::update(Request *request){
+	this->request = request;
+	if(request != null){
+		ItemFactory* pItemFactory = new ItemFactory();
+		pItemFactory->Initialise(tripList->GetWidth());
+		for(int i=0;i<request->getResults()->GetCount();i++){
+			Trip* trip;
+			request->getResults()->GetAt(i,trip);
+			/*
+			 * we werken met connections, dus om start en einde van de trip te weten :  from van het eerste station, en to van het laatste station
+			 * laatste kan natuurlijk == zijn eerste connection
+			 */
+			Connection* firstConn;
+			Connection* secondConn;
+			ArrayListT<Connection*>* connections = trip->getConnections();
+			connections->GetAt(0,firstConn);
+			connections->GetAt(connections->GetCount()-1,secondConn);
+			String stations;
+
+			stations += *firstConn->getStartNode()->getStation()->getName();
+			stations += L" - ";
+			stations += *secondConn->getEndNode()->getStation()->getName();
+			String startTime = formatTime(firstConn->getStartNode()->getDateTime());
+			String endTime = formatTime(secondConn->getEndNode()->getDateTime());
+			String times = startTime + L" - " + endTime;
+
+			String duration = formatTime(trip->getDuration());
+					//Integer::ToString(trip->getDuration()->GetHours()) + L":" + Integer::ToString(trip->getDuration()->GetMinutes());
+			tripList->AddItem(*(pItemFactory->createItem(stations, times, duration,trip->getConnections()->GetCount())));
+			//this->addItem(stations,times,duration,2);
+		}
+	}
 }
 
 result

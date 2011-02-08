@@ -7,9 +7,14 @@ using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
 using namespace Osp::Base::Collection;
 
-StationSelectForm::StationSelectForm(ArrayListT<Station *> * stations,bool isFromStation){
-	this->stations = stations;
+StationSelectForm::StationSelectForm(){
+	BeTrains* app = (BeTrains*)BeTrains::GetInstance();
+	stations = app->getStationList();
 	suggestionStations.Construct(700);
+}
+
+void StationSelectForm::update(bool isFromStation){
+	this->isFromStation = isFromStation;
 }
 
 StationSelectForm::~StationSelectForm(void)
@@ -27,19 +32,17 @@ result
 StationSelectForm::OnInitializing(void)
 {
 	result r = E_SUCCESS;
-	//2
-	vpScrollPanel = static_cast<ScrollPanel *> (GetControl(L"IDN_PANEL2", false));
-	vpEditFiled = static_cast<EditField *>(GetControl(L"EditFieldInput",true));
+	scrollPanel = static_cast<ScrollPanel *> (GetControl(L"IDN_PANEL2", false));
+	editField = static_cast<EditField *>(GetControl(L"EditFieldInput",true));
 	stationSuggestionList = static_cast<List *>(GetControl(L"StationSuggestionList",true));
 
-	//3
-	vpEditFiled->AddActionEventListener(*this);
-	vpEditFiled->AddScrollPanelEventListener(*this);
-	vpEditFiled->AddTextEventListener(*this);
+	editField->AddActionEventListener(*this);
+	editField->AddScrollPanelEventListener(*this);
+	editField->AddTextEventListener(*this);
 	stationSuggestionList->AddItemEventListener(*this);
-	//4
-	vpEditFiled ->SetOverlayKeypadCommandButton(COMMAND_BUTTON_POSITION_LEFT, L"Done", ID_BUTTON_EDITFIELD_DONE);
-	vpEditFiled ->SetOverlayKeypadCommandButton(COMMAND_BUTTON_POSITION_RIGHT, L"Close", ID_BUTTON_EDITFIELD_CLOSE);
+
+	editField ->SetOverlayKeypadCommandButton(COMMAND_BUTTON_POSITION_LEFT, L"Done", ID_BUTTON_EDITFIELD_DONE);
+	editField ->SetOverlayKeypadCommandButton(COMMAND_BUTTON_POSITION_RIGHT, L"Close", ID_BUTTON_EDITFIELD_CLOSE);
 
 	for(int i=0;i<stations->GetCount();i++){
 		Station *station=null;
@@ -51,12 +54,10 @@ StationSelectForm::OnInitializing(void)
 }
 
 void StationSelectForm::setKeyboard(){
-	vpEditFiled->ShowKeypad();
+	editField->ShowKeypad();
 }
 
-result
-StationSelectForm::OnTerminating(void)
-{
+result StationSelectForm::OnTerminating(void){
 	result r = E_SUCCESS;
 	return r;
 }
@@ -74,9 +75,9 @@ void StationSelectForm::OnActionPerformed(const Osp::Ui::Control& source, int ac
 	}
 }
 
-//6
+
 void StationSelectForm::OnOverlayControlCreated(const Osp::Ui::Control& source) {
-	vpEditFiled->ShowKeypad();
+	editField->ShowKeypad();
 }
 
 void StationSelectForm::OnOverlayControlOpened(const Osp::Ui::Control& source) {
@@ -96,7 +97,7 @@ void StationSelectForm::StationSelectForm::OnTextValueChangeCanceled (const Osp:
 }
 
 void StationSelectForm::StationSelectForm::OnTextValueChanged (const Osp::Ui::Control &source){
-	String inputText = vpEditFiled->GetText();
+	String inputText = editField->GetText();
 	inputText.ToLower();
 	stationSuggestionList->RemoveAllItems();
 	suggestionStations.RemoveAll();
