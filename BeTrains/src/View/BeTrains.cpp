@@ -27,6 +27,20 @@ BeTrains::BeTrains()
 	plannerForm = null;
 	tripListForm = null;
 	requests.Construct(10);
+	testTripList = null;
+	String fileName(L"/Home/test.xml");
+	File *file = new File();
+	FileAttributes sourcefilemeta;
+	File::GetAttributes(fileName, sourcefilemeta);
+	int filesize = sourcefilemeta.GetFileSize();
+	ByteBuffer buffer;
+	buffer.Construct(filesize);
+	file->Construct(fileName, L"r");
+	file->Read(buffer);
+	delete file;
+	buffer.SetPosition(0);
+	testTripList = controller.createTripList(&buffer);
+	test = new String("z");
 }
 
 BeTrains::~BeTrains()
@@ -40,22 +54,8 @@ Application* BeTrains::CreateInstance(void)
 
 bool BeTrains::OnAppInitializing(AppRegistry& appRegistry)
 {
-	getController()->addView(this);
-	//showMainMenu();
-
-	String fileName(L"/Home/test.xml");
-	File *file = new File();
-	FileAttributes sourcefilemeta;
-	File::GetAttributes(fileName, sourcefilemeta);
-	int filesize = sourcefilemeta.GetFileSize();
-	ByteBuffer buffer;
-	buffer.Construct(filesize);
-	file->Construct(fileName, L"r");
-	file->Read(buffer);
-	delete file;
-	buffer.SetPosition(0);
-	ArrayListT<Trip *> * testTripList = controller.createTripList(&buffer);
-	showTripList(testTripList);
+	//controller.addView(this);
+	showMainMenu();
 	return true;
 }
 
@@ -78,6 +78,7 @@ void BeTrains::showMainMenu(){
 }
 
 void BeTrains::showMap(){
+	showTripList(testTripList);
 }
 
 void BeTrains::showRoutePlanner(){

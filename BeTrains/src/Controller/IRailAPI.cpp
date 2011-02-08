@@ -322,14 +322,16 @@ String IRailAPI::getString(xmlChar * xmlchar){
 }
 
 String* IRailAPI::getStringN(const xmlChar *& xmlchar){
-	String *value = new String();
-	Osp::Base::Utility::StringUtil::Utf8ToString((char*) xmlchar, *value);
+	String val;
+	Osp::Base::Utility::StringUtil::Utf8ToString((char*) xmlchar, val);
+	String *value = new String(val);
 	return value;
 }
 
 String* IRailAPI::getStringN(xmlChar * xmlchar){
-	String *value = new String();
-	Osp::Base::Utility::StringUtil::Utf8ToString((char*) xmlchar, *value);
+	String val;
+	Osp::Base::Utility::StringUtil::Utf8ToString((char*) xmlchar, val);
+	String *value = new String(val);
 	return value;
 }
 

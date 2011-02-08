@@ -22,7 +22,7 @@ CustomListItemFormat* ItemFactory::createFormat(const int listWidth)
 {
     CustomListItemFormat *format = new CustomListItemFormat();
     format->Construct();
-    const int INDENT = 23;
+    const int INDENT = 30;
 
     format->AddElement(Constants::LIST_STATIONS, Rectangle(0, 0, listWidth-INDENT, 25));
     format->AddElement(Constants::LIST_TRAINS, Rectangle(listWidth-INDENT, 0, INDENT-10, 25));
@@ -35,11 +35,10 @@ CustomListItem* ItemFactory::createItem(const String& stationNames, const String
 	CustomListItem* item = new CustomListItem();
 	item->Construct(50); //TODO generic
 	item->SetItemFormat(*pFormat);
-
 	item->SetElement(Constants::LIST_STATIONS,
 			*(createTextItem(stationNames, TextItem::LEFT )));
 	item->SetElement(Constants::LIST_TRAINS,
-			*(createTextItem(L"# " + Integer::ToString(trains),TextItem::RIGHT )));
+			*(createTextItem(L"#" + Integer::ToString(trains),TextItem::RIGHT )));
 	item->SetElement(Constants::LIST_TIMES,
 			*(createTextItem( times, TextItem::LEFT)));
 	item->SetElement(Constants::LIST_DURATION,

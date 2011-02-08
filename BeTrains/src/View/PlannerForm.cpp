@@ -37,7 +37,7 @@ result PlannerForm::OnTerminating(void)
 
 void PlannerForm::OnActionPerformed(const Osp::Ui::Control &source, int actionId)
 {
-	BeTrains* app = (BeTrains*)this->GetParent();
+	BeTrains* app = (BeTrains*)BeTrains::GetInstance();
 	switch ( actionId ) {
 		case ACTION_SEARCH:
 			searchAction(app);
@@ -55,7 +55,7 @@ void PlannerForm::searchAction(BeTrains* app){
 	EditField* to = static_cast<EditField*>(GetControl(L"TO_FIELD"));
 	String from_ = from->GetText();
 	String to_ = to->GetText();
-	//app->showRoutePlannerResults(from_,to_);
-	//TODO
+	app->showMap();
+	//TODO real implementation
 }
 

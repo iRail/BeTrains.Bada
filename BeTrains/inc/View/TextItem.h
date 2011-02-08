@@ -24,7 +24,7 @@ using namespace Osp::Base;
 using namespace Osp::Graphics;
 using namespace Osp::Ui::Controls;
 
-class TextItem : public ICustomListElement
+class TextItem :public ICustomListElement
 {
 
 public:

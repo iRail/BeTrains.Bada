@@ -5,6 +5,7 @@
 #include <FBase.h>
 #include <FUi.h>
 #include "Model/Trip.h"
+#include "View/TextItem.h"
 
 class TripListForm :
 	public Osp::Ui::Controls::Form
@@ -19,16 +20,16 @@ public:
 	result OnInitializing(void);
 	result OnTerminating(void);
 private:
+	//Osp::Ui::Controls::CustomListItemFormat format;
+	//Osp::Graphics::Font* defaultFont;
 	Osp::Base::Collection::ArrayListT<Trip *> * trips;
 	Osp::Ui::Controls::CustomList * tripList;
+
+	//void createFormat(const int listWidth);
+	//void addItem(const String& stationNames, const String& times, const String& duration, int trains);
 	String formatTime(DateTime *dateTime);
 	String formatTime(TimeSpan *timeSpan);
-	/*
-	CustomListItem* createItem(
-				const String& stationNames, const String& times,
-				const String& duration, int trains);
-	CustomListItemFormat* createFormat(const int listWidth);
-	*/
+	//TextItem createTextItem(const String& text, const TextItem::Align alignment);
 };
 
 #endif

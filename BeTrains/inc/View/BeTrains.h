@@ -35,6 +35,8 @@ private:
 	TripListForm *tripListForm;
 	Controller controller;
 	ArrayListT<Request *> requests;
+	ArrayListT<Trip *> * testTripList;
+	String * test;
 public:
 	BeTrains();
 	~BeTrains();

@@ -59,7 +59,8 @@ void MainForm::addItem(const Osp::Base::String& text,const Osp::Base::String& ic
 
 void MainForm::OnItemStateChanged(const Control &source, int index, int itemId, ItemStatus status){
 	if(status == Osp::Ui::ITEM_SELECTED){
-		BeTrains* app = (BeTrains*)this->GetParent();
+		//BeTrains* app = (BeTrains*)this->GetParent();
+		BeTrains* app = (BeTrains*)BeTrains::GetInstance();
 		//AppLog("app pointer : %d",app);
 		switch ( itemId ) {
 		  case MENU_ITEM_PLANNER:

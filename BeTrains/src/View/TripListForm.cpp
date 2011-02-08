@@ -1,6 +1,8 @@
 
 #include "View/TripListForm.h"
 #include "View/ItemFactory.h"
+#include "View/Constants.h"
+#include "View/TextItem.h"
 
 using namespace Osp::Base;
 using namespace Osp::Ui;
@@ -11,6 +13,8 @@ using namespace Osp::Ui::Controls;
 TripListForm::TripListForm(ArrayListT<Trip *> * trips)
 {
 	this->trips = trips;
+	AppLog("debugtest");
+	//defaultFont->Construct(Osp::Graphics::FONT_STYLE_PLAIN,20);
 }
 
 TripListForm::~TripListForm(void)
@@ -21,10 +25,10 @@ bool
 TripListForm::Initialize()
 {
 	Form::Construct(L"TRIP_LIST_FORM");
+	//this->createFormat(tripList->GetWidth());
 	tripList = static_cast<CustomList*>(GetControl(L"TRIP_LIST", false));
 	ItemFactory* pItemFactory = new ItemFactory();
 	pItemFactory->Initialise(tripList->GetWidth());
-
 	for(int i=0;i<trips->GetCount();i++){
 		//AppLog("aantal trips : %d",test->GetCount());
 		Trip* trip;
@@ -47,10 +51,10 @@ TripListForm::Initialize()
 		String endTime = formatTime(secondConn->getEndNode()->getDateTime());
 		String times = startTime + L" - " + endTime;
 
-
 		String duration = formatTime(trip->getDuration());
 				//Integer::ToString(trip->getDuration()->GetHours()) + L":" + Integer::ToString(trip->getDuration()->GetMinutes());
-		tripList->AddItem(*(pItemFactory->createItem(stations, times, duration,2)));
+		tripList->AddItem(*(pItemFactory->createItem(stations, times, duration,trip->getConnections()->GetCount())));
+		//this->addItem(stations,times,duration,2);
 	}
 	return true;
 }
@@ -96,11 +100,30 @@ String TripListForm::formatTime(TimeSpan *timeSpan){
 }
 
 /*
-CustomListItem* TripListForm::createItem(const String& stationNames, const String& times,const String& duration, int trains){
-	return null;
+void TripListForm::createFormat(const int listWidth){
+	format.Construct();
+	const int INDENT = 23;
+	format.AddElement(Constants::LIST_STATIONS, Rectangle(0, 0, listWidth-INDENT, 25));
+	format.AddElement(Constants::LIST_TRAINS, Rectangle(listWidth-INDENT, 0, INDENT-10, 25));
+	format.AddElement(Constants::LIST_TIMES, Rectangle(0, 25, listWidth/2, 25));
+	format.AddElement(Constants::LIST_DURATION, Rectangle(listWidth/2, 25, listWidth/2-10, 25));
 }
-CustomListItemFormat* TripListForm::createFormat(const int listWidth){
-	return null;
+
+void TripListForm::addItem(const String& stationNames, const String& times, const String& duration, int trains){
+	CustomListItem item;
+	item.Construct(50); //50= row height
+	item.SetItemFormat(format);
+	//item.SetElement(Constants::LIST_STATIONS,stationNames);
+	//item.SetElement(Constants::LIST_TRAINS,stationNames);
+	item.SetElement(Constants::LIST_STATIONS,createTextItem(stationNames, TextItem::LEFT ));
+	item.SetElement(Constants::LIST_TRAINS,createTextItem(L"# " + Integer::ToString(trains),TextItem::RIGHT ));
+	item.SetElement(Constants::LIST_TIMES,createTextItem( times, TextItem::LEFT));
+	item.SetElement(Constants::LIST_DURATION,createTextItem(duration, TextItem::RIGHT));
+	tripList->AddItem(item);
+}
+
+TextItem TripListForm::createTextItem(const String& text, const TextItem::Align alignment)
+{
+    return TextItem(text, defaultFont,alignment);
 }
 */
-
