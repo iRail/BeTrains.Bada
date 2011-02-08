@@ -21,9 +21,9 @@ private:
 	Osp::Ui::Controls::List* stationSuggestionList; //owner
 	Osp::Base::Collection::ArrayListT<Station *> * stations;
 	Osp::Base::Collection::ArrayListT<Station *> suggestionStations;
-	Station* selectedStation;
+	bool isFromStation;
 public:
-	StationSelectForm(Osp::Base::Collection::ArrayListT<Station *> * stations,Station* &selectedStation);
+	StationSelectForm(Osp::Base::Collection::ArrayListT<Station *> * stations,bool isFromStation);
 	virtual ~StationSelectForm(void);
 	bool Initialize();
 	result OnInitializing(void);

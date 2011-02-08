@@ -34,9 +34,9 @@ private:
 	PlannerForm *plannerForm;
 	TripListForm *tripListForm;
 	Controller controller;
-	ArrayListT<Request *> requests;
-	ArrayListT<Trip *> * testTripList;
-	String * test;
+	ArrayListT<Request *> previousRequests; //ownership
+	Request * currentRequest; //ownership
+	ArrayListT<Trip *> * testTripList; //ownership
 public:
 	BeTrains();
 	~BeTrains();
@@ -45,12 +45,17 @@ public:
 	Controller* const getController(); //const pointer, controller state can be changed
 	void update();
 
+	Osp::Base::Collection::ArrayListT<Station*> * getStationList();
+
+	//actions
 	void showMainMenu();
 	void showMap();
 	void showRoutePlanner();
-	void showRoutePlannerStationSelector(Station *selectedStation,ArrayListT<Station *> * stations);
+	void showRoutePlannerStationSelector(bool isFromStation); //adress from the pointer to fill station in
 	void showRoutePlannerResults();
 	void showTripList(ArrayListT<Trip *> * trips);
+	void cancelCurrentRequest();
+	void routePlannerSelectStation(bool isFromStation,Station* selectedStation);
 
 	bool OnAppInitializing(Osp::App::AppRegistry& appRegistry);
 	bool OnAppTerminating(Osp::App::AppRegistry& appRegistry, bool forcedTermination = false);

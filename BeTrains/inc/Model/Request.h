@@ -14,7 +14,7 @@
 using namespace Osp::Base;
 using namespace Osp::Base::Collection;
 
-class Request {
+class Request{
 private:
 	DateTime* dateTime; //dateTime ownership
 	bool departure;
@@ -22,11 +22,7 @@ private:
 	Station* toStation; //toStation: no ownership
 	ArrayListT<Trip*> results; //ownership over all connection 's
 public:
-	Request(Station *fromStation_, Station *toStation_) :
-		fromStation(fromStation_), toStation(toStation_),dateTime(null)
-	{
-		results.Construct();
-	}
+	Request();
 	virtual ~Request();
 	void switchStation();
 	void toggleDepartArrival();

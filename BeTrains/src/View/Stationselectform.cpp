@@ -7,9 +7,8 @@ using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
 using namespace Osp::Base::Collection;
 
-StationSelectForm::StationSelectForm(ArrayListT<Station *> * stations,Station* &selectedStation){
+StationSelectForm::StationSelectForm(ArrayListT<Station *> * stations,bool isFromStation){
 	this->stations = stations;
-	this->selectedStation = selectedStation;
 	suggestionStations.Construct(700);
 }
 
@@ -46,6 +45,7 @@ StationSelectForm::OnInitializing(void)
 		Station *station=null;
 		stations->GetAt(i,station);
 		stationSuggestionList->AddItem(station->getName(),null,null,null);
+		suggestionStations.Add(station);
 	}
 	return r;
 }
@@ -115,10 +115,11 @@ void StationSelectForm::StationSelectForm::OnTextValueChanged (const Osp::Ui::Co
 
 void StationSelectForm::OnItemStateChanged(const Control &source, int index, int itemId, ItemStatus status){
 	if(status == Osp::Ui::ITEM_SELECTED){
-		BeTrains* app = (BeTrains*)this->GetParent();
+		Station* selectedStation; //pass back to app
 		suggestionStations.GetAt(index,selectedStation);
-		AppLog("station selected: %S",selectedStation->getName()->GetPointer());
-		app->showMainMenu();
+		//AppLog("station selected: %S",selectedStation->getName()->GetPointer());
+		BeTrains* app = (BeTrains*)BeTrains::GetInstance();
+		app->routePlannerSelectStation(isFromStation,selectedStation);
 	}
 
 }

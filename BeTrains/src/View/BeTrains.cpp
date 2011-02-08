@@ -26,8 +26,9 @@ BeTrains::BeTrains()
 	stationselectform = null;
 	plannerForm = null;
 	tripListForm = null;
-	requests.Construct(10);
+	previousRequests.Construct(10);
 	testTripList = null;
+	currentRequest = null;
 	String fileName(L"/Home/test.xml");
 	File *file = new File();
 	FileAttributes sourcefilemeta;
@@ -40,7 +41,6 @@ BeTrains::BeTrains()
 	delete file;
 	buffer.SetPosition(0);
 	testTripList = controller.createTripList(&buffer);
-	test = new String("z");
 }
 
 BeTrains::~BeTrains()
@@ -57,6 +57,10 @@ bool BeTrains::OnAppInitializing(AppRegistry& appRegistry)
 	//controller.addView(this);
 	showMainMenu();
 	return true;
+}
+
+ArrayListT<Station*> * BeTrains::getStationList(){
+	return controller.getStations();
 }
 
 Controller* const BeTrains::getController(){
@@ -82,7 +86,9 @@ void BeTrains::showMap(){
 }
 
 void BeTrains::showRoutePlanner(){
-	plannerForm = new PlannerForm();
+	if(currentRequest ==null)
+		currentRequest = new Request();
+	plannerForm = new PlannerForm(currentRequest);
 	plannerForm->Initialize();
 	setForm(plannerForm);
 }
@@ -93,12 +99,33 @@ void BeTrains::showTripList(ArrayListT<Trip *> * trips){
 	setForm(tripListForm);
 }
 
+void BeTrains::cancelCurrentRequest(){
+	if(currentRequest != null){
+		delete currentRequest;
+		currentRequest=null;
+	}
+	showMainMenu();
+}
+
+void BeTrains::routePlannerSelectStation(bool isFromStation,Station* selectedStation){
+	if(currentRequest == null)
+		currentRequest = new Request();
+	if(isFromStation){
+		currentRequest->setFromStation(selectedStation);
+	}else{
+		currentRequest->setToStation(selectedStation);
+	}
+	plannerForm = new PlannerForm(currentRequest);
+	plannerForm->Initialize();
+	setForm(plannerForm);
+}
+
 void BeTrains::update(){
 	//AppLog("Update method invocation");
 }
 
-void BeTrains::showRoutePlannerStationSelector(Station *selectedStation,ArrayListT<Station *> * stations){
-	stationselectform = new StationSelectForm(stations,selectedStation);
+void BeTrains::showRoutePlannerStationSelector(bool isFromStation){ //adress from the pointer to fill station in
+	stationselectform = new StationSelectForm(getStationList(),isFromStation);
 	stationselectform->Initialize();
 	setForm(stationselectform);
 	stationselectform->setKeyboard();

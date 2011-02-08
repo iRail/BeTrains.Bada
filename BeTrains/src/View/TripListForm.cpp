@@ -13,8 +13,6 @@ using namespace Osp::Ui::Controls;
 TripListForm::TripListForm(ArrayListT<Trip *> * trips)
 {
 	this->trips = trips;
-	AppLog("debugtest");
-	//defaultFont->Construct(Osp::Graphics::FONT_STYLE_PLAIN,20);
 }
 
 TripListForm::~TripListForm(void)

@@ -7,8 +7,16 @@
 
 #include "Model/Request.h"
 
+Request::Request(){
+	fromStation=null;
+	toStation=null;
+	dateTime= null;
+	results.Construct();
+}
+
 Request::~Request() {
-	delete dateTime;
+	if(dateTime !=null) delete dateTime;
+	//NO ownership over the 2 stations
 	Trip* trip;
 	for(int i=0;i<results.GetCount();i++){
 		results.GetAt(i,trip);
