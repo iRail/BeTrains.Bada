@@ -15,6 +15,7 @@ StationSelectForm::StationSelectForm(){
 
 void StationSelectForm::update(bool isFromStation){
 	this->isFromStation = isFromStation;
+	this->editField->Clear();
 }
 
 StationSelectForm::~StationSelectForm(void)

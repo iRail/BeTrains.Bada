@@ -10,24 +10,4 @@
         <layout mode="Portrait" style="FORM_STYLE_INDICATOR|FORM_STYLE_TITLE||FORM_STYLE_SOFTKEY_0|FORM_STYLE_SOFTKEY_1"/>
         <layout mode="Landscape" style="FORM_STYLE_INDICATOR|FORM_STYLE_TITLE||FORM_STYLE_SOFTKEY_0|FORM_STYLE_SOFTKEY_1"/>
     </Form>
-    <Label id="IDC_LABEL1" parent="PLANNER_FORM">
-        <property BGBitmapPath="" BGColor="" BGColorOpacity="100" hAlign="ALIGN_RIGHT" text="From" textColor="" textSize="22" textStyle="LABEL_TEXT_STYLE_NORMAL" vAlign="ALIGN_MIDDLE"/>
-        <layout height="40" mode="Portrait" width="70" x="0" y="5"/>
-        <layout height="19" mode="Landscape" width="166" x="28" y="0"/>
-    </Label>
-    <Label id="IDC_LABEL2" parent="PLANNER_FORM">
-        <property BGBitmapPath="" BGColor="" BGColorOpacity="100" hAlign="ALIGN_RIGHT" text="To" textColor="" textSize="22" textStyle="LABEL_TEXT_STYLE_NORMAL" vAlign="ALIGN_MIDDLE"/>
-        <layout height="40" mode="Portrait" width="70" x="0" y="50"/>
-        <layout height="19" mode="Landscape" width="166" x="28" y="14"/>
-    </Label>
-    <EditField id="FROM_FIELD" parent="PLANNER_FORM">
-        <property GroupStyle="GROUP_STYLE_NONE" InputStyle="INPUT_STYLE_FULLSCREEN" KeypadEnabled="TRUE" LimitLength="1000" bShowTitleText="FALSE" guideText="" text="" titleText=""/>
-        <layout height="40" mode="Portrait" style="EDIT_FIELD_STYLE_NORMAL" width="170" x="70" y="5"/>
-        <layout height="40" mode="Landscape" style="EDIT_FIELD_STYLE_NORMAL" width="133" x="158" y="0"/>
-    </EditField>
-    <EditField id="TO_FIELD" parent="PLANNER_FORM">
-        <property GroupStyle="GROUP_STYLE_NONE" InputStyle="INPUT_STYLE_FULLSCREEN" KeypadEnabled="TRUE" LimitLength="1000" bShowTitleText="FALSE" guideText="" text="" titleText=""/>
-        <layout height="40" mode="Portrait" style="EDIT_FIELD_STYLE_NORMAL" width="170" x="70" y="50"/>
-        <layout height="40" mode="Landscape" style="EDIT_FIELD_STYLE_NORMAL" width="133" x="161" y="19"/>
-    </EditField>
 </Scene>

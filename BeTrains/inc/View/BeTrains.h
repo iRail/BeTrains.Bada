@@ -5,6 +5,7 @@
 #include <FBase.h>
 #include <FSystem.h>
 #include <FUi.h>
+#include <FNet.h>
 
 #include "View/MainForm.h"
 #include "View/StationSelectForm.h"
@@ -26,7 +27,8 @@ class PlannerForm;
 class BeTrains :
 	public Osp::App::Application,
 	public Osp::System::IScreenEventListener,
-	public IView
+	public IView,
+	public Osp::Net::Http::IHttpTransactionEventListener
 {
 private:
 	//FRAME
@@ -70,6 +72,16 @@ public:
 	void OnBatteryLevelChanged(Osp::System::BatteryLevel batteryLevel){}
 	void OnScreenOn (void){}
 	void OnScreenOff (void){}
+
+	void getFromInternet(const String* const from,const String* const to);
+
+	void OnTransactionReadyToRead(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, int availableBodyLen);
+	void OnTransactionAborted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, result r);
+	void OnTransactionReadyToWrite(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, int recommendedChunkSize);
+	void OnTransactionHeaderCompleted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, int headerLen, bool rs);
+	void OnTransactionCompleted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction);
+	void OnTransactionCertVerificationRequiredN(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, Osp::Base::String* pCert);
+
 };
 
 #endif

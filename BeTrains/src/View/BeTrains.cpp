@@ -13,11 +13,13 @@
 #include "Controller/Controller.h"
 #include "View/TripListForm.h"
 
+
 using namespace Osp::App;
 using namespace Osp::Base;
 using namespace Osp::System;
 using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
+using namespace Osp::Net::Http;
 
 BeTrains::BeTrains()
 {
@@ -96,6 +98,14 @@ void BeTrains::showRoutePlanner(){
 
 void BeTrains::showTripList(){
 	tripListForm->update(currentRequest);
+
+
+	//DUMMY ITEMS
+	//Request * r = new Request();
+	//r->getResults()->AddItems(*testTripList);
+	//tripListForm->update(r);
+	//END DUMMY ITEMS
+
 	frame->SetCurrentForm(*tripListForm);
 	frame->RequestRedraw();
 }
@@ -149,3 +159,68 @@ ArrayListT<Station*> * BeTrains::getStationList(){
 Controller* const BeTrains::getController(){
 	return &controller;
 }
+
+void BeTrains::getFromInternet(const String* const from,const String* const to){
+	result r = E_SUCCESS;
+	String hostAddr = L"http://api.irail.be";
+	String hostAddr2(L"http://api.irail.be/connections/?to=");
+	hostAddr2.Append(*to);
+	hostAddr2.Append(L"&from=");
+	hostAddr2.Append(*from);
+	HttpSession* pSession = null;
+	HttpTransaction* pTransaction = null;
+	hostAddr2.Replace(L" ","%20");
+	AppLog("go to site: %S",hostAddr2.GetPointer());
+	pSession = new HttpSession();
+	r = pSession->Construct(NET_HTTP_SESSION_MODE_NORMAL, null ,hostAddr,null);
+	if (IsFailed(r))
+	{
+		AppLog("Construct Session failed. (%s)\n", GetErrorMessage(r));
+	}
+	pTransaction = pSession->OpenTransactionN();
+	if (null == pTransaction)
+	{
+		AppLog("Construct Session failed. \n");
+	}
+	r = pTransaction->AddHttpTransactionListener(*this);
+	if (IsFailed(r))
+	{
+		AppLog("AddHttpTransactionListener Session failed.\n");
+	}
+	HttpRequest* pRequest = pTransaction->GetRequest();
+	if(pRequest == null)
+	{
+		AppLog("GetRequest failed. \n");
+	}
+
+	r = pRequest->SetUri(hostAddr2);
+	if(IsFailed(r))
+	{
+		AppLog("SetUri failed. (%s)\n", GetErrorMessage(r));
+	}
+
+	r = pRequest->SetMethod(NET_HTTP_METHOD_GET);
+	if(IsFailed(r))
+	{
+		AppLog("SetMethod failed. (%s)\n", GetErrorMessage(r));
+	}
+	r = pTransaction->Submit();
+	if(IsFailed(r))
+	{
+		AppLog("Submit failed. (%s)\n", GetErrorMessage(r));
+	}
+}
+
+void BeTrains::OnTransactionReadyToRead(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, int availableBodyLen){
+	HttpResponse* resp = httpTransaction.GetResponse();
+	ByteBuffer* buf = (resp->ReadBodyN());
+	if(currentRequest != null){
+		currentRequest->getResults()->AddItems(* controller.createTripList(buf));
+	}
+	this->showTripList();
+}
+void BeTrains::OnTransactionAborted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, result r){}
+void BeTrains::OnTransactionReadyToWrite(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, int recommendedChunkSize){}
+void BeTrains::OnTransactionHeaderCompleted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, int headerLen, bool rs){}
+void BeTrains::OnTransactionCompleted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction){}
+void BeTrains::OnTransactionCertVerificationRequiredN(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, Osp::Base::String* pCert){}

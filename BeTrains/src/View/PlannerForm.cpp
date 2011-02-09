@@ -28,8 +28,20 @@ bool PlannerForm::Initialize()
 {
 	//load some components from xml file
 	Form::Construct(L"PLANNER_FORM");
-	from = static_cast<EditField*>(GetControl(L"FROM_FIELD"));
-	to = static_cast<EditField*>(GetControl(L"TO_FIELD"));
+
+	from = new EditField();
+	from->Construct( Rectangle(5, 5, 230, 50), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 25);
+	from->SetTitleText(L"From");
+	AddControl(*from);
+
+	to = new EditField();
+	to->Construct( Rectangle(5, 60, 230, 50), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 25);
+	to->SetTitleText(L"To");
+	AddControl(*to);
+
+	//from = static_cast<EditField*>(GetControl(L"FROM_FIELD"));
+	//from->SetTitleText(L"from");
+	//to = static_cast<EditField*>(GetControl(L"TO_FIELD"));
 	//all action listeners
 	SetSoftkeyActionId(SOFTKEY_0, ACTION_SEARCH);
 	AddSoftkeyActionListener(SOFTKEY_0, *this);
@@ -60,7 +72,8 @@ void PlannerForm::OnActionPerformed(const Osp::Ui::Control &source, int actionId
 	BeTrains* app = (BeTrains*)BeTrains::GetInstance();
 	switch ( actionId ) {
 		case ACTION_SEARCH:
-			searchAction();
+			if(request->getFromStation() != null and request->getToStation() !=null)
+				app->getFromInternet(request->getFromStation()->getName(),request->getToStation()->getName());
 			break;
 		case ACTION_BACK:
 			app->cancelCurrentRequest();
