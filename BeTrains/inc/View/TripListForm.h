@@ -9,9 +9,9 @@
 #include "Model/Request.h"
 
 class TripListForm :
-	public Osp::Ui::Controls::Form
+	public Osp::Ui::Controls::Form,
+	public Osp::Ui::IActionEventListener
 {
-
 // Construction
 public:
 	TripListForm();
@@ -22,6 +22,7 @@ public:
 	result OnInitializing(void);
 	result OnTerminating(void);
 private:
+	enum Constants{ACTION_BACK};
 	//datamembers
 	Request* request; //no ownership, triplist is inside
 	Osp::Ui::Controls::CustomList * tripList;
@@ -29,6 +30,7 @@ private:
 	//methods
 	String formatTime(DateTime *dateTime);
 	String formatTime(TimeSpan *timeSpan);
+	void OnActionPerformed(const Osp::Ui::Control &source, int actionId);
 };
 
 #endif

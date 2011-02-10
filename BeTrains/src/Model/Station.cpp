@@ -26,6 +26,10 @@ const String * const Station::getCountry() const{
 	return country;
 }
 
+const String * const Station::getID() const{
+	return id;
+}
+
 bool Station::operator==(const Station &c2) const {
 	return this == &c2;
 	/* all stations are made in the init of the application, there are no doubles so pointers can be compared

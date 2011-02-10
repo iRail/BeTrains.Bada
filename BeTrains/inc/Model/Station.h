@@ -18,9 +18,10 @@ private:
 	float longtitude;
 	String * country; //ownership
 	String * name; //no ownership: because there are +- 600 stations for 1 country
+	String * id;//ownership
 public:
-	Station(int latitude_,int longtitude_,String* country_,String* name_)
-		:latitude(latitude_),longtitude(longtitude_),country(country_),name(name_){}
+	Station(int latitude_,int longtitude_,String* country_,String* name_,String* id_)
+		:latitude(latitude_),longtitude(longtitude_),country(country_),name(name_),id(id_){}
 	Station():country(null),name(null){}
 	virtual ~Station();
 	//returns a copy of latitude
@@ -29,6 +30,7 @@ public:
 	float getLongtitude() const;
 	const String * const getCountry() const;
 	const String * const getName() const;
+	const String * const getID() const;
 
 	bool operator==(const Station &c2) const;
 

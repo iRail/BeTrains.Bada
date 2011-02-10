@@ -31,6 +31,7 @@ public:
 	ArrayListT<Station *> * getStations();
 	//getStation returns null if station is not found
 	Station * getStation(String &stationName); //TODO perhaps this method should be private
+	Station * getStationById(String &stationId); //This is the best way to find stations because there can be name differences
 	ArrayListT<Trip *> * testRoutePlanner();
 private:
 	int getInt(xmlChar * xmlchar); //returns integer from an xmlchar

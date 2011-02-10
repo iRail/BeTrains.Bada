@@ -13,8 +13,6 @@ IRailAPI::IRailAPI() {
 }
 
 IRailAPI::~IRailAPI() {}
-
-
 /*
  *	CREATES LIST FROM STATIONS from a char buffer (thas like a string)
  *	transfroms the char buffer to an xml document
@@ -37,24 +35,30 @@ ArrayListT<Station *> * IRailAPI::createStationsList(ByteBuffer* buf){
 				String *stationName = new String(getString(station->children->content));
 				float latitude;
 				float longtitude;
+				String * stationId = null;
 				xmlAttrPtr attr = null;
 				for(attr = station->properties; attr; attr=attr->next){
 					if (attr != null && attr->type== XML_ATTRIBUTE_NODE) {
 						String attrName = getString(attr->name);
 						String attrValue = getString(attr->children->content);
 						if(attrName == "locationX"){
+							if(attrValue == "") attrValue ="0.0";
 							Float::Parse(attrValue,longtitude);
-						}else if(attrName.CompareTo("locationY")==0){
+						}else if(attrName == "locationY"){
+							if(attrValue == "") attrValue ="0.0";
 							Float::Parse(attrValue,latitude);
+						}else if(attrName == "id"){
+							stationId = getStringN(attr->children->content);
+							//AppLog("Station name: %S id=%S",stationName->GetPointer(),stationId->GetPointer());
 						}
 					}
 				}
-				newStation = new Station(latitude,longtitude,country,stationName);
+				newStation = new Station(latitude,longtitude,country,stationName,stationId);
 				stationList->Add(newStation);
 			}
 		}
 	}
-	AppLog("completed stationList");
+	//AppLog("completed stationList");
 	return stationList;
 }
 
@@ -126,7 +130,7 @@ void IRailAPI::createVia(xmlNodePtr via,ArrayListT<Connection*>* connections){
 	xmlNodePtr child = null;
 	ConnectionNode *departure=null;
 	ConnectionNode *arrival=null;
-	Station *station=null;
+	Station* viaStation=null;
 	for (child = via->children; child; child = child->next){
 		if (child->type == XML_ELEMENT_NODE) {
 			String nodeName = getString(child->name);
@@ -138,10 +142,19 @@ void IRailAPI::createVia(xmlNodePtr via,ArrayListT<Connection*>* connections){
 				departure = createConnectionNode(child,null);
 				conn->setStartNode(departure);
 			}else if(nodeName == "station"){
-				String st = getString(child->children->content);
+				//String st = getString(child->children->content);
 				//AppLog("%S",st.GetPointer());
-				Station * stationo = getStation(st);
+				//Station * stationo = getStation(st);
 				//TODO error obtaining station for the list
+				String stationId;
+				for(xmlAttrPtr attr = child->properties; attr; attr=attr->next){
+					if (attr != null && attr->type== XML_ATTRIBUTE_NODE) {
+						String attrName = getString(attr->name);
+						if(attrName == "id")
+							stationId = getString(attr->children->content);
+					}
+				}
+				viaStation = getStationById(stationId);
 			}else if(nodeName == "vehicle"){
 				String *ve = getStringN(child->children->content);
 				conn->setVehicleName(ve);
@@ -152,8 +165,8 @@ void IRailAPI::createVia(xmlNodePtr via,ArrayListT<Connection*>* connections){
 			}
 		}
 	}
-	departure->setStation(station);
-	arrival->setStation(station);
+	departure->setStation(viaStation);
+	arrival->setStation(viaStation);
 }
 
 ConnectionNode * IRailAPI::createConnectionNode(xmlNodePtr xmlNode,Connection* conn){//connection should be passed so vehicle name can be inserted
@@ -174,8 +187,17 @@ ConnectionNode * IRailAPI::createConnectionNode(xmlNodePtr xmlNode,Connection* c
 			if(child->children)
 				conn->setVehicleName(getStringN(child->children->content));
 		}else if(tagName == "station"){
-			String s = getString(child->children->content);
-			Station *st = getStation(s);
+			//String s = getString(child->children->content);
+			//Station *st = getStation(s);
+			String stationId;
+			for(xmlAttrPtr attr = child->properties; attr; attr=attr->next){
+				if (attr != null && attr->type== XML_ATTRIBUTE_NODE) {
+					String attrName = getString(attr->name);
+					if(attrName == "id")
+						stationId = getString(attr->children->content);
+				}
+			}
+			Station* st = getStationById(stationId);
 			cn->setStation(st);
 		}
 	}
@@ -205,6 +227,23 @@ Station * IRailAPI::getStation(String &stationName){
 		stations->GetAt(i,st);
 		if(st->getName()->Equals(stationName,false)){
 		//if(*(st->getName()) == stationName ){
+			found = st;
+		}
+		i++;
+	}
+	return found;
+}
+
+Station * IRailAPI::getStationById(String &stationId){
+	Station *found = null;
+	int i=0;
+	while(!found && i<stations->GetCount()){
+		Station* st;
+		stations->GetAt(i,st);
+		if(st->getID()->Equals(stationId,false)){
+			found = st;
+		}
+		if(*st->getID() == stationId){
 			found = st;
 		}
 		i++;
@@ -298,7 +337,7 @@ ArrayListT<Trip *> * IRailAPI::testRoutePlanner(){
 	delete file; //closes the file, there is no default close method for files, its gets closed when its scope is closed
 	buffer.SetPosition(0);
 	ArrayListT<Trip *> * test = createTripList(&buffer);
-	AppLog("completed trips");
+	//AppLog("completed trips");
 	return test;
 }
 

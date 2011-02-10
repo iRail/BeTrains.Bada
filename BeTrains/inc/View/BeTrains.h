@@ -15,7 +15,6 @@
 #include "View/TripListForm.h"
 #include "Model/Station.h"
 
-
 using namespace Osp::App;
 using namespace Osp::Base;
 using namespace Osp::System;
@@ -43,7 +42,6 @@ private:
 	Controller controller;
 	ArrayListT<Request *> previousRequests; //ownership
 	Request * currentRequest; //ownership
-	ArrayListT<Trip *> * testTripList; //ownership
 public:
 	BeTrains();
 	~BeTrains();

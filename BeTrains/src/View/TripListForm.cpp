@@ -3,6 +3,7 @@
 #include "View/ItemFactory.h"
 #include "View/Constants.h"
 #include "View/TextItem.h"
+#include "View/BeTrains.h"
 
 using namespace Osp::Base;
 using namespace Osp::Ui;
@@ -25,6 +26,8 @@ TripListForm::Initialize()
 	Form::Construct(L"TRIP_LIST_FORM");
 	//this->createFormat(tripList->GetWidth());
 	tripList = static_cast<CustomList*>(GetControl(L"TRIP_LIST", false));
+	SetSoftkeyActionId(SOFTKEY_0, ACTION_BACK);
+	AddSoftkeyActionListener(SOFTKEY_0, *this);
 	return true;
 }
 
@@ -100,6 +103,17 @@ String TripListForm::formatTime(TimeSpan *timeSpan){
 		time += L"0";
 	time += Integer::ToString(min);
 	return time;
+}
+
+void TripListForm::OnActionPerformed(const Osp::Ui::Control &source, int actionId){
+	AppLog("action performed");
+	BeTrains* app = (BeTrains*)BeTrains::GetInstance();
+	switch ( actionId ) {
+		case ACTION_BACK:
+			app->showRoutePlanner();
+		default:
+			app->showMainMenu();
+	}
 }
 
 /*
