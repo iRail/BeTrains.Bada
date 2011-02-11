@@ -26,6 +26,9 @@ public:
 	virtual ~Request();
 	void switchStation();
 	void toggleDepartArrival();
+	void setIsDeparture(bool isDeparture){departure = isDeparture;}
+	String parseDate();
+	String parseTime();
 
 	//getters and setters
 	void setDateTime(DateTime* dateTime_);

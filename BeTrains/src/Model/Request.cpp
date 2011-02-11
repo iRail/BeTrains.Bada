@@ -34,7 +34,7 @@ void Request::toggleDepartArrival() {
 }
 
 void Request::setDateTime(DateTime* dateTime_) {
-	if(dateTime == null) dateTime = new DateTime();
+	if(dateTime != null) delete dateTime;
 	dateTime = dateTime_;
 }
 
@@ -52,6 +52,37 @@ Station *Request::getFromStation() const {
 
 void Request::setToStation(Station *station) {
 	toStation = station;
+}
+
+String Request::parseDate(){
+	//format ddmmyy with leading zero's
+	if(dateTime != null){
+		String parsed = L"";
+		int day=dateTime->GetDay();
+		int year=dateTime->GetYear();
+		int month=dateTime->GetMonth();
+		if(day<10) parsed = L"0";
+		parsed += Integer::ToString(day);
+		if(month<10) parsed += L"0";
+		parsed += Integer::ToString(month);
+		parsed += Integer::ToString(year%100); //gets the last two digits from a year ex 2011 -> 11
+		return parsed;
+	}
+	return L"0";
+}
+
+String Request::parseTime(){
+	if(dateTime != null){
+		String parsed = L"";
+		int min=dateTime->GetMinute();
+		int hour=dateTime->GetHour();
+		if(hour<10) parsed = L"0";
+		parsed += Integer::ToString(hour);
+		if(min<10) parsed += L"0";
+		parsed += Integer::ToString(min);
+		return parsed;
+	}
+	return L"0";
 }
 
 Station * Request::getToStation() const {

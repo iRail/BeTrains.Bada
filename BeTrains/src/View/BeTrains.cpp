@@ -13,7 +13,6 @@
 #include "Controller/Controller.h"
 #include "View/TripListForm.h"
 
-
 using namespace Osp::App;
 using namespace Osp::Base;
 using namespace Osp::System;
@@ -21,6 +20,7 @@ using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
 using namespace Osp::Net::Http;
 
+//TODO place in Betrains.cpp and Betrains.h in controller folder
 BeTrains::BeTrains()
 {
 	// initialize variables , a list of request is forseen with a default capacity of 5
@@ -28,6 +28,7 @@ BeTrains::BeTrains()
 	plannerForm = null;
 	tripListForm = null;
 	currentRequest = null;
+	detailsListForm = null;
 	previousRequests.Construct(10);
 }
 
@@ -48,18 +49,21 @@ bool BeTrains::OnAppInitializing(AppRegistry& appRegistry)
 	stationSelectForm = new StationSelectForm();
 	plannerForm = new PlannerForm();
 	tripListForm = new TripListForm();
+	detailsListForm = new DetailsListForm();
 
 	//initiate forms
 	mainForm->Initialize();
 	stationSelectForm->Initialize();
 	plannerForm->Initialize();
 	tripListForm->Initialize();
+	detailsListForm->Initialize();
 
 	//add forms to frame
 	frame->AddControl(*mainForm);
-	frame->AddControl(*stationSelectForm);
 	frame->AddControl(*plannerForm);
 	frame->AddControl(*tripListForm);
+	frame->AddControl(*stationSelectForm);
+	frame->AddControl(*detailsListForm);
 
 	//load mainform on front
 	showMainMenu();
@@ -72,10 +76,24 @@ void BeTrains::showMainMenu(){
 }
 
 void BeTrains::showMap(){
-	showTripList();
 }
 
 void BeTrains::showRoutePlanner(){
+	if(currentRequest == null)
+		currentRequest = new Request();
+	else{ //currentRequest != null
+		if(currentRequest->getResults() != null){
+			//if there are already results: move request to request list (history)
+			//and make a new request
+			//copy from and to, to the new request
+			//previousRequests.Add(currentRequest);
+			Request* previousRequest = currentRequest;
+			currentRequest = new Request();
+			currentRequest->setFromStation(previousRequest->getFromStation());
+			currentRequest->setToStation(previousRequest->getToStation());
+			//TODO copy time from old to new
+		}
+	}
 	plannerForm->update(currentRequest);
 	frame->SetCurrentForm(*plannerForm);
 	frame->RequestRedraw();
@@ -119,8 +137,10 @@ void BeTrains::showRoutePlannerStationSelector(bool isFromStation){
 	stationSelectForm->setKeyboard();
 }
 
-void BeTrains::showRoutePlannerResults(){
-	//TODO : implement
+void BeTrains::showRouteDetails(Trip* trip){
+	detailsListForm->update(trip);
+	frame->SetCurrentForm(*detailsListForm);
+	frame->RequestRedraw();
 }
 
 bool
@@ -137,16 +157,29 @@ Controller* const BeTrains::getController(){
 	return &controller;
 }
 
-void BeTrains::getFromInternet(const String* const from,const String* const to){
+//TODO, request in place of 2 strings
+void BeTrains::getFromInternet(Request* request){
 	result r = E_SUCCESS;
 	String hostAddr = L"http://api.irail.be";
 	String hostAddr2(L"http://api.irail.be/connections/?to=");
-	hostAddr2.Append(*to);
+	hostAddr2.Append(*request->getToStation()->getName());
 	hostAddr2.Append(L"&from=");
-	hostAddr2.Append(*from);
+	hostAddr2.Append(*request->getFromStation()->getName());
 	hostAddr2.Replace(L" ","-");
+	hostAddr2.Append(L"&typeOfTransport=train");
 	//AppLog("go to site: %S",hostAddr2.GetPointer());
-	//TODO still gives error from gent sint pieters
+	//TODO if datetime is not null add this to the link also departure/arrival
+	//&date=311210&time=2359&timeSel=arrive
+	if(request->getDateTime() != null){
+		hostAddr2 += L"&date=" + request->parseDate();
+		hostAddr2 += L"&time=" + request->parseTime();
+		if(request->isDeparture())
+			hostAddr2 += L"timeSel=depart";
+		else
+			hostAddr2 += L"timeSel=arrive";
+ 	}
+
+	AppLog("request site: %S",hostAddr2.GetPointer());
 	HttpSession* pSession = null;
 	HttpTransaction* pTransaction = null;
 	pSession = new HttpSession();

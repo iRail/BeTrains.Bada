@@ -1,4 +1,3 @@
-
 #include "View/StationSelectForm.h"
 #include "View/BeTrains.h"
 
@@ -15,7 +14,7 @@ StationSelectForm::StationSelectForm(){
 
 void StationSelectForm::update(bool isFromStation){
 	this->isFromStation = isFromStation;
-	this->editField->Clear();
+	if(editField != null) editField->Clear();
 }
 
 StationSelectForm::~StationSelectForm(void)
@@ -43,7 +42,7 @@ StationSelectForm::OnInitializing(void)
 	stationSuggestionList->AddItemEventListener(*this);
 
 	editField ->SetOverlayKeypadCommandButton(COMMAND_BUTTON_POSITION_LEFT, L"Done", ID_BUTTON_EDITFIELD_DONE);
-	editField ->SetOverlayKeypadCommandButton(COMMAND_BUTTON_POSITION_RIGHT, L"Close", ID_BUTTON_EDITFIELD_CLOSE);
+	editField ->SetOverlayKeypadCommandButton(COMMAND_BUTTON_POSITION_RIGHT, L"Cancel", ID_BUTTON_EDITFIELD_CLOSE);
 
 	for(int i=0;i<stations->GetCount();i++){
 		Station *station=null;
@@ -64,12 +63,13 @@ result StationSelectForm::OnTerminating(void){
 }
 
 void StationSelectForm::OnActionPerformed(const Osp::Ui::Control& source, int actionId) {
+	BeTrains* app=(BeTrains*)BeTrains::GetInstance();
 	switch (actionId) {
 		case ID_BUTTON_EDITFIELD_DONE:
-			AppLog("Done");
+			app->showRoutePlanner();
 		break;
 		case ID_BUTTON_EDITFIELD_CLOSE:
-			AppLog("Close");
+			app->showRoutePlanner();
 		break;
 		default:
 		break;
@@ -102,14 +102,23 @@ void StationSelectForm::StationSelectForm::OnTextValueChanged (const Osp::Ui::Co
 	inputText.ToLower();
 	stationSuggestionList->RemoveAllItems();
 	suggestionStations.RemoveAll();
-	for(int i=0;i<stations->GetCount();i++){
-		Station *station=null;
-		stations->GetAt(i,station);
-		String stationName;
-		station->getName()->ToLower(stationName);
-		if(stationName.StartsWith(inputText,0)){
+	if(! inputText.IsEmpty()){
+		for(int i=0;i<stations->GetCount();i++){
+			Station *station=null;
+			stations->GetAt(i,station);
+			String stationName;
+			station->getName()->ToLower(stationName);
+			if(stationName.StartsWith(inputText,0)){
+				stationSuggestionList->AddItem(station->getName(),null,null,null);
+				suggestionStations.Add(station);
+			}
+		}
+	}else{
+		suggestionStations.AddItems(*stations);
+		for(int i=0;i<stations->GetCount();i++){
+			Station *station=null;
+			stations->GetAt(i,station);
 			stationSuggestionList->AddItem(station->getName(),null,null,null);
-			suggestionStations.Add(station);
 		}
 	}
 	stationSuggestionList->RequestRedraw();

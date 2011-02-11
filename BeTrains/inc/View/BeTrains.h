@@ -14,6 +14,7 @@
 #include "Controller/Controller.h"
 #include "View/TripListForm.h"
 #include "Model/Station.h"
+#include "View/DetailsListForm.h"
 
 using namespace Osp::App;
 using namespace Osp::Base;
@@ -37,6 +38,7 @@ private:
 	StationSelectForm *stationSelectForm;
 	PlannerForm *plannerForm;
 	TripListForm *tripListForm;
+	DetailsListForm *detailsListForm;
 
 	//DATA
 	Controller controller;
@@ -57,10 +59,10 @@ public:
 	void showMap();
 	void showRoutePlanner();
 	void showRoutePlannerStationSelector(bool isFromStation); //adress from the pointer to fill station in
-	void showRoutePlannerResults();
 	void showTripList();
 	void cancelCurrentRequest();
 	void routePlannerSelectStation(bool isFromStation,Station* selectedStation);
+	void showRouteDetails(Trip* trip);
 
 	bool OnAppInitializing(Osp::App::AppRegistry& appRegistry);
 	bool OnAppTerminating(Osp::App::AppRegistry& appRegistry, bool forcedTermination = false);
@@ -71,7 +73,7 @@ public:
 	void OnScreenOn (void){}
 	void OnScreenOff (void){}
 
-	void getFromInternet(const String* const from,const String* const to);
+	void getFromInternet(Request* request);
 
 	void OnTransactionReadyToRead(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, int availableBodyLen);
 	void OnTransactionAborted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, result r);

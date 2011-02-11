@@ -10,7 +10,8 @@
 
 class TripListForm :
 	public Osp::Ui::Controls::Form,
-	public Osp::Ui::IActionEventListener
+	public Osp::Ui::IActionEventListener,
+	public Osp::Ui::ICustomItemEventListener
 {
 // Construction
 public:
@@ -31,6 +32,8 @@ private:
 	String formatTime(DateTime *dateTime);
 	String formatTime(TimeSpan *timeSpan);
 	void OnActionPerformed(const Osp::Ui::Control &source, int actionId);
+	void OnItemStateChanged (const Osp::Ui::Control &source, int index, int itemId, int elementId, Osp::Ui::ItemStatus status);
+	void OnItemStateChanged (const Osp::Ui::Control &source, int index, int itemId, Osp::Ui::ItemStatus status);
 };
 
 #endif

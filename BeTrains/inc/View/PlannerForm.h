@@ -10,12 +10,17 @@
 class PlannerForm :
 	public Osp::Ui::Controls::Form,
 	public Osp::Ui::ITouchEventListener,
-	public Osp::Ui::IActionEventListener
+	public Osp::Ui::IActionEventListener,
+	public Osp::Ui::IDateTimeChangeEventListener
 {
 private:
 	enum Constants{ACTION_SEARCH,ACTION_BACK};
 	Osp::Ui::Controls::EditField* from;
 	Osp::Ui::Controls::EditField* to;
+	Osp::Ui::Controls::Button* switchStationsButton;
+	Osp::Ui::Controls::DateTimePicker* dateTimePicker; //ownerships
+	Osp::Ui::Controls::EditField* editTimeDateField;
+	Osp::Ui::Controls::CheckButton* departCheckButton;
 	Request* request;
 public:
 	PlannerForm();
@@ -34,6 +39,10 @@ public:
 	void OnTouchMoved (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
 	void OnTouchPressed (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
 	void OnTouchReleased (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
+
+	void OnDateTimeChangeCanceled (const Osp::Ui::Control &source);
+	void OnDateTimeChanged (const Osp::Ui::Control &source, int year, int month, int day, int hour, int minute);
+
 };
 
 #endif

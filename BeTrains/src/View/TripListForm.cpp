@@ -9,8 +9,6 @@ using namespace Osp::Base;
 using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
 
-
-
 TripListForm::TripListForm()
 {
 	request = null;
@@ -26,13 +24,15 @@ TripListForm::Initialize()
 	Form::Construct(L"TRIP_LIST_FORM");
 	//this->createFormat(tripList->GetWidth());
 	tripList = static_cast<CustomList*>(GetControl(L"TRIP_LIST", false));
-	SetSoftkeyActionId(SOFTKEY_0, ACTION_BACK);
-	AddSoftkeyActionListener(SOFTKEY_0, *this);
+	SetSoftkeyActionId(SOFTKEY_1, ACTION_BACK);
+	AddSoftkeyActionListener(SOFTKEY_1, *this);
+	tripList->AddCustomItemEventListener(*this);
 	return true;
 }
 
 void TripListForm::update(Request *request){
 	this->request = request;
+	if(tripList != null) tripList->RemoveAllItems();
 	if(request != null){
 		ItemFactory* pItemFactory = new ItemFactory();
 		pItemFactory->Initialise(tripList->GetWidth());
@@ -58,9 +58,7 @@ void TripListForm::update(Request *request){
 			String times = startTime + L" - " + endTime;
 
 			String duration = formatTime(trip->getDuration());
-					//Integer::ToString(trip->getDuration()->GetHours()) + L":" + Integer::ToString(trip->getDuration()->GetMinutes());
 			tripList->AddItem(*(pItemFactory->createItem(stations, times, duration,trip->getConnections()->GetCount())));
-			//this->addItem(stations,times,duration,2);
 		}
 	}
 }
@@ -106,41 +104,20 @@ String TripListForm::formatTime(TimeSpan *timeSpan){
 }
 
 void TripListForm::OnActionPerformed(const Osp::Ui::Control &source, int actionId){
-	AppLog("action performed");
 	BeTrains* app = (BeTrains*)BeTrains::GetInstance();
 	switch ( actionId ) {
 		case ACTION_BACK:
 			app->showRoutePlanner();
-		default:
-			app->showMainMenu();
 	}
 }
 
-/*
-void TripListForm::createFormat(const int listWidth){
-	format.Construct();
-	const int INDENT = 23;
-	format.AddElement(Constants::LIST_STATIONS, Rectangle(0, 0, listWidth-INDENT, 25));
-	format.AddElement(Constants::LIST_TRAINS, Rectangle(listWidth-INDENT, 0, INDENT-10, 25));
-	format.AddElement(Constants::LIST_TIMES, Rectangle(0, 25, listWidth/2, 25));
-	format.AddElement(Constants::LIST_DURATION, Rectangle(listWidth/2, 25, listWidth/2-10, 25));
+void TripListForm::OnItemStateChanged (const Osp::Ui::Control &source, int index, int itemId, int elementId, Osp::Ui::ItemStatus status){}
+void TripListForm::OnItemStateChanged (const Osp::Ui::Control &source, int index, int itemId, Osp::Ui::ItemStatus status){
+	if(status == Osp::Ui::ITEM_SELECTED){
+		Trip* selectedTrip; //pass back to app
+		request->getResults()->GetAt(index,selectedTrip);
+		BeTrains* app = (BeTrains*)BeTrains::GetInstance();
+		app->showRouteDetails(selectedTrip);
+	}
 }
 
-void TripListForm::addItem(const String& stationNames, const String& times, const String& duration, int trains){
-	CustomListItem item;
-	item.Construct(50); //50= row height
-	item.SetItemFormat(format);
-	//item.SetElement(Constants::LIST_STATIONS,stationNames);
-	//item.SetElement(Constants::LIST_TRAINS,stationNames);
-	item.SetElement(Constants::LIST_STATIONS,createTextItem(stationNames, TextItem::LEFT ));
-	item.SetElement(Constants::LIST_TRAINS,createTextItem(L"# " + Integer::ToString(trains),TextItem::RIGHT ));
-	item.SetElement(Constants::LIST_TIMES,createTextItem( times, TextItem::LEFT));
-	item.SetElement(Constants::LIST_DURATION,createTextItem(duration, TextItem::RIGHT));
-	tripList->AddItem(item);
-}
-
-TextItem TripListForm::createTextItem(const String& text, const TextItem::Align alignment)
-{
-    return TextItem(text, defaultFont,alignment);
-}
-*/
