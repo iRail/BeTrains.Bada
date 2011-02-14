@@ -29,6 +29,7 @@ BeTrains::BeTrains()
 	tripListForm = null;
 	currentRequest = null;
 	detailsListForm = null;
+	tripListForm = null;
 	previousRequests.Construct(10);
 }
 
@@ -50,6 +51,7 @@ bool BeTrains::OnAppInitializing(AppRegistry& appRegistry)
 	plannerForm = new PlannerForm();
 	tripListForm = new TripListForm();
 	detailsListForm = new DetailsListForm();
+	tripListForm2 = new TripListForm2();
 
 	//initiate forms
 	mainForm->Initialize();
@@ -57,6 +59,7 @@ bool BeTrains::OnAppInitializing(AppRegistry& appRegistry)
 	plannerForm->Initialize();
 	tripListForm->Initialize();
 	detailsListForm->Initialize();
+	tripListForm2->Initialize();
 
 	//add forms to frame
 	frame->AddControl(*mainForm);
@@ -64,6 +67,7 @@ bool BeTrains::OnAppInitializing(AppRegistry& appRegistry)
 	frame->AddControl(*tripListForm);
 	frame->AddControl(*stationSelectForm);
 	frame->AddControl(*detailsListForm);
+	frame->AddControl(*tripListForm2);
 
 	//load mainform on front
 	showMainMenu();
@@ -76,6 +80,10 @@ void BeTrains::showMainMenu(){
 }
 
 void BeTrains::showMap(){
+	tripListForm2->update(currentRequest);
+	tripListForm2->RequestRedraw();
+	frame->SetCurrentForm(*tripListForm2);
+	frame->RequestRedraw();
 }
 
 void BeTrains::showRoutePlanner(){
@@ -225,7 +233,7 @@ void BeTrains::OnTransactionReadyToRead(Osp::Net::Http::HttpSession& httpSession
 	if(currentRequest != null){
 		currentRequest->getResults()->AddItems(* controller.createTripList(buf));
 	}
-	this->showTripList();
+	showMap();
 }
 
 void BeTrains::OnTransactionAborted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, result r){}

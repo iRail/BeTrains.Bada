@@ -15,6 +15,7 @@
 #include "View/TripListForm.h"
 #include "Model/Station.h"
 #include "View/DetailsListForm.h"
+#include "View/TripListForm2.h"
 
 using namespace Osp::App;
 using namespace Osp::Base;
@@ -39,6 +40,7 @@ private:
 	PlannerForm *plannerForm;
 	TripListForm *tripListForm;
 	DetailsListForm *detailsListForm;
+	TripListForm2 *tripListForm2;
 
 	//DATA
 	Controller controller;

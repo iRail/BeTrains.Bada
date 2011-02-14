@@ -99,12 +99,6 @@ void PlannerForm::OnActionPerformed(const Osp::Ui::Control &source, int actionId
 			app->showMainMenu();
 	}
 }
-
-void PlannerForm::searchAction(){
-	BeTrains* app = (BeTrains*)BeTrains::GetInstance();
-	app->showTripList();
-}
-
 void PlannerForm::OnTouchDoublePressed (const Control &source, const Point &currentPosition, const TouchEventInfo &touchInfo){}
 void PlannerForm::OnTouchFocusIn (const Control &source, const Point &currentPosition, const TouchEventInfo &touchInfo){}
 void PlannerForm::OnTouchFocusOut (const Control &source, const Point &currentPosition, const TouchEventInfo &touchInfo){}

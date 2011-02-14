@@ -142,10 +142,6 @@ void IRailAPI::createVia(xmlNodePtr via,ArrayListT<Connection*>* connections){
 				departure = createConnectionNode(child,null);
 				conn->setStartNode(departure);
 			}else if(nodeName == "station"){
-				//String st = getString(child->children->content);
-				//AppLog("%S",st.GetPointer());
-				//Station * stationo = getStation(st);
-				//TODO error obtaining station for the list
 				String stationId;
 				for(xmlAttrPtr attr = child->properties; attr; attr=attr->next){
 					if (attr != null && attr->type== XML_ATTRIBUTE_NODE) {
@@ -159,9 +155,8 @@ void IRailAPI::createVia(xmlNodePtr via,ArrayListT<Connection*>* connections){
 				String *ve = getStringN(child->children->content);
 				conn->setVehicleName(ve);
 			}else if(nodeName == "timeBetween"){
-				int seconds = getInt(child->children->content);
-				//conn->setTimeBetween(seconds)
-				//TODO create timespan object from seconds
+				int timeBetween = getInt(child->children->content);
+				conn->setTimeBetween(getTimeSpan(timeBetween));
 			}
 		}
 	}
@@ -183,12 +178,9 @@ ConnectionNode * IRailAPI::createConnectionNode(xmlNodePtr xmlNode,Connection* c
 			else
 				cn->setPlatform(new String("-"));
 		}else if(tagName == "vehicle"){
-			//API sucks: vehicle should not be here
 			if(child->children)
 				conn->setVehicleName(getStringN(child->children->content));
 		}else if(tagName == "station"){
-			//String s = getString(child->children->content);
-			//Station *st = getStation(s);
 			String stationId;
 			for(xmlAttrPtr attr = child->properties; attr; attr=attr->next){
 				if (attr != null && attr->type== XML_ATTRIBUTE_NODE) {
@@ -206,9 +198,14 @@ ConnectionNode * IRailAPI::createConnectionNode(xmlNodePtr xmlNode,Connection* c
 	for(attr = xmlNode->properties; attr; attr=attr->next){
 		if (attr != null && attr->type== XML_ATTRIBUTE_NODE) {
 			String attrName = getString(attr->name);
+			String attrValue = getString(attr->children->content);
 			if(attrName == "delay"){
-				int delay = getInt(attr->children->content);
-				cn->setDelay(getTimeSpan(delay));
+				int delay;
+				Integer::Parse(attrValue,delay);
+				if(delay > 1){
+					TimeSpan* del = getTimeSpan(delay);
+					cn->setDelay(del);
+				}
 			}
 		}
 	}
@@ -226,7 +223,6 @@ Station * IRailAPI::getStation(String &stationName){
 		Station* st;
 		stations->GetAt(i,st);
 		if(st->getName()->Equals(stationName,false)){
-		//if(*(st->getName()) == stationName ){
 			found = st;
 		}
 		i++;

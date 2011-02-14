@@ -26,8 +26,8 @@ CustomListItemFormat* ItemFactory::createFormat(const int listWidth)
 
     format->AddElement(Constants::LIST_STATIONS, Rectangle(0, 0, listWidth-INDENT, 25));
     format->AddElement(Constants::LIST_TRAINS, Rectangle(listWidth-INDENT, 0, INDENT-10, 25));
-    format->AddElement(Constants::LIST_TIMES, Rectangle(0, 25, listWidth/2, 25));
-    format->AddElement(Constants::LIST_DURATION, Rectangle(listWidth/2, 25, listWidth/2-10, 25));
+    format->AddElement(Constants::LIST_TIMES, Rectangle(0, 25, listWidth/2+55, 25));
+    format->AddElement(Constants::LIST_DURATION, Rectangle(listWidth/2+55, 25, listWidth/2-10-55, 25));
     return format;
 }
 

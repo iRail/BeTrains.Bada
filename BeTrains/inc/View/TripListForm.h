@@ -29,7 +29,7 @@ private:
 	Osp::Ui::Controls::CustomList * tripList;
 
 	//methods
-	String formatTime(DateTime *dateTime);
+	String formatTime(DateTime *dateTime,TimeSpan* delay);
 	String formatTime(TimeSpan *timeSpan);
 	void OnActionPerformed(const Osp::Ui::Control &source, int actionId);
 	void OnItemStateChanged (const Osp::Ui::Control &source, int index, int itemId, int elementId, Osp::Ui::ItemStatus status);

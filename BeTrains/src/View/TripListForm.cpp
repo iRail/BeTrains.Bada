@@ -53,8 +53,8 @@ void TripListForm::update(Request *request){
 			stations += *firstConn->getStartNode()->getStation()->getName();
 			stations += L" - ";
 			stations += *secondConn->getEndNode()->getStation()->getName();
-			String startTime = formatTime(firstConn->getStartNode()->getDateTime());
-			String endTime = formatTime(secondConn->getEndNode()->getDateTime());
+			String startTime = formatTime(firstConn->getStartNode()->getDateTime(),firstConn->getStartNode()->getDelay());
+			String endTime = formatTime(secondConn->getEndNode()->getDateTime(),secondConn->getEndNode()->getDelay());
 			String times = startTime + L" - " + endTime;
 
 			String duration = formatTime(trip->getDuration());
@@ -67,9 +67,6 @@ result
 TripListForm::OnInitializing(void)
 {
 	result r = E_SUCCESS;
-
-	// TODO: Add your initialization code here
-
 	return r;
 }
 
@@ -83,13 +80,19 @@ TripListForm::OnTerminating(void)
 	return r;
 }
 
-String TripListForm::formatTime(DateTime *dateTime){
+String TripListForm::formatTime(DateTime *dateTime,TimeSpan* delay){
 	int hour = dateTime->GetHour();
 	int min = dateTime->GetMinute();
 	String time = Integer::ToString(hour)+ L":";
 	if(min < 10)
 		time += L"0";
 	time += Integer::ToString(min);
+	if(delay != null){
+		time += " +";
+		int minutes = delay->GetMinutes();
+		if(minutes<10) time += "0";
+		time += Integer::ToString(minutes) + "\"";
+	}
 	return time;
 }
 

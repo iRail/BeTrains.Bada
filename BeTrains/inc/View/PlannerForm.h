@@ -30,7 +30,6 @@ public:
 	result OnInitializing(void);
 	result OnTerminating(void);
 	void OnActionPerformed(const Osp::Ui::Control &source, int actionId);
-	void searchAction();
 
 	void OnTouchDoublePressed (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
 	void OnTouchFocusIn (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
