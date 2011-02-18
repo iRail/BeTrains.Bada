@@ -16,6 +16,7 @@
 #include "Model/Station.h"
 #include "View/DetailsListForm.h"
 #include "View/TripListForm2.h"
+#include "View/NearestStationListForm.h"
 
 using namespace Osp::App;
 using namespace Osp::Base;
@@ -41,6 +42,7 @@ private:
 	TripListForm *tripListForm;
 	DetailsListForm *detailsListForm;
 	TripListForm2 *tripListForm2;
+	NearestStationListForm * nearestStationListForm;
 
 	//DATA
 	Controller controller;
@@ -65,6 +67,7 @@ public:
 	void cancelCurrentRequest();
 	void routePlannerSelectStation(bool isFromStation,Station* selectedStation);
 	void showRouteDetails(Trip* trip);
+	void showNearestStations();
 
 	bool OnAppInitializing(Osp::App::AppRegistry& appRegistry);
 	bool OnAppTerminating(Osp::App::AppRegistry& appRegistry, bool forcedTermination = false);

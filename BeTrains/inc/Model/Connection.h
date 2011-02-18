@@ -17,13 +17,13 @@ using namespace Osp::Base::Collection;
 class Connection {
 private:
 	TimeSpan* timeBetween; //ownership
-	String* vehicleName; //ownership
+	Osp::Base::String* vehicleName; //ownership
 	String* vehicleType; //ownership
 	ConnectionNode* startNode; //ownership
 	ConnectionNode* endNode; //ownership
 public:
 	Connection()
-		:timeBetween(null),startNode(null),endNode(null),vehicleName(null),vehicleType(null){
+		:timeBetween(null),vehicleName(null),vehicleType(null),startNode(null),endNode(null){
 	}
 	virtual ~Connection();
 

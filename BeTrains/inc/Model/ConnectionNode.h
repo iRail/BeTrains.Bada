@@ -23,7 +23,7 @@ private:
 	Station* station; //no ownership
 public:
 	ConnectionNode() :
-		delay(null),dateTime(null),station(null),platform(null) {
+		platform(null),delay(null),dateTime(null),station(null) {
 	}
 	virtual ~ConnectionNode();
 

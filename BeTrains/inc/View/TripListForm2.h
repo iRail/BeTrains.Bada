@@ -26,12 +26,14 @@ public:
 	result OnTerminating(void);
 private:
 	//DATA MEMBERS
+	const static int MORE = 999; //high number because it cant interact with other list items
 	enum Constants{ACTION_BACK};
 	enum LIST_ITEMS{LIST_ITEM_STATIONS,LIST_ITEM_TIMES,LIST_ITEM_DELAYS,LIST_ITEM_DURATION,LIST_ITEM_VEHICLE_TYPE,LIST_ITEM_VEHICLE_NAME,LIST_ITEM_NUMBER_CONNECTIONS};
 	enum SUB_LIST_ITEMS{SUBLIST_FROM_TIME,SUBLIST_TO_TIME,SUBLIST_FROM_STATION,SUBLIST_TO_STATION,SUBLIST_FROM_PLATFORM,SUBLIST_TO_PLATFORM};
 	Osp::Ui::Controls::ExpandableList* expandableList;
 	Request* request; //no ownership, triplist is inside
 	Osp::Ui::Controls::CustomListItemFormat* format; //ownership
+	Osp::Ui::Controls::CustomListItemFormat* moreFormat; //ownership
 	Osp::Ui::Controls::CustomListItemFormat* subListFormat; //ownership
 	//METHODS
 	void OnActionPerformed(const Osp::Ui::Control &source, int actionId);

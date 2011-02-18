@@ -30,6 +30,8 @@ BeTrains::BeTrains()
 	currentRequest = null;
 	detailsListForm = null;
 	tripListForm = null;
+	tripListForm2 = null;
+	nearestStationListForm=null;
 	previousRequests.Construct(10);
 }
 
@@ -52,6 +54,7 @@ bool BeTrains::OnAppInitializing(AppRegistry& appRegistry)
 	tripListForm = new TripListForm();
 	detailsListForm = new DetailsListForm();
 	tripListForm2 = new TripListForm2();
+	nearestStationListForm = new NearestStationListForm();
 
 	//initiate forms
 	mainForm->Initialize();
@@ -60,6 +63,7 @@ bool BeTrains::OnAppInitializing(AppRegistry& appRegistry)
 	tripListForm->Initialize();
 	detailsListForm->Initialize();
 	tripListForm2->Initialize();
+	nearestStationListForm->Initialize();
 
 	//add forms to frame
 	frame->AddControl(*mainForm);
@@ -68,6 +72,7 @@ bool BeTrains::OnAppInitializing(AppRegistry& appRegistry)
 	frame->AddControl(*stationSelectForm);
 	frame->AddControl(*detailsListForm);
 	frame->AddControl(*tripListForm2);
+	frame->AddControl(*nearestStationListForm);
 
 	//load mainform on front
 	showMainMenu();
@@ -83,6 +88,13 @@ void BeTrains::showMap(){
 	tripListForm2->update(currentRequest);
 	tripListForm2->RequestRedraw();
 	frame->SetCurrentForm(*tripListForm2);
+	frame->RequestRedraw();
+}
+
+void BeTrains::showNearestStations(){
+	nearestStationListForm->update();
+	nearestStationListForm->RequestRedraw();
+	frame->SetCurrentForm(*nearestStationListForm);
 	frame->RequestRedraw();
 }
 

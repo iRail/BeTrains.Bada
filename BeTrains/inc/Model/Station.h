@@ -14,20 +14,22 @@ using namespace Osp::Base::Collection;
 
 class Station {
 private:
-	float latitude;
-	float longtitude;
+	double latitude;
+	double longitude;
 	String * country; //ownership
 	String * name; //no ownership: because there are +- 600 stations for 1 country
 	String * id;//ownership
 public:
-	Station(int latitude_,int longtitude_,String* country_,String* name_,String* id_)
-		:latitude(latitude_),longtitude(longtitude_),country(country_),name(name_),id(id_){}
-	Station():country(null),name(null){}
+	Station(double latitude_,double longitude_,String* country_,String* name_,String* id_)
+		:latitude(latitude_),longitude(longitude_),country(country_),name(name_),id(id_)
+	{
+		//AppLog("long %S",Double::ToString(longitude).GetPointer());
+	}
 	virtual ~Station();
 	//returns a copy of latitude
-	float getLatitude() const;
-	//returns a copy of longtitude
-	float getLongtitude() const;
+	double getLatitude() const;
+	//returns a copy of longitude
+	double getLongitude() const;
 	const String * const getCountry() const;
 	const String * const getName() const;
 	const String * const getID() const;

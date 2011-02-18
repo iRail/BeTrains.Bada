@@ -11,11 +11,11 @@ Station::~Station() {
 	delete name;
 }
 
-float Station::getLatitude() const {
+double Station::getLatitude() const {
 	return latitude;
 }
-float Station::getLongtitude() const {
-	return longtitude;
+double Station::getLongitude() const {
+	return longitude;
 }
 
 const String * const Station::getName() const {
@@ -42,7 +42,7 @@ bool Station::operator==(const Station &c2) const {
 
 Station & Station::operator=(const Station &c2) {
 	latitude = c2.getLatitude();
-	longtitude = c2.getLongtitude();
+	longitude = c2.getLongitude();
 	country = new String(*c2.getCountry());
 	name = new String(*c2.getName());
 	return *this;

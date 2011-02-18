@@ -69,6 +69,9 @@ void MainForm::OnItemStateChanged(const Control &source, int index, int itemId, 
 		  case MENU_ITEM_MAP:
 			  app->showMap();
 			  break;
+		  case MENU_ITEM_STARRED:
+			  app->showNearestStations();
+			  break;
 		  default :
 			  AppLog("default");
 			  app->showMainMenu();

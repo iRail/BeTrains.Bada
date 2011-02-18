@@ -33,8 +33,8 @@ ArrayListT<Station *> * IRailAPI::createStationsList(ByteBuffer* buf){
 			if(station->type == XML_ELEMENT_NODE){
 				Station *newStation;
 				String *stationName = new String(getString(station->children->content));
-				float latitude;
-				float longtitude;
+				double latitude;
+				double longitude;
 				String * stationId = null;
 				xmlAttrPtr attr = null;
 				for(attr = station->properties; attr; attr=attr->next){
@@ -43,17 +43,17 @@ ArrayListT<Station *> * IRailAPI::createStationsList(ByteBuffer* buf){
 						String attrValue = getString(attr->children->content);
 						if(attrName == "locationX"){
 							if(attrValue == "") attrValue ="0.0";
-							Float::Parse(attrValue,longtitude);
+							Double::Parse(attrValue,longitude);
 						}else if(attrName == "locationY"){
 							if(attrValue == "") attrValue ="0.0";
-							Float::Parse(attrValue,latitude);
+							Double::Parse(attrValue,latitude);
 						}else if(attrName == "id"){
 							stationId = getStringN(attr->children->content);
 							//AppLog("Station name: %S id=%S",stationName->GetPointer(),stationId->GetPointer());
 						}
 					}
 				}
-				newStation = new Station(latitude,longtitude,country,stationName,stationId);
+				newStation = new Station(latitude,longitude,country,stationName,stationId);
 				stationList->Add(newStation);
 			}
 		}
@@ -243,6 +243,10 @@ Station * IRailAPI::getStationById(String &stationId){
 			found = st;
 		}
 		i++;
+	}
+	if(found == null){
+
+		AppLog("Station not found id: %S",stationId.GetPointer());
 	}
 	return found;
 }
