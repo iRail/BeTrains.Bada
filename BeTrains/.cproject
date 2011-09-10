@@ -3,13 +3,13 @@
 
 <cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
-		<cconfiguration id="cdt.managedbuild.config.osp.gnu.target.exe.debug.895166467">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.osp.gnu.target.exe.debug.895166467" moduleId="org.eclipse.cdt.core.settings" name="Target-Debug">
+		<cconfiguration id="cdt.managedbuild.config.osp.gnu.target.exe.debug.1500835008">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.osp.gnu.target.exe.debug.1500835008" moduleId="org.eclipse.cdt.core.settings" name="Target-Debug">
 				<externalSettings>
 					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/tabtest"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/tabtest/.Target-Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="tabtest"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/BeTrains"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/BeTrains/.Target-Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="BeTrains"/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -23,33 +23,33 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="exe" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.osp.gnu.target.exe.debug.895166467" name="Target-Debug" parent="cdt.managedbuild.config.osp.gnu.target.exe.debug">
-					<folderInfo id="cdt.managedbuild.config.osp.gnu.target.exe.debug.895166467." name="/" resourcePath="">
-						<toolChain id="cdt.managedbuild.toolchain.osp.gnu.target.exe.debug.226749521" name="bada GCC ToolChain" superClass="cdt.managedbuild.toolchain.osp.gnu.target.exe.debug">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.Cygwin_PE;org.eclipse.cdt.core.GNU_ELF;org.eclipse.cdt.core.ELF" id="cdt.managedbuild.target.osp.gnu.target.platform.exe.debug.316045080" name="Debug Platform" osList="osp" superClass="cdt.managedbuild.target.osp.gnu.target.platform.exe.debug"/>
-							<builder buildPath="${workspace_loc:/tabtest/.Target-Debug}" command="cs-make" id="cdt.managedbuild.target.osp.gnu.target.builder.exe.debug.2067056426" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="bada Builder" superClass="cdt.managedbuild.target.osp.gnu.target.builder.exe.debug"/>
-							<tool id="cdt.managedbuild.tool.osp.gnu.arm.archiver.base.358562887" name="bada Archiver" superClass="cdt.managedbuild.tool.osp.gnu.arm.archiver.base"/>
-							<tool id="cdt.managedbuild.tool.osp.gnu.target.cpp.compiler.exe.debug.1134699637" name="bada C++ Compiler" superClass="cdt.managedbuild.tool.osp.gnu.target.cpp.compiler.exe.debug">
-								<inputType id="cdt.managedbuild.tool.osp.gnu.cpp.compiler.input.1582740174" superClass="cdt.managedbuild.tool.osp.gnu.cpp.compiler.input"/>
+				<configuration artifactExtension="exe" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.osp.gnu.target.exe.debug.1500835008" name="Target-Debug" parent="cdt.managedbuild.config.osp.gnu.target.exe.debug">
+					<folderInfo id="cdt.managedbuild.config.osp.gnu.target.exe.debug.1500835008." name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.osp.gnu.target.exe.debug.793603769" name="bada GCC ToolChain" superClass="cdt.managedbuild.toolchain.osp.gnu.target.exe.debug">
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.Cygwin_PE;org.eclipse.cdt.core.GNU_ELF;org.eclipse.cdt.core.ELF" id="cdt.managedbuild.target.osp.gnu.target.platform.exe.debug.243583223" name="Debug Platform" osList="osp" superClass="cdt.managedbuild.target.osp.gnu.target.platform.exe.debug"/>
+							<builder buildPath="${workspace_loc:/BeTrains/.Target-Debug}" command="cs-make" id="cdt.managedbuild.target.osp.gnu.target.builder.exe.debug.531319178" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="bada Builder" superClass="cdt.managedbuild.target.osp.gnu.target.builder.exe.debug"/>
+							<tool id="cdt.managedbuild.tool.osp.gnu.arm.archiver.base.38696720" name="bada Archiver" superClass="cdt.managedbuild.tool.osp.gnu.arm.archiver.base"/>
+							<tool id="cdt.managedbuild.tool.osp.gnu.target.cpp.compiler.exe.debug.2140359344" name="bada C++ Compiler" superClass="cdt.managedbuild.tool.osp.gnu.target.cpp.compiler.exe.debug">
+								<inputType id="cdt.managedbuild.tool.osp.gnu.cpp.compiler.input.2118728880" superClass="cdt.managedbuild.tool.osp.gnu.cpp.compiler.input"/>
 							</tool>
-							<tool id="cdt.managedbuild.tool.osp.gnu.target.c.compiler.exe.debug.381286356" name="bada C Compiler" superClass="cdt.managedbuild.tool.osp.gnu.target.c.compiler.exe.debug">
-								<inputType id="cdt.managedbuild.tool.osp.gnu.c.compiler.input.1462167364" superClass="cdt.managedbuild.tool.osp.gnu.c.compiler.input"/>
+							<tool id="cdt.managedbuild.tool.osp.gnu.target.c.compiler.exe.debug.749095365" name="bada C Compiler" superClass="cdt.managedbuild.tool.osp.gnu.target.c.compiler.exe.debug">
+								<inputType id="cdt.managedbuild.tool.osp.gnu.c.compiler.input.642591027" superClass="cdt.managedbuild.tool.osp.gnu.c.compiler.input"/>
 							</tool>
-							<tool id="cdt.managedbuild.tool.osp.gnu.target.c.linker.exe.debug.749331836" name="bada C Linker" superClass="cdt.managedbuild.tool.osp.gnu.target.c.linker.exe.debug"/>
-							<tool id="cdt.managedbuild.tool.osp.gnu.target.cpp.linker.exe.debug.1681844793" name="bada C++ Linker" superClass="cdt.managedbuild.tool.osp.gnu.target.cpp.linker.exe.debug">
-								<inputType id="cdt.managedbuild.tool.osp.gnu.cpp.linker.input.1881642833" superClass="cdt.managedbuild.tool.osp.gnu.cpp.linker.input">
+							<tool id="cdt.managedbuild.tool.osp.gnu.target.c.linker.exe.debug.1773843201" name="bada C Linker" superClass="cdt.managedbuild.tool.osp.gnu.target.c.linker.exe.debug"/>
+							<tool id="cdt.managedbuild.tool.osp.gnu.target.cpp.linker.exe.debug.576810922" name="bada C++ Linker" superClass="cdt.managedbuild.tool.osp.gnu.target.cpp.linker.exe.debug">
+								<inputType id="cdt.managedbuild.tool.osp.gnu.cpp.linker.input.516779674" superClass="cdt.managedbuild.tool.osp.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
 								</inputType>
 							</tool>
-							<tool id="cdt.managedbuild.tool.osp.gnu.target.assembler.exe.debug.1242796546" name="bada Assembler" superClass="cdt.managedbuild.tool.osp.gnu.target.assembler.exe.debug">
-								<inputType id="cdt.managedbuild.tool.osp.gnu.assembler.input.1235852161" superClass="cdt.managedbuild.tool.osp.gnu.assembler.input"/>
+							<tool id="cdt.managedbuild.tool.osp.gnu.target.assembler.exe.debug.49824720" name="bada Assembler" superClass="cdt.managedbuild.tool.osp.gnu.target.assembler.exe.debug">
+								<inputType id="cdt.managedbuild.tool.osp.gnu.assembler.input.1918267305" superClass="cdt.managedbuild.tool.osp.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="inc"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -137,15 +137,14 @@
 				</profile>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
-			<storageModule moduleId="org.eclipse.cdt.core.language.mapping"/>
 		</cconfiguration>
-		<cconfiguration id="cdt.managedbuild.config.osp.gnu.target.exe.release.460360008">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.osp.gnu.target.exe.release.460360008" moduleId="org.eclipse.cdt.core.settings" name="Target-Release">
+		<cconfiguration id="cdt.managedbuild.config.osp.gnu.target.exe.release.1060967943">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.osp.gnu.target.exe.release.1060967943" moduleId="org.eclipse.cdt.core.settings" name="Target-Release">
 				<externalSettings>
 					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/tabtest"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/tabtest/.Target-Release"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="tabtest"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/BeTrains"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/BeTrains/.Target-Release"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="BeTrains"/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -159,27 +158,27 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="exe" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.osp.gnu.target.exe.release.460360008" name="Target-Release" parent="cdt.managedbuild.config.osp.gnu.target.exe.release">
-					<folderInfo id="cdt.managedbuild.config.osp.gnu.target.exe.release.460360008." name="/" resourcePath="">
-						<toolChain id="cdt.managedbuild.toolchain.osp.gnu.target.target.exe.release.989338600" name="bada GCC ToolChain" superClass="cdt.managedbuild.toolchain.osp.gnu.target.target.exe.release">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.Cygwin_PE;org.eclipse.cdt.core.GNU_ELF;org.eclipse.cdt.core.ELF" id="cdt.managedbuild.target.osp.gnu.target.platform.exe.release.679620759" name="Release Platform" osList="osp" superClass="cdt.managedbuild.target.osp.gnu.target.platform.exe.release"/>
-							<builder buildPath="${workspace_loc:/tabtest/.Target-Release}" command="cs-make" id="cdt.managedbuild.target.osp.gnu.target.builder.exe.release.1549952093" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="bada Builder" superClass="cdt.managedbuild.target.osp.gnu.target.builder.exe.release"/>
-							<tool id="cdt.managedbuild.tool.osp.gnu.arm.archiver.base.1745042344" name="bada Archiver" superClass="cdt.managedbuild.tool.osp.gnu.arm.archiver.base"/>
-							<tool id="cdt.managedbuild.tool.osp.gnu.target.cpp.compiler.exe.release.407805215" name="bada C++ Compiler" superClass="cdt.managedbuild.tool.osp.gnu.target.cpp.compiler.exe.release">
-								<inputType id="cdt.managedbuild.tool.osp.gnu.cpp.compiler.input.122492978" superClass="cdt.managedbuild.tool.osp.gnu.cpp.compiler.input"/>
+				<configuration artifactExtension="exe" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.osp.gnu.target.exe.release.1060967943" name="Target-Release" parent="cdt.managedbuild.config.osp.gnu.target.exe.release">
+					<folderInfo id="cdt.managedbuild.config.osp.gnu.target.exe.release.1060967943." name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.osp.gnu.target.target.exe.release.316940546" name="bada GCC ToolChain" superClass="cdt.managedbuild.toolchain.osp.gnu.target.target.exe.release">
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.Cygwin_PE;org.eclipse.cdt.core.GNU_ELF;org.eclipse.cdt.core.ELF" id="cdt.managedbuild.target.osp.gnu.target.platform.exe.release.408986040" name="Release Platform" osList="osp" superClass="cdt.managedbuild.target.osp.gnu.target.platform.exe.release"/>
+							<builder buildPath="${workspace_loc:/BeTrains/.Target-Release}" command="cs-make" id="cdt.managedbuild.target.osp.gnu.target.builder.exe.release.470705548" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="bada Builder" superClass="cdt.managedbuild.target.osp.gnu.target.builder.exe.release"/>
+							<tool id="cdt.managedbuild.tool.osp.gnu.arm.archiver.base.670230651" name="bada Archiver" superClass="cdt.managedbuild.tool.osp.gnu.arm.archiver.base"/>
+							<tool id="cdt.managedbuild.tool.osp.gnu.target.cpp.compiler.exe.release.978439858" name="bada C++ Compiler" superClass="cdt.managedbuild.tool.osp.gnu.target.cpp.compiler.exe.release">
+								<inputType id="cdt.managedbuild.tool.osp.gnu.cpp.compiler.input.1329551387" superClass="cdt.managedbuild.tool.osp.gnu.cpp.compiler.input"/>
 							</tool>
-							<tool id="cdt.managedbuild.tool.osp.gnu.target.c.compiler.exe.release.2063537187" name="bada C Compiler" superClass="cdt.managedbuild.tool.osp.gnu.target.c.compiler.exe.release">
-								<inputType id="cdt.managedbuild.tool.osp.gnu.c.compiler.input.1278956918" superClass="cdt.managedbuild.tool.osp.gnu.c.compiler.input"/>
+							<tool id="cdt.managedbuild.tool.osp.gnu.target.c.compiler.exe.release.1166108067" name="bada C Compiler" superClass="cdt.managedbuild.tool.osp.gnu.target.c.compiler.exe.release">
+								<inputType id="cdt.managedbuild.tool.osp.gnu.c.compiler.input.752056662" superClass="cdt.managedbuild.tool.osp.gnu.c.compiler.input"/>
 							</tool>
-							<tool id="cdt.managedbuild.tool.osp.gnu.target.c.linker.exe.release.105987763" name="bada C Linker" superClass="cdt.managedbuild.tool.osp.gnu.target.c.linker.exe.release"/>
-							<tool id="cdt.managedbuild.tool.osp.gnu.target.cpp.linker.exe.release.335711275" name="bada C++ Linker" superClass="cdt.managedbuild.tool.osp.gnu.target.cpp.linker.exe.release">
-								<inputType id="cdt.managedbuild.tool.osp.gnu.cpp.linker.input.2051353829" superClass="cdt.managedbuild.tool.osp.gnu.cpp.linker.input">
+							<tool id="cdt.managedbuild.tool.osp.gnu.target.c.linker.exe.release.341713976" name="bada C Linker" superClass="cdt.managedbuild.tool.osp.gnu.target.c.linker.exe.release"/>
+							<tool id="cdt.managedbuild.tool.osp.gnu.target.cpp.linker.exe.release.221096523" name="bada C++ Linker" superClass="cdt.managedbuild.tool.osp.gnu.target.cpp.linker.exe.release">
+								<inputType id="cdt.managedbuild.tool.osp.gnu.cpp.linker.input.1349430420" superClass="cdt.managedbuild.tool.osp.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
 								</inputType>
 							</tool>
-							<tool id="cdt.managedbuild.tool.osp.gnu.target.assembler.exe.release.1859091329" name="bada Assembler" superClass="cdt.managedbuild.tool.osp.gnu.target.assembler.exe.release">
-								<inputType id="cdt.managedbuild.tool.osp.gnu.assembler.input.1235409021" superClass="cdt.managedbuild.tool.osp.gnu.assembler.input"/>
+							<tool id="cdt.managedbuild.tool.osp.gnu.target.assembler.exe.release.1991490441" name="bada Assembler" superClass="cdt.managedbuild.tool.osp.gnu.target.assembler.exe.release">
+								<inputType id="cdt.managedbuild.tool.osp.gnu.assembler.input.1357140909" superClass="cdt.managedbuild.tool.osp.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
@@ -273,10 +272,9 @@
 				</profile>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
-			<storageModule moduleId="org.eclipse.cdt.core.language.mapping"/>
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-		<project id="tabtest.cdt.managedbuild.target.osp.gnu.arm.exe.1371320737" name="Executable" projectType="cdt.managedbuild.target.osp.gnu.arm.exe"/>
+		<project id="BeTrains.cdt.managedbuild.target.osp.gnu.arm.exe.583207770" name="Executable" projectType="cdt.managedbuild.target.osp.gnu.arm.exe"/>
 	</storageModule>
 </cproject>

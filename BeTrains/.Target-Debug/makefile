@@ -46,7 +46,7 @@ all: BeTrains.exe
 BeTrains.exe: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: bada C++ Linker'
-	@echo 'ldflags: -L"C:/bada/2.0.0/Model/WaveWVGA/Target" -L"C:/bada/2.0.0/IDE/workspace/BeTrains/lib" -shared -march=armv7-a -mthumb -mthumb-interwork -mfpu=vfpv3 -mfloat-abi=hard -o"BeTrains.exe" ./src/Controller.o ./src/FormLiveboard.o ./src/FormRouteplanner.o ./src/HeaderForm.o ./src/tabtest.o ./src/tabtestEntry.o '
+	@echo 'ldflags: -L"C:/bada/2.0.0/Model/WaveWVGA/Target" -L"C:/bada/2.0.0/IDE/workspace/BeTrains/lib" -shared -march=armv7-a -mthumb -mthumb-interwork -mfpu=vfpv3 -mfloat-abi=hard -o"BeTrains.exe" ./src/BeTrains.o ./src/BeTrainsEntry.o ./src/Controller.o ./src/FormLiveboard.o ./src/FormRouteplanner.o ./src/HeaderForm.o '
 	arm-samsung-nucleuseabi-g++ @ldflags @ldobjs  $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '

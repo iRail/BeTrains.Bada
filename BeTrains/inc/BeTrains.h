@@ -1,5 +1,5 @@
-#ifndef _TABTEST_H_
-#define _TABTEST_H_
+#ifndef _BeTrains_H_
+#define _BeTrains_H_
 
 #include <FApp.h>
 #include <FBase.h>
@@ -7,24 +7,24 @@
 #include <FUi.h>
 
 /**
- * [tabtest] application must inherit from Application class
+ * [BeTrains] application must inherit from Application class
  * which provides basic features necessary to define an application.
  */
-class tabtest :
+class BeTrains :
 	public Osp::App::Application,
 	public Osp::System::IScreenEventListener
 {
 public:
 
 	/**
-	 * [tabtest] application must have a factory method that creates an instance of itself.
+	 * [BeTrains] application must have a factory method that creates an instance of itself.
 	 */
 	static Osp::App::Application* CreateInstance(void);
 
 
 public:
-	~tabtest();
-	tabtest();
+	~BeTrains();
+	BeTrains();
 
 public:
 

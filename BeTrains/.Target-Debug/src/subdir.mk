@@ -4,28 +4,28 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../src/BeTrains.cpp \
+../src/BeTrainsEntry.cpp \
 ../src/Controller.cpp \
 ../src/FormLiveboard.cpp \
 ../src/FormRouteplanner.cpp \
-../src/HeaderForm.cpp \
-../src/tabtest.cpp \
-../src/tabtestEntry.cpp 
+../src/HeaderForm.cpp 
 
 OBJS += \
+./src/BeTrains.o \
+./src/BeTrainsEntry.o \
 ./src/Controller.o \
 ./src/FormLiveboard.o \
 ./src/FormRouteplanner.o \
-./src/HeaderForm.o \
-./src/tabtest.o \
-./src/tabtestEntry.o 
+./src/HeaderForm.o 
 
 CPP_DEPS += \
+./src/BeTrains.d \
+./src/BeTrainsEntry.d \
 ./src/Controller.d \
 ./src/FormLiveboard.d \
 ./src/FormRouteplanner.d \
-./src/HeaderForm.d \
-./src/tabtest.d \
-./src/tabtestEntry.d 
+./src/HeaderForm.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

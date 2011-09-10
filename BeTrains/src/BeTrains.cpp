@@ -1,12 +1,12 @@
 /**
- * Name        : tabtest
+ * Name        : BeTrains
  * Version     : 
  * Vendor      : 
  * Description : 
  */
 
 
-#include "tabtest.h"
+#include "BeTrains.h"
 #include "Controller.h"
 
 using namespace Osp::App;
@@ -15,25 +15,25 @@ using namespace Osp::System;
 using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
 
-tabtest::tabtest()
+BeTrains::BeTrains()
 {
 
 }
 
-tabtest::~tabtest()
+BeTrains::~BeTrains()
 {
 
 }
 
 Application*
-tabtest::CreateInstance(void)
+BeTrains::CreateInstance(void)
 {
-	return new tabtest();
+	return new BeTrains();
 }
 
 
 bool
-tabtest::OnAppInitializing(AppRegistry& appRegistry)
+BeTrains::OnAppInitializing(AppRegistry& appRegistry)
 {
 	Controller* controller = Controller::GetInstance();
 
@@ -41,7 +41,7 @@ tabtest::OnAppInitializing(AppRegistry& appRegistry)
 }
 
 bool
-tabtest::OnAppTerminating(AppRegistry& appRegistry, bool forcedTermination)
+BeTrains::OnAppTerminating(AppRegistry& appRegistry, bool forcedTermination)
 {
 	// TODO:
 	// Deallocate resources allocated by this application for termination.
@@ -50,28 +50,28 @@ tabtest::OnAppTerminating(AppRegistry& appRegistry, bool forcedTermination)
 }
 
 void
-tabtest::OnForeground(void)
+BeTrains::OnForeground(void)
 {
 	// TODO:
 	// Start or resume drawing when the application is moved to the foreground.
 }
 
 void
-tabtest::OnBackground(void)
+BeTrains::OnBackground(void)
 {
 	// TODO:
 	// Stop drawing when the application is moved to the background.
 }
 
 void
-tabtest::OnLowMemory(void)
+BeTrains::OnLowMemory(void)
 {
 	// TODO:
 	// Free unused resources or close the application.
 }
 
 void
-tabtest::OnBatteryLevelChanged(BatteryLevel batteryLevel)
+BeTrains::OnBatteryLevelChanged(BatteryLevel batteryLevel)
 {
 	// TODO:
 	// Handle any changes in battery level here.
@@ -79,14 +79,14 @@ tabtest::OnBatteryLevelChanged(BatteryLevel batteryLevel)
 }
 
 void
-tabtest::OnScreenOn (void)
+BeTrains::OnScreenOn (void)
 {
 	// TODO:
 	// Get the released resources or resume the operations that were paused or stopped in OnScreenOff().
 }
 
 void
-tabtest::OnScreenOff (void)
+BeTrains::OnScreenOff (void)
 {
 	// TODO:
 	//  Unless there is a strong reason to do otherwise, release resources (such as 3D, media, and sensors) to allow the device to enter the sleep mode to save the battery.

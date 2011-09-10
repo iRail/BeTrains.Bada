@@ -1,7 +1,7 @@
 /**
  * This file contains the bada application entry point.
  */
-#include "tabtest.h"
+#include "BeTrains.h"
 
 using namespace Osp::Base;
 using namespace Osp::Base::Collection;
@@ -36,7 +36,7 @@ OspMain(int argc, char *pArgv[])
 		pArgs->Add(*(new String(pArgv[i])));
 
 	start_profile();
-	r = Osp::App::Application::Execute(tabtest::CreateInstance, pArgs);
+	r = Osp::App::Application::Execute(BeTrains::CreateInstance, pArgs);
 	if (IsFailed(r))
 	{
 		AppLogException("Application execution failed-[%s].", GetErrorMessage(r));
