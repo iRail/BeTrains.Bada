@@ -17,26 +17,26 @@ bool FormRouteplanner::Initialize() {
 	this->SetSoftkeyActionId(SOFTKEY_0, SEARCH_ACTION);
 
 	Rectangle bounds = this->GetClientAreaBounds();
-	int x = bounds.x;
+	//int x = bounds.x;
 	int y = 10;
-	int leftMargin = 0.1 * bounds.width;
-	int widthBody = 0.8 * bounds.width;
+	int border = 0.05 * bounds.width;
+	int widthBody = 0.9 * bounds.width;
 
 	int heightBody = int( 1.0 / 6.0 * double(bounds.height));
 
 
 	fromStationEditField = new EditField();
-	fromStationEditField->Construct( Rectangle(x+leftMargin, y, widthBody, heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 100,GROUP_STYLE_TOP);
+	fromStationEditField->Construct( Rectangle(border, y, widthBody, heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 100,GROUP_STYLE_TOP);
 	fromStationEditField->SetTitleText(L"From");
 	AddControl(*fromStationEditField);
 	//fromStationEditField->AddTouchEventListener(*this);
 	fromStationEditField->SetEnabled(false);//prevents opening default text input
 	fromStationEditField->BeginBlock();
 
-	y += heightBody + 10;
+	y += heightBody;
 
 	toStationEditField = new EditField();
-	toStationEditField->Construct( Rectangle(x+leftMargin, y, widthBody, heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 100,GROUP_STYLE_BOTTOM);
+	toStationEditField->Construct( Rectangle(border, y, widthBody, heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 100,GROUP_STYLE_BOTTOM);
 	toStationEditField->SetTitleText(L"To");
 	AddControl(*toStationEditField);
 	//toStationEditField->AddTouchEventListener(*this);
@@ -64,10 +64,10 @@ bool FormRouteplanner::Initialize() {
 	delete switchIcon;
 	*/
 
-	y += heightBody + 10;
+	y += heightBody + border;
 
 	editTimeDateField = new EditField();
-	editTimeDateField->Construct( Rectangle(x+leftMargin, y, widthBody, heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 100,GROUP_STYLE_TOP);
+	editTimeDateField->Construct( Rectangle(border, y, widthBody, heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 100,GROUP_STYLE_TOP);
 	//editTimeDateField->AddTouchEventListener(*this);
 	editTimeDateField->SetEnabled(false);
 	editTimeDateField->SetText(dateTimePicker->GetDateTime().ToString());
@@ -75,27 +75,24 @@ bool FormRouteplanner::Initialize() {
 	//editTimeDateField->AddTouchEventListener(*this);
 	AddControl(*editTimeDateField);
 
-	/*
+	y += heightBody;
 	// Create CheckButtons
-	CheckButton *__pCheckButton1 = new CheckButton();
-	__pCheckButton1->Construct(Rectangle(5, 168, 230, 40), CHECK_BUTTON_STYLE_RADIO_WITH_DIVIDER, BACKGROUND_STYLE_DEFAULT, false, L"Depart",GROUP_STYLE_MIDDLE);
-
-	CheckButton *__pCheckButton2 = new CheckButton();
-
-	__pCheckButton2->Construct(Rectangle(5, 208, 230, 40), CHECK_BUTTON_STYLE_RADIO_WITH_DIVIDER,BACKGROUND_STYLE_DEFAULT, false, L"Arrival",GROUP_STYLE_BOTTOM);
+	isDepart = new CheckButton();
+	isDepart->Construct(Rectangle(border, y, widthBody, heightBody), CHECK_BUTTON_STYLE_RADIO_WITH_DIVIDER, BACKGROUND_STYLE_DEFAULT, false, L"Depart",GROUP_STYLE_MIDDLE);
+	y += heightBody;
+	isArrivial = new CheckButton();
+	isArrivial->Construct(Rectangle(border, y, widthBody, heightBody), CHECK_BUTTON_STYLE_RADIO_WITH_DIVIDER,BACKGROUND_STYLE_DEFAULT, false, L"Arrival",GROUP_STYLE_BOTTOM);
 	// Add CheckButtons to the Form.
-	__parentForm->AddControl(*__pCheckButton1);
-	__parentForm->AddControl(*__pCheckButton2);
+	AddControl(*isDepart);
+	AddControl(*isArrivial);
 
 	// Create a RadioGroup
-	RadioGroup *__pGroup = new RadioGroup();
-	__pGroup->Construct();
+	RadioGroup *radioGroup = new RadioGroup();
+	radioGroup->Construct();
 	// Add CheckButtons to the RadioGroup
-	__pGroup->Add(*__pCheckButton1);
-	__pGroup->Add(*__pCheckButton2);
-	__pCheckButton1->SetSelected(true);
-	*/
-
+	radioGroup->Add(*isDepart);
+	radioGroup->Add(*isArrivial);
+	isDepart->SetSelected(true);
 
 	return true;
 }
