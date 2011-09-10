@@ -54,9 +54,17 @@ result HeaderForm::OnInitializing(int index) {
 	/*
 	 * create HeaderItems
 	 */
-
-	headerObj->AddItem(liveBoardHeaderItem);
 	headerObj->AddItem(routePlannerHeaderItem);
+	headerObj->AddItem(liveBoardHeaderItem);
+
+	// derive correct index
+	if(index == HEADER_ID_LIVEBOARD){
+		index = 1;
+	}else if( HEADER_ID_ROUTE_PLANNER){
+		index = 0;
+	}else{
+		index = 0;
+	}
 	headerObj->SetItemSelected(index);
 	/*
 	 * add header action listener

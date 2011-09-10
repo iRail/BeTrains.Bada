@@ -37,8 +37,8 @@ public:
 	 * Action id's
 	 */
 
-	static const int HEADER_ID_LIVEBOARD = 0;
-	static const int HEADER_ID_ROUTE_PLANNER = 1;
+	static const int HEADER_ID_LIVEBOARD = 201;
+	static const int HEADER_ID_ROUTE_PLANNER = 200;
 
 };
 

@@ -34,6 +34,7 @@ private:
 	Form* prevForm;
 	Form* currentForm;
 
+	void SetCurrentForm(Form*);
 
 
 public:
