@@ -6,8 +6,7 @@
 #include "HeaderForm.h"
 
 class FormRouteplanner :
-	public HeaderForm,
-	public Osp::Ui::IActionEventListener
+	public HeaderForm
 {
 
 // Construction

@@ -32,8 +32,8 @@ CPP_DEPS += \
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: bada C++ Compiler'
-	arm-samsung-nucleuseabi-g++ -D_DEBUG -DSHP -I"C:/bada/2.0.0/include" -I"C:/bada/2.0.0/IDE/workspace/BeTrains/inc" -O0 -g -Wall -c -funsigned-char -fshort-wchar -fpic -march=armv7-a -mthumb -mthumb-interwork -mfpu=vfpv3 -mfloat-abi=hard -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
-	arm-samsung-nucleuseabi-g++ -D_DEBUG -DSHP -I"C:/bada/2.0.0/include" -I"C:/bada/2.0.0/IDE/workspace/BeTrains/inc" -O0 -g -Wall -E -funsigned-char -fshort-wchar -fpic -march=armv7-a -mthumb -mthumb-interwork -mfpu=vfpv3 -mfloat-abi=hard -o"C:/bada/2.0.0/IDE/workspace/repository/BeTrains/Target-Debug/$(notdir $(basename $@).i)" "$<"
+	arm-samsung-nucleuseabi-g++ -D_DEBUG -DSHP -I"C:/bada/2.0.0/include" -I"C:/Users/Jan/BeTrains.Bada/BeTrains.Bada/BeTrains/inc" -O0 -g -Wall -c -funsigned-char -fshort-wchar -fpic -march=armv7-a -mthumb -mthumb-interwork -mfpu=vfpv3 -mfloat-abi=hard -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	arm-samsung-nucleuseabi-g++ -D_DEBUG -DSHP -I"C:/bada/2.0.0/include" -I"C:/Users/Jan/BeTrains.Bada/BeTrains.Bada/BeTrains/inc" -O0 -g -Wall -E -funsigned-char -fshort-wchar -fpic -march=armv7-a -mthumb -mthumb-interwork -mfpu=vfpv3 -mfloat-abi=hard -o"C:/bada/2.0.0/IDE/workspace/repository/BeTrains/Target-Debug/$(notdir $(basename $@).i)" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

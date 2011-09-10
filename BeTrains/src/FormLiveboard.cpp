@@ -14,7 +14,7 @@ bool FormLiveboard::Initialize() {
 	HeaderForm::Initialize(true,false);
 	this->SetSoftkeyText(SOFTKEY_0,"Search Liveboard");
 	this->SetSoftkeyActionId(SOFTKEY_0,SEARCH_ACTION);
-	this->RequestRedraw();
+	//this->RequestRedraw();
 	return true;
 }
 

@@ -14,7 +14,7 @@ bool FormRouteplanner::Initialize() {
 	HeaderForm::Initialize(true, false);
 	this->SetSoftkeyText(SOFTKEY_0, "Search Route");
 	this->SetSoftkeyActionId(SOFTKEY_0, SEARCH_ACTION);
-	this->RequestRedraw();
+	//Form::Draw();
 	return true;
 }
 

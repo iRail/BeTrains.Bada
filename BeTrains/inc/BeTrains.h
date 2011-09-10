@@ -10,17 +10,14 @@
  * [BeTrains] application must inherit from Application class
  * which provides basic features necessary to define an application.
  */
-class BeTrains :
-	public Osp::App::Application,
-	public Osp::System::IScreenEventListener
-{
+class BeTrains: public Osp::App::Application,
+		public Osp::System::IScreenEventListener {
 public:
 
 	/**
 	 * [BeTrains] application must have a factory method that creates an instance of itself.
 	 */
 	static Osp::App::Application* CreateInstance(void);
-
 
 public:
 	~BeTrains();
@@ -32,12 +29,11 @@ public:
 	bool OnAppInitializing(Osp::App::AppRegistry& appRegistry);
 
 	// Called when the application is terminating.
-	bool OnAppTerminating(Osp::App::AppRegistry& appRegistry, bool forcedTermination = false);
-
+	bool OnAppTerminating(Osp::App::AppRegistry& appRegistry,
+			bool forcedTermination = false);
 
 	// Called when the application's frame moves to the top of the screen.
 	void OnForeground(void);
-
 
 	// Called when this application's frame is moved from top of the screen to the background.
 	void OnBackground(void);
@@ -49,10 +45,10 @@ public:
 	void OnBatteryLevelChanged(Osp::System::BatteryLevel batteryLevel);
 
 	// Called when the screen turns on.
-	void OnScreenOn (void);
+	void OnScreenOn(void);
 
 	// Called when the screen turns off.
-	void OnScreenOff (void);
+	void OnScreenOff(void);
 };
 
 #endif

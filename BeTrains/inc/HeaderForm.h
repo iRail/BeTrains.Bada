@@ -23,7 +23,8 @@ public:
 	HeaderForm(void);
 	virtual ~HeaderForm(void);
 	bool Initialize(bool leftbutton=false,bool rightbutton=false);
-
+private:
+	int settings;
 // Implementation
 protected:
 

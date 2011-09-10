@@ -6,8 +6,7 @@
 #include "HeaderForm.h"
 
 class FormLiveboard :
-	public HeaderForm,
-	public Osp::Ui::IActionEventListener
+	public HeaderForm
 {
 
 // Construction

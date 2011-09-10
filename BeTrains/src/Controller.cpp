@@ -21,12 +21,13 @@ Controller::Controller() {
 	formLiveBoard=null;
 	formRoutePlanner =null;
 	prevForm = null;
-
+	currentForm = null;
 
 	// Create a form
 	FormLiveboard *pFormLiveboard = new FormLiveboard();
-	currentForm = pFormLiveboard;
+
 	pFormLiveboard->Initialize();
+	currentForm = pFormLiveboard;
 
 	// Add the form to the frame
 	Frame *pFrame = Application::GetInstance()->GetAppFrame()->GetFrame();
@@ -65,12 +66,13 @@ void Controller::switchToFormLiveBoard(){
 		Frame *pFrame = Application::GetInstance()->GetAppFrame()->GetFrame();
 		pFrame->AddControl(*currentForm);
 
+		pFrame->RemoveControl(*prevForm);
 		// Set the current form
 		pFrame->SetCurrentForm(*currentForm);
 
 		// Draw and Show the form
-		currentForm->Draw();
-		currentForm->Show();
+		currentForm->RequestRedraw();
+		//currentForm->Show();
 
 	}
 }
@@ -85,13 +87,13 @@ void Controller::switchToFormRoutePlanner(){
 			// Add the form to the frame
 			Frame *pFrame = Application::GetInstance()->GetAppFrame()->GetFrame();
 			pFrame->AddControl(*currentForm);
-
+			pFrame->RemoveControl(*prevForm);
 			// Set the current form
 			pFrame->SetCurrentForm(*currentForm);
 
 			// Draw and Show the form
-			currentForm->Draw();
-			currentForm->Show();
+			formRoutePlanner->RequestRedraw();
+			//currentForm->Show();
 		}
 }
 

@@ -1,5 +1,5 @@
 src/FormLiveboard.d src/FormLiveboard.o: ../src/FormLiveboard.cpp \
- C:/bada/2.0.0/IDE/workspace/BeTrains/inc/FormLiveboard.h \
+ C:/Users/Jan/BeTrains.Bada/BeTrains.Bada/BeTrains/inc/FormLiveboard.h \
  C:/bada/2.0.0/include/FBase.h C:/bada/2.0.0/include/FBaseTypes.h \
  C:/bada/2.0.0/include/FBaseSys.h C:/bada/2.0.0/include/FBaseConfig.h \
  C:/bada/2.0.0/include/FBaseDataType.h \
@@ -252,9 +252,9 @@ src/FormLiveboard.d src/FormLiveboard.o: ../src/FormLiveboard.cpp \
  C:/bada/2.0.0/include/FUiRelativeLayout.h \
  C:/bada/2.0.0/include/FUiGridLayout.h \
  C:/bada/2.0.0/include/FUiCustomControlBase.h \
- C:/bada/2.0.0/IDE/workspace/BeTrains/inc/HeaderForm.h
+ C:/Users/Jan/BeTrains.Bada/BeTrains.Bada/BeTrains/inc/HeaderForm.h
 
-C:/bada/2.0.0/IDE/workspace/BeTrains/inc/FormLiveboard.h:
+C:/Users/Jan/BeTrains.Bada/BeTrains.Bada/BeTrains/inc/FormLiveboard.h:
 
 C:/bada/2.0.0/include/FBase.h:
 
@@ -806,4 +806,4 @@ C:/bada/2.0.0/include/FUiGridLayout.h:
 
 C:/bada/2.0.0/include/FUiCustomControlBase.h:
 
-C:/bada/2.0.0/IDE/workspace/BeTrains/inc/HeaderForm.h:
+C:/Users/Jan/BeTrains.Bada/BeTrains.Bada/BeTrains/inc/HeaderForm.h:
