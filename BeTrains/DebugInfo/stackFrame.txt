@@ -1,0 +1,10 @@
+PC: 0x8CD53602 LR: 0x8CD54A05 Stack PTR : 0x0A4FEBA0 
+0x8CD53602 tabtest::CreateInstance()
+0x8CD54A05 Osp::System::IScreenEventListener::IScreenEventListener()
+0x8BACD2DC 0x006E92DC+FOsp.so
+0x8CD535E1 non-virtual thunk to tabtest::~tabtest()
+0x8B7F17DB Osp::App::Application::Execute(Osp::App::Application* (*)(), Osp::Base::Collection::IList const*, Osp::App::AppAttributeType)
+0x8CD60DF4 0x00010DF4+tabtest.exe
+0x8B733411 Osp::Base::Collection::ArrayList::IndexOf(Osp::Base::Object const&, int, int&) const
+0x8CD55E5D _OspEnd
+0x8CD54B3D OspMain
