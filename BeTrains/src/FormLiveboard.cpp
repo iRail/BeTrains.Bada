@@ -14,13 +14,12 @@ bool FormLiveboard::Initialize() {
 	HeaderForm::Initialize(true,false);
 	this->SetSoftkeyText(SOFTKEY_0,"Search Liveboard");
 	this->SetSoftkeyActionId(SOFTKEY_0,SEARCH_ACTION);
-	//this->RequestRedraw();
 	return true;
 }
 
 result FormLiveboard::OnInitializing(void) {
 	result r = E_SUCCESS;
-	r = HeaderForm::OnInitializing();
+	r = HeaderForm::OnInitializing(HEADER_ID_LIVEBOARD);
 	return r;
 }
 

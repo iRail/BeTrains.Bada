@@ -26,7 +26,7 @@ bool HeaderForm::Initialize(bool leftbutton,bool rightbutton) {
 	return true;
 }
 
-result HeaderForm::OnInitializing(void) {
+result HeaderForm::OnInitializing(int index) {
 	result r = E_SUCCESS;
 
 	/*
@@ -57,7 +57,7 @@ result HeaderForm::OnInitializing(void) {
 
 	headerObj->AddItem(liveBoardHeaderItem);
 	headerObj->AddItem(routePlannerHeaderItem);
-
+	headerObj->SetItemSelected(index);
 	/*
 	 * add header action listener
 	 */

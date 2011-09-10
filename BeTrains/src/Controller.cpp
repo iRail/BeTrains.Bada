@@ -7,8 +7,6 @@
 
 #include "Controller.h"
 
-
-
 using namespace Osp::App;
 using namespace Osp::Base;
 using namespace Osp::Ui;
@@ -18,8 +16,8 @@ Controller* Controller::instance = 0;
 
 Controller::Controller() {
 	//init vars
-	formLiveBoard=null;
-	formRoutePlanner =null;
+	formLiveBoard = null;
+	formRoutePlanner = null;
 	prevForm = null;
 	currentForm = null;
 
@@ -35,7 +33,6 @@ Controller::Controller() {
 
 	// Set the current form
 	pFrame->SetCurrentForm(*currentForm);
-
 	// Draw and Show the form
 	currentForm->Draw();
 	currentForm->Show();
@@ -55,8 +52,8 @@ Controller::GetInstance() {
 }
 
 //switch forms
-void Controller::switchToFormLiveBoard(){
-	if(currentForm != (Form*)formLiveBoard){
+void Controller::switchToFormLiveBoard() {
+	if (currentForm != (Form*) formLiveBoard) {
 		prevForm = currentForm;
 		formLiveBoard = new FormLiveboard();
 		formLiveBoard->Initialize();
@@ -65,41 +62,42 @@ void Controller::switchToFormLiveBoard(){
 		// Add the form to the frame
 		Frame *pFrame = Application::GetInstance()->GetAppFrame()->GetFrame();
 		pFrame->AddControl(*currentForm);
-
 		pFrame->RemoveControl(*prevForm);
-		// Set the current form
 		pFrame->SetCurrentForm(*currentForm);
 
 		// Draw and Show the form
 		currentForm->RequestRedraw();
-		//currentForm->Show();
+		currentForm->Show();
 
 	}
 }
 
-void Controller::switchToFormRoutePlanner(){
-	if(currentForm != (Form*)formRoutePlanner){
-			prevForm = currentForm;
-			formRoutePlanner = new FormRouteplanner();
-			formRoutePlanner->Initialize();
-			currentForm = formRoutePlanner;
+void Controller::switchToFormRoutePlanner() {
+	if (currentForm != (Form*) formRoutePlanner) {
+		prevForm = currentForm;
+		formRoutePlanner = new FormRouteplanner();
+		formRoutePlanner->Initialize();
+		currentForm = formRoutePlanner;
 
-			// Add the form to the frame
-			Frame *pFrame = Application::GetInstance()->GetAppFrame()->GetFrame();
-			pFrame->AddControl(*currentForm);
-			pFrame->RemoveControl(*prevForm);
-			// Set the current form
-			pFrame->SetCurrentForm(*currentForm);
+		// Add the form to the frame
+		Frame *pFrame = Application::GetInstance()->GetAppFrame()->GetFrame();
+		pFrame->AddControl(*currentForm);
+		pFrame->RemoveControl(*prevForm);
+		pFrame->SetCurrentForm(*currentForm);
 
-			// Draw and Show the form
-			formRoutePlanner->RequestRedraw();
-			//currentForm->Show();
-		}
+		// Draw and Show the form
+		currentForm->RequestRedraw();
+		currentForm->Show();
+	}
 }
 
-void Controller::switchToResultsLiveBoard(){}
-void Controller::switchToResultsRoutePlanner(){}
-void Controller::selectStation(Osp::Base::String & station){} //TODO change to class Station
+void Controller::switchToResultsLiveBoard() {
+}
+void Controller::switchToResultsRoutePlanner() {
+}
+void Controller::selectStation(Osp::Base::String & station) {
+} //TODO change to class Station
 
 //actions
-void Controller::returnSelectedStation(){}
+void Controller::returnSelectedStation() {
+}

@@ -29,7 +29,7 @@ private:
 protected:
 
 public:
-	virtual result OnInitializing(void);
+	virtual result OnInitializing(int index);
 	virtual result OnTerminating(void);
 	virtual void OnActionPerformed(const Osp::Ui::Control& source, int actionId);
 	void OnOrientationChanged(const Control& source, OrientationStatus orientationStatus);
@@ -37,8 +37,8 @@ public:
 	 * Action id's
 	 */
 
-	static const int HEADER_ID_LIVEBOARD = 201;
-	static const int HEADER_ID_ROUTE_PLANNER = 202;
+	static const int HEADER_ID_LIVEBOARD = 0;
+	static const int HEADER_ID_ROUTE_PLANNER = 1;
 
 };
 

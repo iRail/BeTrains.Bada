@@ -14,12 +14,12 @@ bool FormRouteplanner::Initialize() {
 	HeaderForm::Initialize(true, false);
 	this->SetSoftkeyText(SOFTKEY_0, "Search Route");
 	this->SetSoftkeyActionId(SOFTKEY_0, SEARCH_ACTION);
-	//Form::Draw();
 	return true;
 }
 
 result FormRouteplanner::OnInitializing(void) {
 	result r = E_SUCCESS;
+	r = HeaderForm::OnInitializing(HEADER_ID_ROUTE_PLANNER);
 	return r;
 }
 
