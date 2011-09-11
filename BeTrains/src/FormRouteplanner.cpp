@@ -15,7 +15,7 @@ FormRouteplanner::~FormRouteplanner(void) {
 
 bool FormRouteplanner::Initialize() {
 	HeaderForm::Initialize(true, true); //enables left and right softkey
-	this->SetSoftkeyText(SOFTKEY_0, "Search Route");
+	this->SetSoftkeyText(SOFTKEY_0, "Search");
 	this->SetSoftkeyActionId(SOFTKEY_0, SEARCH_ACTION);
 	this->AddSoftkeyActionListener(SOFTKEY_0,*this);
 
@@ -151,13 +151,17 @@ void FormRouteplanner::OnActionPerformed(const Osp::Ui::Control& source,int acti
  */
 void FormRouteplanner::OnDateTimeChanged(const Osp::Ui::Control & source, int year, int month, int day, int hour, int minute)
 {
+	//TODO update
+}
+
+void FormRouteplanner::OnDateTimeChangeCanceled(const Osp::Ui::Control & source){
+	//TODO reset time
 }
 /*
  * ITouch Event Listerer methods
  */
 void FormRouteplanner::OnTouchMoved(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
 void FormRouteplanner::OnTouchLongPressed(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
-void FormRouteplanner::OnDateTimeChangeCanceled(const Osp::Ui::Control & source){}
 void FormRouteplanner::OnTouchReleased(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
 void FormRouteplanner::OnTouchFocusIn(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
 void FormRouteplanner::OnTouchDoublePressed(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
