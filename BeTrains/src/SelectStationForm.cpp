@@ -22,6 +22,7 @@ SelectStationForm::~SelectStationForm(void) {
 
 bool SelectStationForm::Initialize() {
 	Form::Construct(FORM_STYLE_NORMAL|FORM_STYLE_INDICATOR);
+	this->SetOrientation(ORIENTATION_AUTOMATIC);
 	/*
 	* Calculate sizes for all controls
 	*/
@@ -51,6 +52,12 @@ bool SelectStationForm::Initialize() {
 	//editField->ShowKeypad();
 	//editField->SetShowState(true);
 	//editField->SetFocus();
+
+	/*
+	 * Create a list of all stations
+	 */
+	stations = AppData::GetInstance()->getStationList();
+
 	/*
 	 * Suggestion List
 	 */
@@ -124,8 +131,7 @@ SelectStationForm::OnListViewContextItemStateChanged(Osp::Ui::Controls::ListView
 int
 SelectStationForm::GetItemCount(void)
 {
-    return 10;
-	//return stations->GetItemCount();
+	return stations->GetCount();
 }
 
 Osp::Ui::Controls::ListItemBase*
@@ -133,12 +139,10 @@ SelectStationForm::CreateItem(int index, int itemWidth)
 {
 	SimpleItem* item = new SimpleItem();
     item->Construct(Osp::Graphics::Dimension(itemWidth,60), LIST_ANNEX_STYLE_NORMAL);
-    item->SetElement("test");
-
-	/*
-   Station* station = stations->GetAt(index));
-   String deviceName = station->getName();
-   */
+    Station* station;
+    stations->GetAt(index,station);
+    String stationName = station->getName();
+    item->SetElement(stationName);
     return item;
 }
 

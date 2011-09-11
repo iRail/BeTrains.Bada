@@ -18,11 +18,14 @@ Controller::Controller() {
 	//init vars
 	formLiveBoard = null;
 	formRoutePlanner = null;
+	selectStationForm = null;
 	prevForm = null;
 	currentForm = null;
-
-	//switchToFormRoutePlanner();
-	selectStation();
+	formLiveBoard = new FormLiveboard();
+	formRoutePlanner = new FormRouteplanner();
+	selectStationForm = new SelectStationForm();
+	switchToFormRoutePlanner();
+	//selectStation();
 }
 
 Controller::~Controller() {
@@ -42,7 +45,7 @@ Controller::GetInstance() {
 void Controller::switchToFormLiveBoard() {
 	if (currentForm == null || currentForm != (Form*) formLiveBoard) {
 		prevForm = currentForm;
-		formLiveBoard = new FormLiveboard();
+		//formLiveBoard = new FormLiveboard();
 		formLiveBoard->Initialize();
 		currentForm = formLiveBoard;
 		SetCurrentForm(currentForm);
@@ -53,8 +56,8 @@ void Controller::SetCurrentForm(Form* currentForm) {
 	// Add the form to the frame
 	Frame *pFrame = Application::GetInstance()->GetAppFrame()->GetFrame();
 	pFrame->AddControl(*currentForm);
-	if (prevForm != null)
-		pFrame->RemoveControl(*prevForm);
+	//if (prevForm != null)
+	//	pFrame->RemoveControl(*prevForm);
 	pFrame->SetCurrentForm(*currentForm);
 
 	// Draw and Show the form
@@ -66,7 +69,7 @@ void Controller::SetCurrentForm(Form* currentForm) {
 void Controller::switchToFormRoutePlanner() {
 	if (currentForm == null || currentForm != (Form*) formRoutePlanner) {
 		prevForm = currentForm;
-		formRoutePlanner = new FormRouteplanner();
+		//formRoutePlanner = new FormRouteplanner();
 		formRoutePlanner->Initialize();
 		currentForm = formRoutePlanner;
 		SetCurrentForm(currentForm);
@@ -80,7 +83,7 @@ void Controller::switchToResultsRoutePlanner() {
 void Controller::selectStation() { //Station* station
 	if (currentForm == null || currentForm != (Form*) selectStationForm) {
 		prevForm = currentForm;
-		selectStationForm = new SelectStationForm();
+		//selectStationForm = new SelectStationForm();
 		selectStationForm->Initialize();
 		currentForm = selectStationForm;
 		SetCurrentForm(currentForm);

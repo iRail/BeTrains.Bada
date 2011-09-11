@@ -11,6 +11,8 @@
 #include <FBase.h>
 #include <FUi.h>
 #include "model/Station.h"
+#include "model/AppData.h"
+
 using namespace Osp::Ui;
 
 class SelectStationForm :
