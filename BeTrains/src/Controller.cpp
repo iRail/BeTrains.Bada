@@ -21,22 +21,8 @@ Controller::Controller() {
 	prevForm = null;
 	currentForm = null;
 
-	//	// Create a form
-	//	FormLiveboard *pFormLiveboard = new FormLiveboard();
-	//
-	//	pFormLiveboard->Initialize();
-	//	currentForm = pFormLiveboard;
-	//
-	//	// Add the form to the frame
-	//	Frame *pFrame = Application::GetInstance()->GetAppFrame()->GetFrame();
-	//	pFrame->AddControl(*currentForm);
-	//
-	//	// Set the current form
-	//	pFrame->SetCurrentForm(*currentForm);
-	//	// Draw and Show the form
-	//	currentForm->Draw();
-	//	currentForm->Show();
-	switchToFormRoutePlanner();
+	//switchToFormRoutePlanner();
+	selectStation();
 }
 
 Controller::~Controller() {
@@ -91,8 +77,28 @@ void Controller::switchToResultsLiveBoard() {
 }
 void Controller::switchToResultsRoutePlanner() {
 }
-void Controller::selectStation(Osp::Base::String & station) {
-} //TODO change to class Station
+void Controller::selectStation() { //Station* station
+	if (currentForm == null || currentForm != (Form*) selectStationForm) {
+		prevForm = currentForm;
+		selectStationForm = new SelectStationForm();
+		selectStationForm->Initialize();
+		currentForm = selectStationForm;
+		SetCurrentForm(currentForm);
+	}
+}
+
+void Controller::setPreviousForm(){
+	/*
+	if(prevForm != null){
+		//I switch current & prevForm so in the SetCurrentForm method, controls from the current get removed
+		Form* toggleForm=currentForm;
+		currentForm = prevForm;
+		prevForm = toggleForm;
+		currentForm->Initialize();
+		SetCurrentForm(currentForm);
+	}
+	*/
+}
 
 //actions
 void Controller::returnSelectedStation() {

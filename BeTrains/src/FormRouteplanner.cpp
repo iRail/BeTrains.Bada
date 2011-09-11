@@ -142,6 +142,10 @@ void FormRouteplanner::OnActionPerformed(const Osp::Ui::Control& source,int acti
 		AppLog("Clicked FormRoutePlanner::clear");
 	}else if(actionId == SWITCH_ACTION){
 		AppLog("Clicked FormRoutePlanner::switch");
+	}else if(actionId == 999){
+		AppLog("click select station");
+		Controller::GetInstance()->selectStation();
+		AppLog("clicked select station");
 	}
 }
 
@@ -171,10 +175,11 @@ void FormRouteplanner::OnTouchPressed(const Osp::Ui::Control & source, const Osp
 	Controller* controller = Controller::GetInstance();
 	if(source.Equals(*fromStationEditField)){
 		AppLog("Clicked FormRoutePlanner::fromStationEditField");
-		//controller->selectStation(*fromStation);
+		this->OnActionPerformed(*fromStationEditField,999);
+		//controller->selectStation();
 	}else if(source.Equals(*toStationEditField)){
 		AppLog("Clicked FormRoutePlanner::toStationEditField");
-		//controller->selectStation(*toStation);
+		controller->selectStation();
 	}else if(source.Equals(*editTimeDateField)){
 		AppLog("Clicked FormRoutePlanner::EditDateTimeField");
 		dateTimePicker->SetShowState(true);

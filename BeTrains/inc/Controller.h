@@ -16,6 +16,7 @@
 #include "HeaderForm.h"
 #include "FormLiveboard.h"
 #include "FormRouteplanner.h"
+#include "SelectStationForm.h"
 
 using namespace Osp::Ui::Controls;
 
@@ -28,29 +29,31 @@ private:
 	 * Forms
 	 */
 
-	FormLiveboard* formLiveBoard;
-	FormRouteplanner*  formRoutePlanner;
+	FormLiveboard* 			formLiveBoard;
+	FormRouteplanner*  		formRoutePlanner;
+	SelectStationForm* 		selectStationForm;
 
-	Form* prevForm;
-	Form* currentForm;
+	Form* 					prevForm;
+	Form* 					currentForm;
 
-	void SetCurrentForm(Form*);
+	void 					SetCurrentForm(Form*);
 
 
 public:
-	virtual ~Controller();
-	static Controller* instance;
-	static Controller* GetInstance();
+	virtual 	~Controller();
+	static 		Controller* instance;
+	static 		Controller* GetInstance();
 
 	//switch forms
-	void switchToFormLiveBoard();
-	void switchToFormRoutePlanner();
-	void switchToResultsLiveBoard();
-	void switchToResultsRoutePlanner();
-	void selectStation(Osp::Base::String & station); //TODO change to class Station
+	void 		switchToFormLiveBoard();
+	void 		switchToFormRoutePlanner();
+	void 		switchToResultsLiveBoard();
+	void 		switchToResultsRoutePlanner();
+	void 		selectStation(); //Station* station
+	void		setPreviousForm(); //GO BACK
 
 	//actions
-	void returnSelectedStation();
+	void 		returnSelectedStation();
 
 };
 
