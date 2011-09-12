@@ -49,7 +49,7 @@ public:
 	void 		switchToFormRoutePlanner();
 	void 		switchToResultsLiveBoard();
 	void 		switchToResultsRoutePlanner();
-	void 		selectStation(); //Station* station
+	void 		selectStation(Station* &station); //Station* station
 	void		setPreviousForm(); //GO BACK
 
 	//actions

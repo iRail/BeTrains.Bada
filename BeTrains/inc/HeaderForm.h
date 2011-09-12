@@ -23,11 +23,9 @@ public:
 	HeaderForm(void);
 	virtual ~HeaderForm(void);
 	bool Initialize(bool leftbutton=false,bool rightbutton=false);
+	bool Initialize(){return true;}
 private:
 	int settings;
-// Implementation
-protected:
-
 public:
 	virtual result OnInitializing(int index);
 	virtual result OnTerminating(void);

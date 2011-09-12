@@ -7,6 +7,8 @@ using namespace Osp::Ui::Controls;
 using namespace Osp::Graphics;
 
 FormRouteplanner::FormRouteplanner(void) {
+	toStation=null;
+	fromStation=null;
 }
 
 FormRouteplanner::~FormRouteplanner(void) {
@@ -14,6 +16,7 @@ FormRouteplanner::~FormRouteplanner(void) {
 }
 
 bool FormRouteplanner::Initialize() {
+	this->RemoveAllControls();
 	HeaderForm::Initialize(true, true); //enables left and right softkey
 	this->SetSoftkeyText(SOFTKEY_0, "Search");
 	this->SetSoftkeyActionId(SOFTKEY_0, SEARCH_ACTION);
@@ -46,7 +49,6 @@ bool FormRouteplanner::Initialize() {
 	fromStationEditField->AddTouchEventListener(*this);
 	fromStationEditField->SetEnabled(false);//prevents opening default text input
 	fromStationEditField->BeginBlock();
-
 	/*
 	 * Make Switch Button
 	 */
@@ -142,10 +144,6 @@ void FormRouteplanner::OnActionPerformed(const Osp::Ui::Control& source,int acti
 		AppLog("Clicked FormRoutePlanner::clear");
 	}else if(actionId == SWITCH_ACTION){
 		AppLog("Clicked FormRoutePlanner::switch");
-	}else if(actionId == 999){
-		AppLog("click select station");
-		Controller::GetInstance()->selectStation();
-		AppLog("clicked select station");
 	}
 }
 
@@ -175,11 +173,10 @@ void FormRouteplanner::OnTouchPressed(const Osp::Ui::Control & source, const Osp
 	Controller* controller = Controller::GetInstance();
 	if(source.Equals(*fromStationEditField)){
 		AppLog("Clicked FormRoutePlanner::fromStationEditField");
-		this->OnActionPerformed(*fromStationEditField,999);
-		//controller->selectStation();
+		controller->selectStation(fromStation);
 	}else if(source.Equals(*toStationEditField)){
 		AppLog("Clicked FormRoutePlanner::toStationEditField");
-		controller->selectStation();
+		controller->selectStation(toStation);
 	}else if(source.Equals(*editTimeDateField)){
 		AppLog("Clicked FormRoutePlanner::EditDateTimeField");
 		dateTimePicker->SetShowState(true);
@@ -203,4 +200,15 @@ void FormRouteplanner::setDateTime(DateTime dateTime_){
 
 void FormRouteplanner::setIsSearchDeparture(bool isSearchDeparture_){
 	this->isSearchDeparture = isSearchDeparture_;
+}
+
+void FormRouteplanner::RequestRedraw (bool show) const{
+	AppLog("FormRouteplanner::RequestRedraw");
+	if(toStation != null){
+		toStationEditField->SetText(toStation->getName());
+	}
+	if(fromStation != null){
+		fromStationEditField->SetText(fromStation->getName());
+	}
+	Form::RequestRedraw(show);
 }

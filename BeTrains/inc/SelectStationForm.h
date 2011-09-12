@@ -19,10 +19,9 @@ class SelectStationForm :
 	public Osp::Ui::Controls::Form,
 	public Osp::Ui::Controls::IListViewItemEventListener,
 	public Osp::Ui::Controls::IListViewItemProvider,
-	//public Osp::Ui::IScrollPanelEventListener,
-	//public Osp::Ui::IActionEventListener,
+	public Osp::Ui::IActionEventListener,
+	public Osp::Ui::IOrientationEventListener,
 	public Osp::Ui::ITextEventListener
-	//public Osp::Ui::IOrientationEventListener
 {
 
 // Construction
@@ -30,12 +29,10 @@ public:
 	SelectStationForm(void);
 	virtual ~SelectStationForm(void);
 	bool Initialize();
-private:
-	int settings;
-// Implementation
-protected:
 
-public:
+	//we use this method to set in a previous form the station we want to set.
+	void setStation(Station* &selectStation_);
+
 	virtual result OnInitializing();
 	virtual result OnTerminating(void);
 	//void setKeypad(); // must happen extern, and not on initialising
@@ -49,7 +46,7 @@ public:
 	*/
 
 	//implement IActionEventListener
-	//void OnActionPerformed(const Osp::Ui::Control& source, int actionId);
+	void OnActionPerformed(const Osp::Ui::Control& source, int actionId);
 
 	// implement ITextEventListener
 	void  OnTextValueChangeCanceled (const Osp::Ui::Control &source);
@@ -73,8 +70,10 @@ public:
 	static const int ID_CONTEXT_ITEM_2 = 104;
 
 	//implement IOrientationEventListener
-	//void OnOrientationChanged(const Control& source, OrientationStatus orientationStatus);
+	void OnOrientationChanged(const Control& source, OrientationStatus orientationStatus);
 private:
+	void updateList();
+
 	static const int CANCEL_ACTION					= 301;
 	static const int CLEAR_ACTION					= 302;
 	Osp::Ui::Controls::ScrollPanel* 				scrollPanel; //owner
@@ -82,6 +81,8 @@ private:
 	Osp::Ui::Controls::ListView * 					stationSuggestionList; //owner
 	Osp::Base::Collection::ArrayListT<Station *> 	suggestionStations;
 	Osp::Base::Collection::ArrayListT<Station *>*	stations; //ownership only over the pointer
+	//THE station we will fill in and return, can be 'null' if we select cancel action
+	Station**										selectedStation;
 };
 
 #endif /* SelectStationForm_H_ */

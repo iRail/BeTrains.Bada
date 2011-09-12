@@ -21,9 +21,6 @@ Controller::Controller() {
 	selectStationForm = null;
 	prevForm = null;
 	currentForm = null;
-	formLiveBoard = new FormLiveboard();
-	formRoutePlanner = new FormRouteplanner();
-	selectStationForm = new SelectStationForm();
 	switchToFormRoutePlanner();
 	//selectStation();
 }
@@ -45,8 +42,10 @@ Controller::GetInstance() {
 void Controller::switchToFormLiveBoard() {
 	if (currentForm == null || currentForm != (Form*) formLiveBoard) {
 		prevForm = currentForm;
-		//formLiveBoard = new FormLiveboard();
-		formLiveBoard->Initialize();
+		if(formLiveBoard ==null){
+			formLiveBoard = new FormLiveboard();
+			formLiveBoard->Initialize();
+		}
 		currentForm = formLiveBoard;
 		SetCurrentForm(currentForm);
 	}
@@ -56,6 +55,7 @@ void Controller::SetCurrentForm(Form* currentForm) {
 	// Add the form to the frame
 	Frame *pFrame = Application::GetInstance()->GetAppFrame()->GetFrame();
 	pFrame->AddControl(*currentForm);
+	//when deleting prev form, you cant switch forms from in a method from the current form, when giving control back it shuts down the app
 	//if (prevForm != null)
 	//	pFrame->RemoveControl(*prevForm);
 	pFrame->SetCurrentForm(*currentForm);
@@ -69,8 +69,10 @@ void Controller::SetCurrentForm(Form* currentForm) {
 void Controller::switchToFormRoutePlanner() {
 	if (currentForm == null || currentForm != (Form*) formRoutePlanner) {
 		prevForm = currentForm;
-		//formRoutePlanner = new FormRouteplanner();
-		formRoutePlanner->Initialize();
+		if(formRoutePlanner ==null){
+			formRoutePlanner = new FormRouteplanner();
+			formRoutePlanner->Initialize();
+		}
 		currentForm = formRoutePlanner;
 		SetCurrentForm(currentForm);
 	}
@@ -80,27 +82,32 @@ void Controller::switchToResultsLiveBoard() {
 }
 void Controller::switchToResultsRoutePlanner() {
 }
-void Controller::selectStation() { //Station* station
+void Controller::selectStation(Station* &station) { //Station* station
 	if (currentForm == null || currentForm != (Form*) selectStationForm) {
 		prevForm = currentForm;
-		//selectStationForm = new SelectStationForm();
-		selectStationForm->Initialize();
+		if(selectStationForm == null){
+			selectStationForm = new SelectStationForm();
+			selectStationForm->Initialize();
+		}
+		selectStationForm->setStation(station);
 		currentForm = selectStationForm;
 		SetCurrentForm(currentForm);
 	}
 }
 
 void Controller::setPreviousForm(){
-	/*
 	if(prevForm != null){
 		//I switch current & prevForm so in the SetCurrentForm method, controls from the current get removed
 		Form* toggleForm=currentForm;
 		currentForm = prevForm;
 		prevForm = toggleForm;
-		currentForm->Initialize();
+		if(currentForm == static_cast<Form*>(formRoutePlanner)){
+			formRoutePlanner->RequestRedraw();
+		}
+		currentForm->RequestRedraw(true);
+		//TODO howcome overloading functions is not working? example above
 		SetCurrentForm(currentForm);
 	}
-	*/
 }
 
 //actions

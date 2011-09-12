@@ -19,6 +19,7 @@ HeaderForm::~HeaderForm(void) {
 }
 
 bool HeaderForm::Initialize(bool leftbutton,bool rightbutton) {
+	this->RemoveAllControls();
 	int settings = FORM_STYLE_NORMAL | FORM_STYLE_INDICATOR | FORM_STYLE_HEADER;
 	if(leftbutton) settings = settings | FORM_STYLE_SOFTKEY_0;
 	if(rightbutton) settings = settings | FORM_STYLE_SOFTKEY_1;

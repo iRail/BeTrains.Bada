@@ -27,8 +27,10 @@ public:
 	virtual result OnInitializing(void);
 	virtual result OnTerminating(void);
 
+	void 			RequestRedraw (bool show=true) const;
+
 	//Action performed Listener
-	virtual void OnActionPerformed(const Osp::Ui::Control& source, int actionId);
+	virtual void 	OnActionPerformed(const Osp::Ui::Control& source, int actionId);
 
 	//IDateTimeChangeEventListener
 	virtual void 	OnDateTimeChangeCanceled (const Osp::Ui::Control &source);
