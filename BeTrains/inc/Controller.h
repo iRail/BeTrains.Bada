@@ -40,20 +40,20 @@ private:
 
 
 public:
-	virtual 	~Controller();
-	static 		Controller* instance;
-	static 		Controller* GetInstance();
+	virtual 				~Controller();
+	static 					Controller* instance;
+	static 					Controller* GetInstance();
 
 	//switch forms
-	void 		switchToFormLiveBoard();
-	void 		switchToFormRoutePlanner();
-	void 		switchToResultsLiveBoard();
-	void 		switchToResultsRoutePlanner();
-	void 		selectStation(Station* &station); //Station* station
-	void		setPreviousForm(); //GO BACK
+	void 					switchToFormLiveBoard();
+	void 					switchToFormRoutePlanner();
+	void 					switchToResultsLiveBoard();
+	void 					switchToResultsRoutePlanner();
+	void 					selectStation(Station* &station); //Station* station
+	void					setPreviousForm(); //GO BACK
 
 	//actions
-	void 		returnSelectedStation();
+	void 					returnSelectedStation();
 
 };
 

@@ -82,7 +82,7 @@ private:
 
 	//data
 	ArrayListT<Station *>	_stations; //ownership
-	Request					_currentRequest; //ownership
+	Request*				_currentRequest; //ownership
 	LiveBoardRequest*		_currentLiveBoardRequest; //ownership
 
 };

@@ -7,8 +7,7 @@ using namespace Osp::Ui::Controls;
 using namespace Osp::Graphics;
 
 FormRouteplanner::FormRouteplanner(void) {
-	toStation=null;
-	fromStation=null;
+	request=null;
 }
 
 FormRouteplanner::~FormRouteplanner(void) {
@@ -18,6 +17,17 @@ FormRouteplanner::~FormRouteplanner(void) {
 bool FormRouteplanner::Initialize() {
 	this->RemoveAllControls();
 	HeaderForm::Initialize(true, true); //enables left and right softkey
+
+	/*
+	 * get Data from current request from appdata
+	 */
+	request = AppData::GetInstance()->getCurrentRequest(); // no ownership offcourse
+	//stubru huisnummer: 600-6+8-599+17 *2 +10 what about the haakjes?
+	// (600 + 6 + 8 - 599 + 17 ) *  2 +10 	= 74
+	// (600 + 6 + 8 - 599 + 17 ) *  (2+10) 	= 384
+	//  600 + 6 + 8 - 599 + 17   *  2 +10 	= 59
+	//  600 + 6 + 8 - 599 + 17   *  (2+10) 	= 291
+
 	this->SetSoftkeyText(SOFTKEY_0, "Search");
 	this->SetSoftkeyActionId(SOFTKEY_0, SEARCH_ACTION);
 	this->AddSoftkeyActionListener(SOFTKEY_0,*this);
@@ -173,10 +183,12 @@ void FormRouteplanner::OnTouchPressed(const Osp::Ui::Control & source, const Osp
 	Controller* controller = Controller::GetInstance();
 	if(source.Equals(*fromStationEditField)){
 		AppLog("Clicked FormRoutePlanner::fromStationEditField");
-		controller->selectStation(fromStation);
+
+		//Station* from =  request->getFromStation();
+		controller->selectStation(request->getFromStation());
 	}else if(source.Equals(*toStationEditField)){
 		AppLog("Clicked FormRoutePlanner::toStationEditField");
-		controller->selectStation(toStation);
+		controller->selectStation(request->getToStation());
 	}else if(source.Equals(*editTimeDateField)){
 		AppLog("Clicked FormRoutePlanner::EditDateTimeField");
 		dateTimePicker->SetShowState(true);
@@ -184,31 +196,16 @@ void FormRouteplanner::OnTouchPressed(const Osp::Ui::Control & source, const Osp
 	}
 }
 
-/*
- * Setters //TODO this will be replaced and deleted all, it will be a request
- */
-void FormRouteplanner::setFromStation(Station* fromStation_){
-	this->fromStation = fromStation_;
-}
-void FormRouteplanner::setToStation(Station* toStation_){
-	this->toStation = toStation_;
-}
-
-void FormRouteplanner::setDateTime(DateTime dateTime_){
-	this->dateTime = dateTime_;
-}
-
-void FormRouteplanner::setIsSearchDeparture(bool isSearchDeparture_){
-	this->isSearchDeparture = isSearchDeparture_;
-}
-
 void FormRouteplanner::RequestRedraw (bool show) const{
 	AppLog("FormRouteplanner::RequestRedraw");
-	if(toStation != null){
-		toStationEditField->SetText(toStation->getName());
+	Station* from =  (request->getFromStation());
+	Station* to = 	 (request->getToStation());
+	if(from != null){
+		fromStationEditField->SetText(from->getName());
 	}
-	if(fromStation != null){
-		fromStationEditField->SetText(fromStation->getName());
+	if(to != null){
+		toStationEditField->SetText(to->getName());
 	}
+
 	Form::RequestRedraw(show);
 }

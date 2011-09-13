@@ -41,11 +41,12 @@ void Request::setIsDepart(bool isDepart){
 }
 
 //getters
-Station* Request::getFromStation() const{
+//doesnt give back a copy of the pointer, but a reference to it
+Station*& Request::getFromStation(){
 	return _from;
 }
 
-Station* Request::getToStation() const{
+Station*& Request::getToStation(){
 	return _to;
 }
 

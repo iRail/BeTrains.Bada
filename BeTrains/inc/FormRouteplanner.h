@@ -4,6 +4,7 @@
 #include <FBase.h>
 #include <FUi.h>
 #include "HeaderForm.h"
+#include "model/Request.h"
 #include "model/Station.h"
 
 using namespace Osp::Ui;
@@ -24,8 +25,8 @@ public:
 	virtual ~FormRouteplanner(void);
 	bool Initialize(void);
 
-	virtual result OnInitializing(void);
-	virtual result OnTerminating(void);
+	virtual result 	OnInitializing(void);
+	virtual result 	OnTerminating(void);
 
 	void 			RequestRedraw (bool show=true) const;
 
@@ -46,14 +47,6 @@ public:
 	virtual void 	OnTouchReleased (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
 
 	/*
-	 * Setters
-	 */
-	void setFromStation(Station* fromStation_);
-	void setToStation(Station* toStation_);
-	void setDateTime(Osp::Base::DateTime dateTime_);
-	void setIsSearchDeparture(bool isSearchDeparture_);
-
-	/*
 	 * action id's
 	 */
 	static const int SEARCH_ACTION = 301;
@@ -61,20 +54,17 @@ public:
 	static const int SWITCH_ACTION = 303;
 private:
 	//DATA
-	Station* fromStation;
-	Station* toStation;
-	Osp::Base::DateTime dateTime;
-	bool isSearchDeparture;
+	Request* 				request;
 
 	//Compontents
-	EditField* fromStationEditField;
-	EditField* toStationEditField;
-	DateTimePicker* dateTimePicker;
-	Button* switchStationsButton;
-	EditField* editTimeDateField;
+	EditField* 				fromStationEditField;
+	EditField* 				toStationEditField;
+	DateTimePicker* 		dateTimePicker;
+	Button* 				switchStationsButton;
+	EditField* 				editTimeDateField;
 
-	CheckButton * isDepart;
-	CheckButton * isArrivial;
+	CheckButton * 			isDepart;
+	CheckButton * 			isArrivial;
 };
 
 #endif	//_FormRouteplanner_H_

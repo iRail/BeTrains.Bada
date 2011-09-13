@@ -5,6 +5,7 @@ bool AppData::__instanceFlag = false;
 
 AppData::AppData():
 	__pDtFormatter(null),
+	_currentRequest(null),
 	_currentLiveBoardRequest(null)
 {
 	_stations.Construct(600);
@@ -26,6 +27,10 @@ AppData::~AppData()
 	if(_currentLiveBoardRequest){
 		delete _currentLiveBoardRequest;
 		_currentLiveBoardRequest = null;
+	}
+	if(_currentRequest){
+		delete _currentRequest;
+		_currentRequest = null;
 	}
 
 }
@@ -70,6 +75,7 @@ AppData::DistroyInstance(void)
 
 result AppData::initialiseStations(){
 	result r = E_SUCCESS;
+	//TODO load other languages station lists
 	String fileName(L"/Res/Files/nl.xml");
 	File *file = new File();
 	FileAttributes sourcefilemeta;
@@ -108,11 +114,13 @@ ArrayListT<Station*>* AppData::getStationList(){
 }
 
 Request* AppData::getCurrentRequest(){
-	return &_currentRequest;
+	if(!_currentRequest)
+		_currentRequest = new Request();
+	return _currentRequest;
 }
 
 void AppData::clearTripListFromCurrentRequest(){
-	_currentRequest.clearTrips();
+	_currentRequest->clearTrips();
 }
 
 LiveBoardRequest* AppData::getCurrentLiveBoardRequest(){

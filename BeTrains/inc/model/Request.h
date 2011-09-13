@@ -25,8 +25,9 @@ public:
 	void setIsDepart(bool isDepart);
 
 	//getters
-	Station* getFromStation() const;
-	Station* getToStation() const;
+	// get station may not be const, because we want to change the value from outside
+	Station*& getFromStation();
+	Station*& getToStation();
 	Osp::Base::DateTime* getDateTime() const;
 	bool isDepart() const;
 	Osp::Base::Collection::ArrayListT<Trip*>* getTrips();
