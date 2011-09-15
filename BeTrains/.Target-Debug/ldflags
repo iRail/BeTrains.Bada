@@ -1,1 +1,1 @@
--L"C:/bada/2.0.0/Model/WaveWVGA/Target" -L"C:/Users/Jan/BeTrains.Bada/BeTrains.Bada/BeTrains/lib" -shared -march=armv7-a -mthumb -mthumb-interwork -mfpu=vfpv3 -mfloat-abi=hard -o"BeTrains.exe"
+-L"C:/bada/2.0.0/Model/WaveWVGA/Target" -L"C:/Users/B123/badaproject/BeTrains.Bada/BeTrains/lib" -shared -march=armv7-a -mthumb -mthumb-interwork -mfpu=vfpv3 -mfloat-abi=hard -o"BeTrains.exe"
