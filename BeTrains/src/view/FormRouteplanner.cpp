@@ -111,11 +111,14 @@ bool FormRouteplanner::Initialize() {
 	y += heightBody; // cumulate y
 	isDepart = new CheckButton();
 	isDepart->Construct(Rectangle(border, y, widthBody, heightBody), CHECK_BUTTON_STYLE_RADIO_WITH_DIVIDER, BACKGROUND_STYLE_DEFAULT, false, L"Depart",GROUP_STYLE_MIDDLE);
-
+	isDepart->AddActionEventListener(*this);
+	isDepart->SetActionId(IS_DEPARTURE,UNCHECKED,IS_DEPARTURE);
 	AddControl(*isDepart);
 	y += heightBody;
 	isArrivial = new CheckButton();
 	isArrivial->Construct(Rectangle(border, y, widthBody, heightBody), CHECK_BUTTON_STYLE_RADIO_WITH_DIVIDER,BACKGROUND_STYLE_DEFAULT, false, L"Arrival",GROUP_STYLE_BOTTOM);
+	isArrivial->AddActionEventListener(*this);
+	isArrivial->SetActionId(IS_ARRIVAL,UNCHECKED,IS_ARRIVAL);
 	AddControl(*isArrivial);
 	// Create the RadioGroup
 	RadioGroup *radioGroup = new RadioGroup();
@@ -152,6 +155,12 @@ void FormRouteplanner::OnActionPerformed(const Osp::Ui::Control& source,int acti
 	}else if(actionId == SWITCH_ACTION){
 		AppLog("Clicked FormRoutePlanner::switch");
 		Controller::GetInstance()->switchRequestStations();
+	}else if(actionId == IS_ARRIVAL){
+		AppLog("The request must be on arrival time.");
+		Controller::GetInstance()->setIsDeparture(false);
+	}else if(actionId == IS_DEPARTURE){
+		AppLog("The request must be on departure time.");
+		Controller::GetInstance()->setIsDeparture(true);
 	}
 }
 
@@ -166,7 +175,7 @@ void FormRouteplanner::OnDateTimeChanged(const Osp::Ui::Control & source, int ye
 }
 
 void FormRouteplanner::OnDateTimeChangeCanceled(const Osp::Ui::Control & source){
-	//TODO reset time
+
 }
 /*
  * ITouch Event Listerer methods

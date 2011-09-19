@@ -52,6 +52,9 @@ public:
 	static const int SEARCH_ACTION = 301;
 	static const int CLEAR_ACTION = 302;
 	static const int SWITCH_ACTION = 303;
+	static const int IS_DEPARTURE = 304;
+	static const int IS_ARRIVAL = 305;
+	static const int UNCHECKED = 399;
 private:
 	//DATA
 	Request* 				request;

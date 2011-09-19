@@ -192,3 +192,7 @@ void Controller::switchRequestStations(){
 	formRoutePlanner->RequestRedraw(true);
 }
 
+void Controller::setIsDeparture(bool isDeparture){
+	AppData::GetInstance()->getCurrentRequest()->setIsDepart(isDeparture);
+}
+
