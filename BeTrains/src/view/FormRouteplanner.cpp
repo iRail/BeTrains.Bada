@@ -151,6 +151,7 @@ void FormRouteplanner::OnActionPerformed(const Osp::Ui::Control& source,int acti
 		Controller::GetInstance()->clearRoutePlanner();
 	}else if(actionId == SWITCH_ACTION){
 		AppLog("Clicked FormRoutePlanner::switch");
+		Controller::GetInstance()->switchRequestStations();
 	}
 }
 

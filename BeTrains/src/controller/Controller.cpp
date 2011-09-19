@@ -186,3 +186,9 @@ void Controller::setLiveboardTime(DateTime time){
 	AppData::GetInstance()->getCurrentLiveBoardRequest()->setDateTime(time);
 	formLiveBoard->RequestRedraw(true);
 }
+
+void Controller::switchRequestStations(){
+	AppData::GetInstance()->getCurrentRequest()->switchStations();
+	formRoutePlanner->RequestRedraw(true);
+}
+

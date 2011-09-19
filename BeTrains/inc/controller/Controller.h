@@ -71,6 +71,7 @@ public:
 	void 					clearLiveboard();
 	void 					setRoutePlannerTime(DateTime time);
 	void 					setLiveboardTime(DateTime time);
+	void 					switchRequestStations();
 };
 
 #endif /* CONTROLLER_H_ */
