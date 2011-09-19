@@ -23,7 +23,7 @@ public:
     void setStation(Station *station);
     void setTime(Osp::Base::DateTime time);
 
-    Station *getStation() const;
+    Station*& getStation();
     Osp::Base::DateTime getTime() const;
     Osp::Base::Collection::ArrayListT<LiveBoardResult*>* getResults();
 

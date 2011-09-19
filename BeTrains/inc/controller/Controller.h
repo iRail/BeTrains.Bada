@@ -18,6 +18,7 @@
 #include "view/FormRouteplanner.h"
 #include "view/SelectStationForm.h"
 #include "view/RoutePlannerResults.h"
+#include "view/LiveBoardResults.h"
 
 #include "controller/RouteRequestManager.h"
 #include "controller/LiveBoardRequestManager.h"
@@ -36,6 +37,7 @@ private:
 	FormRouteplanner*  		formRoutePlanner;
 	SelectStationForm* 		selectStationForm;
 	RoutePlannerResults*	routePlannerResults;
+	LiveBoardResults*		liveBoardResults;
 
 	Form* 					prevForm;
 	Form* 					currentForm;
@@ -63,8 +65,8 @@ public:
 	void					setPreviousForm(); //GO BACK
 
 	//actions
-	void 					returnSelectedStation();
 	void					retrieveRoutePlannerResults();
+	void					retrieveLiveBoardResults();
 };
 
 #endif /* CONTROLLER_H_ */

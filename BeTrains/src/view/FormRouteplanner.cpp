@@ -22,11 +22,6 @@ bool FormRouteplanner::Initialize() {
 	 * get Data from current request from appdata
 	 */
 	request = AppData::GetInstance()->getCurrentRequest(); // no ownership offcourse
-	//stubru huisnummer: 600-6+8-599+17 *2 +10 what about the haakjes?
-	// (600 + 6 + 8 - 599 + 17 ) *  2 +10 	= 74
-	// (600 + 6 + 8 - 599 + 17 ) *  (2+10) 	= 384
-	//  600 + 6 + 8 - 599 + 17   *  2 +10 	= 59
-	//  600 + 6 + 8 - 599 + 17   *  (2+10) 	= 291
 
 	this->SetSoftkeyText(SOFTKEY_0, "Search");
 	this->SetSoftkeyActionId(SOFTKEY_0, SEARCH_ACTION);

@@ -19,6 +19,8 @@ Controller::Controller() {
 	formLiveBoard = null;
 	formRoutePlanner = null;
 	selectStationForm = null;
+	liveBoardResults = null;
+
 	prevForm = null;
 	currentForm = null;
 
@@ -83,6 +85,15 @@ void Controller::switchToFormRoutePlanner() {
 }
 
 void Controller::switchToLiveBoardResults() {
+	if (currentForm == null || currentForm != (Form*) liveBoardResults) {
+			prevForm = currentForm;
+		if (liveBoardResults == null) {
+			liveBoardResults = new LiveBoardResults();
+			liveBoardResults->Initialize();
+		}
+		currentForm = liveBoardResults;
+		SetCurrentForm(currentForm);
+	}
 }
 
 void Controller::switchToRoutePlannerResults() {
@@ -119,14 +130,13 @@ void Controller::setPreviousForm(){
 		if(currentForm == static_cast<Form*>(formRoutePlanner)){
 			formRoutePlanner->RequestRedraw();
 		}
+		if(currentForm == static_cast<Form*>(formLiveBoard)){
+			formLiveBoard->RequestRedraw();
+		}
 		currentForm->RequestRedraw(true);
 		//TODO howcome overloading functions is not working? example above
 		SetCurrentForm(currentForm);
 	}
-}
-
-//actions
-void Controller::returnSelectedStation() {
 }
 
 void Controller::retrieveRoutePlannerResults(){
@@ -134,4 +144,11 @@ void Controller::retrieveRoutePlannerResults(){
 		delete routeRequestManager;
 	routeRequestManager = new RouteRequestManager();
 	routeRequestManager->setRequest(AppData::GetInstance()->getCurrentRequest());
+}
+
+void Controller::retrieveLiveBoardResults(){
+	if(liveBoardRequestManager != null)
+		delete liveBoardRequestManager;
+	liveBoardRequestManager = new LiveBoardRequestManager();
+	liveBoardRequestManager->setRequest(AppData::GetInstance()->getCurrentLiveBoardRequest());
 }
