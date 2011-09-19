@@ -67,6 +67,10 @@ public:
 	//actions
 	void					retrieveRoutePlannerResults();
 	void					retrieveLiveBoardResults();
+	void 					clearRoutePlanner();
+	void 					clearLiveboard();
+	void 					setRoutePlannerTime(DateTime time);
+	void 					setLiveboardTime(DateTime time);
 };
 
 #endif /* CONTROLLER_H_ */

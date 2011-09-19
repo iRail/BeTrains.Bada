@@ -87,7 +87,7 @@ bool FormRouteplanner::Initialize() {
 	 * Carefull, this dateTimePicker must be destroyed in Destructor
 	 */
 	dateTimePicker = new DateTimePicker();
-	dateTimePicker->Construct("Pick date and time");
+	dateTimePicker->Construct("Pick time and date");
 	dateTimePicker->Set24HourNotationEnabled(true);
 	dateTimePicker->AddDateTimeChangeEventListener(*this);
 
@@ -99,7 +99,7 @@ bool FormRouteplanner::Initialize() {
 	editTimeDateField->Construct( Rectangle(border, y, widthBody, heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 100,GROUP_STYLE_TOP);
 	editTimeDateField->SetEnabled(false);
 	editTimeDateField->SetText(dateTimePicker->GetDateTime().ToString());
-	editTimeDateField->SetTitleText(L"Pick Time and Date");
+	editTimeDateField->SetTitleText(L"Pick time and date");
 	editTimeDateField->AddTouchEventListener(*this);
 	AddControl(*editTimeDateField);
 
@@ -148,6 +148,7 @@ void FormRouteplanner::OnActionPerformed(const Osp::Ui::Control& source,int acti
 		Controller::GetInstance()->retrieveRoutePlannerResults();
 	}else if(actionId == CLEAR_ACTION){
 		AppLog("Clicked FormRoutePlanner::clear");
+		Controller::GetInstance()->clearRoutePlanner();
 	}else if(actionId == SWITCH_ACTION){
 		AppLog("Clicked FormRoutePlanner::switch");
 	}
@@ -159,7 +160,8 @@ void FormRouteplanner::OnActionPerformed(const Osp::Ui::Control& source,int acti
  */
 void FormRouteplanner::OnDateTimeChanged(const Osp::Ui::Control & source, int year, int month, int day, int hour, int minute)
 {
-	//TODO update
+	DateTime newDate = dateTimePicker->GetDateTime();
+	Controller::GetInstance()->setRoutePlannerTime(newDate);
 }
 
 void FormRouteplanner::OnDateTimeChangeCanceled(const Osp::Ui::Control & source){
@@ -198,11 +200,23 @@ void FormRouteplanner::RequestRedraw (bool show) const{
 	Station* to = 	 (request->getToStation());
 	if(from != null){
 		fromStationEditField->SetText(from->getName());
+	}else{
+		fromStationEditField->SetText("");
 	}
 	if(to != null){
 		toStationEditField->SetText(to->getName());
+	}else{
+		toStationEditField->SetText("");
 	}
 
-	Form::RequestRedraw(show);
+	DateTime* time = (request->getDateTime());
 
+	if(time != null){
+		dateTimePicker->SetDateTime(*time);
+	}else{
+		dateTimePicker->SetCurrentDateTime();
+	}
+
+	editTimeDateField->SetText(dateTimePicker->GetDateTime().ToString());
+	Form::RequestRedraw(show);
 }

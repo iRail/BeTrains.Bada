@@ -19,16 +19,18 @@ public:
 
 	//METHODS
 	void clearResults();
+	void clearTime();
+	void clear();
 
     void setStation(Station *station);
-    void setTime(Osp::Base::DateTime time);
+    void setDateTime(Osp::Base::DateTime time);
 
     Station*& getStation();
-    Osp::Base::DateTime getTime() const;
+    Osp::Base::DateTime* getDateTime() const;
     Osp::Base::Collection::ArrayListT<LiveBoardResult*>* getResults();
 
 private:
-    Osp::Base::DateTime _time;
+    Osp::Base::DateTime* _time;
     Station *_station;
     Osp::Base::Collection::ArrayListT<LiveBoardResult*> results; //ownership over all liveboardresults
 };

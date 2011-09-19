@@ -160,3 +160,29 @@ void Controller::retrieveLiveBoardResults(){
 	liveBoardRequestManager = new LiveBoardRequestManager();
 	liveBoardRequestManager->setRequest(AppData::GetInstance()->getCurrentLiveBoardRequest());
 }
+
+void Controller::clearRoutePlanner(){
+	// clear our request model
+	AppData::GetInstance()->getCurrentRequest()->clear();
+
+	// clear the views by requesting a redraw
+	formRoutePlanner->RequestRedraw(true);
+}
+
+void Controller::clearLiveboard(){
+	// clear our liveboard model
+	AppData::GetInstance()->getCurrentLiveBoardRequest()->clear();
+
+	// clear the views by requesting a redraw
+	formLiveBoard->RequestRedraw(true);
+}
+
+void Controller::setRoutePlannerTime(DateTime time){
+	AppData::GetInstance()->getCurrentRequest()->setDateTime(time);
+	formRoutePlanner->RequestRedraw(true);
+}
+
+void Controller::setLiveboardTime(DateTime time){
+	AppData::GetInstance()->getCurrentLiveBoardRequest()->setDateTime(time);
+	formLiveBoard->RequestRedraw(true);
+}

@@ -8,7 +8,8 @@
 
 class FormLiveboard :
 	public HeaderForm,
-	public Osp::Ui::ITouchEventListener
+	public Osp::Ui::ITouchEventListener,
+	public ITimeChangeEventListener
 {
 
 // Construction
@@ -32,7 +33,8 @@ public:
 	void OnTouchMoved (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
 	void OnTouchPressed (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
 	void OnTouchReleased (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
-
+	void OnTimeChanged(const Osp::Ui::Control& source, int hour, int minute);
+	void OnTimeChangeCanceled(const Osp::Ui::Control& source);
 	/*
 	 * Action id's
 	 */
