@@ -92,6 +92,7 @@ void Controller::switchToFormRoutePlanner() {
 }
 
 void Controller::switchToLiveBoardResults() {
+	formLiveBoard->hideWaitingPopup();
 	if (currentForm == null || currentForm != (Form*) liveBoardResults) {
 			prevForm = currentForm;
 		if (liveBoardResults == null) {
@@ -185,4 +186,11 @@ void Controller::setRoutePlannerTime(DateTime time){
 void Controller::setLiveboardTime(DateTime time){
 	AppData::GetInstance()->getCurrentLiveBoardRequest()->setDateTime(time);
 	formLiveBoard->RequestRedraw(true);
+}
+
+void Controller::cancelRequest(){
+	if(routeRequestManager != null)
+		routeRequestManager->cancelRequest();
+	if(liveBoardRequestManager != null)
+		liveBoardRequestManager->cancelRequest();
 }

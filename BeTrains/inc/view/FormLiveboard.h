@@ -5,6 +5,7 @@
 #include <FUi.h>
 #include "HeaderForm.h"
 #include "model/LiveBoardRequest.h"
+#include "view/WaitingPopup.h"
 
 class FormLiveboard :
 	public HeaderForm,
@@ -23,6 +24,7 @@ public:
 	virtual result OnTerminating(void);
 	virtual void OnActionPerformed(const Osp::Ui::Control& source, int actionId);
 	void RequestRedraw (bool show=true) const;
+	void hideWaitingPopup();
 	/*
 	 * ITouchEventListeners
 	 */
@@ -41,6 +43,7 @@ public:
 
 	static const int SEARCH_ACTION 		= 301;
 	static const int CLEAR_ACTION 		= 302;
+	static const int CANCEL_REQUEST		= 303;
 private:
 	/*
 	 * Data
@@ -52,6 +55,7 @@ private:
 	 */
 	Osp::Ui::Controls::EditField* 		stationEditField;
 	Osp::Ui::Controls::EditTime*		editTime;
+	Popup*								waitingPopup;
 };
 
 #endif	//_FormLiveboard_H_
