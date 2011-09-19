@@ -40,16 +40,24 @@ bool RoutePlannerResults::Initialize() {
 	 * Calculate sizes for all controls
 	 */
 	Rectangle bounds = this->GetClientAreaBounds();
+	int titleHeight = bounds.height/12;
 	int height = bounds.height/7;
 	if(bounds.width>bounds.height)
 		height = bounds.width /7;
 	int width = bounds.width;
+
+	/*
+	 * Construct title label
+	 */
+	titleLabel = new Label();
+	titleLabel->Construct(Rectangle(0, 0, bounds.width, titleHeight), L"station - station");
+	AddControl(*titleLabel);
+
 	/*
 	 * Construct a ListView
 	 */
 	list = new ExpandableList();
-	list->Construct(Rectangle(0,0,bounds.width,bounds.height),CUSTOM_LIST_STYLE_NORMAL,true);
-	list->SetTextOfEmptyList("lege liste");
+	list->Construct(Rectangle(0,titleHeight,bounds.width,bounds.height-titleHeight),CUSTOM_LIST_STYLE_NORMAL,true);
 	AddControl(*list);
 
 	//CREATE FORMAT
@@ -75,9 +83,11 @@ bool RoutePlannerResults::Initialize() {
 	subListFormat = new CustomListItemFormat();
 	subListFormat->Construct();
 	subListFormat->AddElement(SUBLIST_FROM_TIME,
-			Rectangle(0,0,0.35*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+			Rectangle(0,0,0.2*width,0.33*height),0.33*height,Color::COLOR_GREEN,Color::COLOR_WHITE);
+	subListFormat->AddElement(SUBLIST_FROM_DELAY,
+				Rectangle(0.2*width,0,0.2*width,0.33*height),0.33*height,Color::COLOR_RED,Color::COLOR_WHITE);
 	subListFormat->AddElement(SUBLIST_FROM_STATION,
-			Rectangle(0.35*width,0,0.55*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+			Rectangle(0.4*width,0,0.50*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
 	subListFormat->AddElement(SUBLIST_FROM_PLATFORM,
 			Rectangle(0.9*width,0,0.1*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
 
@@ -85,9 +95,11 @@ bool RoutePlannerResults::Initialize() {
 			Rectangle(0.2*width,0.33*height,0.8*width,0.33*height),0.33*height,Color::COLOR_GREY,Color::COLOR_WHITE);
 
 	subListFormat->AddElement(SUBLIST_TO_TIME,
-			Rectangle(0,0.66*height,0.35*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+			Rectangle(0,0.66*height,0.2*width,0.33*height),0.33*height,Color::COLOR_GREEN,Color::COLOR_WHITE);
+	subListFormat->AddElement(SUBLIST_TO_DELAY,
+			Rectangle(0.2*width,0.66*height,0.2*width,0.33*height),0.33*height,Color::COLOR_RED,Color::COLOR_WHITE);
 	subListFormat->AddElement(SUBLIST_TO_STATION,
-			Rectangle(0.35*width,0.66*height,0.55*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+			Rectangle(0.4*width,0.66*height,0.50*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
 	subListFormat->AddElement(SUBLIST_TO_PLATFORM,
 			Rectangle(0.9*width,0.66*height,0.1*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
 
@@ -121,6 +133,8 @@ void RoutePlannerResults::OnActionPerformed(const Osp::Ui::Control& source,int a
 void RoutePlannerResults::RequestRedraw (bool show) const{
 	AppLog("RoutePlannerResults::RequestRedraw");
 	//load data
+	titleLabel->SetText(request->getFromStation()->getName() + " - " + request->getToStation()->getName());
+
 	ArrayListT<Trip*>* trips = AppData::GetInstance()->getCurrentRequest()->getTrips();
 	Trip* trip=null;
 	for(int i=0;i<trips->GetCount();i++){
@@ -184,6 +198,9 @@ void RoutePlannerResults::addTrip(Trip* trip)const{
 
 		String fromTime = Utils::formatTime(conn->getStartConnectionNode()->getDateTime());
 		String toTime = Utils::formatTime(conn->getEndConnectionNode()->getDateTime());
+		String fromDelay = Utils::formatDelay(conn->getStartConnectionNode()->getDelay());
+		String toDelay = Utils::formatDelay(conn->getEndConnectionNode()->getDelay());
+
 		String fromStation = String(conn->getStartConnectionNode()->getStation()->getName());
 		String toStation = String(conn->getEndConnectionNode()->getStation()->getName());
 		String fromPlatform = String(conn->getStartConnectionNode()->getPlatform());
@@ -194,6 +211,7 @@ void RoutePlannerResults::addTrip(Trip* trip)const{
 		subItem->Construct(height);
 		subItem->SetItemFormat(*subListFormat);
 		subItem->SetElement(SUBLIST_FROM_TIME,fromTime);
+		subItem->SetElement(SUBLIST_FROM_DELAY,fromDelay);
 		subItem->SetElement(SUBLIST_FROM_STATION,fromStation);
 		subItem->SetElement(SUBLIST_FROM_PLATFORM,fromPlatform);
 		subItem->SetElement(SUBLIST_VEHICLE,conn->getVehicle()->getName());

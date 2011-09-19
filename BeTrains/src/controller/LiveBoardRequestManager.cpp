@@ -144,13 +144,14 @@ void LiveBoardRequestManager::OnTransactionReadyToRead(Osp::Net::Http::HttpSessi
 		results = h.createLiveBoardList(buffer);
 	}
 	if(results != null){
-		AppLog("parsing live board successfull");
+		AppLog("parsing live board successfull. #%S",Integer::ToString(results->GetCount()).GetPointer());
 		AppData::GetInstance()->getCurrentLiveBoardRequest()->getResults()->AddItems(*results);
 		Controller::GetInstance()->switchToLiveBoardResults();
 	}else{
 		AppLog("parsing failed liveboards");
 	}
 }
+
 void LiveBoardRequestManager::OnTransactionAborted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, result r){}
 void LiveBoardRequestManager::OnTransactionReadyToWrite(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, int recommendedChunkSize){}
 void LiveBoardRequestManager::OnTransactionHeaderCompleted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, int headerLen, bool rs){}
