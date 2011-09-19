@@ -105,6 +105,7 @@ void Controller::switchToRoutePlannerResults() {
 		}
 		currentForm = routePlannerResults;
 		SetCurrentForm(currentForm);
+		routePlannerResults->RequestRedraw();
 	}
 }
 

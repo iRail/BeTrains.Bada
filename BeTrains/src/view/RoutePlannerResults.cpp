@@ -10,9 +10,13 @@ using namespace Osp::Graphics;
 
 RoutePlannerResults::RoutePlannerResults(void) {
 	request=null;
+	format=null;
+	subListFormat=null;
 }
 
 RoutePlannerResults::~RoutePlannerResults(void) {
+	delete format;
+	delete subListFormat;
 }
 
 bool RoutePlannerResults::Initialize() {
@@ -36,111 +40,58 @@ bool RoutePlannerResults::Initialize() {
 	 * Calculate sizes for all controls
 	 */
 	Rectangle bounds = this->GetClientAreaBounds();
-	//int heightBody = int( 1.0 / 6.0 * double(bounds.height));
-
-	/*
-	 * Construct a list
-	 */
-	/*
-	list = new GroupedListView();
-	list->Construct(Rectangle(0, 0, bounds.width, bounds.height),GROUPED_LIST_VIEW_STYLE_INDEXED, true, true);
-	list->SetItemProvider(*this);
-	list->AddGroupedListViewItemEventListener(*this);
-	AddControl(*list);
-	*/
-
+	int height = bounds.height/7;
+	if(bounds.width>bounds.height)
+		height = bounds.width /7;
+	int width = bounds.width;
 	/*
 	 * Construct a ListView
 	 */
-	list = new ListView();
-	list->Construct(Rectangle(0,0,bounds.width,bounds.height),true,false);
-	list->SetTextOfEmptyList("empty list");
-	list->SetItemProvider(*this);
-	list->AddListViewItemEventListener(*this);
+	list = new ExpandableList();
+	list->Construct(Rectangle(0,0,bounds.width,bounds.height),CUSTOM_LIST_STYLE_NORMAL,true);
+	list->SetTextOfEmptyList("lege liste");
 	AddControl(*list);
 
+	//CREATE FORMAT
+	format = new CustomListItemFormat();
+	format->Construct();
+	format->AddElement(LIST_ITEM_TIMES,
+			Rectangle(0,0,0.6*width,0.5*height),0.5*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+	//DELAY ELEMENT
+	format->AddElement(LIST_ITEM_DELAYS,
+			Rectangle(0.6*width,0,0.4*width,0.5*height),0.5*height,Color::COLOR_RED,Color::COLOR_RED);
+	//date
+	format->AddElement(LIST_ITEM_DATE,
+			Rectangle(0.35*width,0.5*height,0.4*width,0.5*height),0.35*height,Color::COLOR_GREY,Color::COLOR_GREY);
+	//DURATION
+	format->AddElement(LIST_ITEM_DURATION,
+			Rectangle(0,0.5*height,0.35*width,0.5*height),0.5*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+	//Number of trains
+	format->AddElement(LIST_ITEM_NUMBER_CONNECTIONS,
+			Rectangle(0.75*width,0.5*height,0.25*width,0.5*height),0.35*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+
+
+	//CREATE SUBLISTFORMAT
+	subListFormat = new CustomListItemFormat();
+	subListFormat->Construct();
+	subListFormat->AddElement(SUBLIST_FROM_TIME,
+			Rectangle(0,0,0.35*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+	subListFormat->AddElement(SUBLIST_FROM_STATION,
+			Rectangle(0.35*width,0,0.55*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+	subListFormat->AddElement(SUBLIST_FROM_PLATFORM,
+			Rectangle(0.9*width,0,0.1*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+
+	subListFormat->AddElement(SUBLIST_VEHICLE,
+			Rectangle(0.2*width,0.33*height,0.8*width,0.33*height),0.33*height,Color::COLOR_GREY,Color::COLOR_WHITE);
+
+	subListFormat->AddElement(SUBLIST_TO_TIME,
+			Rectangle(0,0.66*height,0.35*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+	subListFormat->AddElement(SUBLIST_TO_STATION,
+			Rectangle(0.35*width,0.66*height,0.55*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+	subListFormat->AddElement(SUBLIST_TO_PLATFORM,
+			Rectangle(0.9*width,0.66*height,0.1*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+
 	return true;
-}
-
-
-/*
- * implements IListViewItemEventListener
- */
-void RoutePlannerResults::OnListViewItemStateChanged(Osp::Ui::Controls::ListView &listView, int index, int elementId, Osp::Ui::Controls::ListItemStatus status){}
-
-void RoutePlannerResults::OnListViewItemSwept(Osp::Ui::Controls::ListView &listView, int index, Osp::Ui::Controls::SweepDirection direction){}
-
-void RoutePlannerResults::OnListViewContextItemStateChanged(Osp::Ui::Controls::ListView &listView, int index, int elementId, Osp::Ui::Controls::ListContextItemStatus state)
-{
-	//TODO make context menu to add to calendar
-}
-
-/*
- * implements IListViewItemProvider
- */
-Osp::Ui::Controls::ListItemBase*
-RoutePlannerResults::CreateItem(int index, int itemWidth)
-{
-	Rectangle bounds = this->GetClientAreaBounds();
-	int itemHeight = bounds.height/9;
-	if(bounds.width>bounds.height)
-		itemHeight = bounds.width /9;
-
-
-	/*
-	 * Get the trip from the index id
-	 */
-	Trip* trip;
-	request->getTrips()->GetAt(index,trip);
-	Connection* firstConnection;
-	Connection* lastConnection;
-	trip->getConnections()->GetAt(0,firstConnection);
-	trip->getConnections()->GetAt(trip->getConnections()->GetCount()-1,lastConnection);
-
-	int amountConnections = trip->getConnections()->GetCount();
-	/*
-	 * Get trip data
-	 */
-	String time = Utils::formatTime(firstConnection->getStartConnectionNode()->getDateTime()) + " - " +
-				  Utils::formatTime(lastConnection->getEndConnectionNode()->getDateTime());
-	String totalTime = Utils::formatDelay(trip->getDuration());
-	String numberConnections = "#" + Integer::ToString(amountConnections);
-
-	//create custom item with right size, height is calculated with amount of connections
-	CustomItem* item = new CustomItem();
-	item->Construct(Osp::Graphics::Dimension(itemWidth,itemHeight), LIST_ANNEX_STYLE_NORMAL); //+itemHeight*amountConnections
-	//item->AddElement(Rectangle(0, 0, itemWidth*2/3,itemHeight), TIME_HEADER, L"time");
-	item->AddElement(Rectangle(0, 0, itemWidth*0.75,itemHeight), TIME_HEADER, time,0.8*itemHeight,Color::COLOR_BLUE,Color::COLOR_WHITE,Color::COLOR_WHITE);
-	item->AddElement(Rectangle(itemWidth*0.75, 0, itemWidth*0.25,itemHeight/2), NUMBER_CONNECTIONS, numberConnections,0.4*itemHeight,Color::COLOR_WHITE,Color::COLOR_BLUE,Color::COLOR_BLUE);
-	item->AddElement(Rectangle(itemWidth*0.75, itemHeight/2, itemWidth*0.25, itemHeight/2), TOTAL_TIME, totalTime  ,0.4*itemHeight,Color::COLOR_WHITE,Color::COLOR_BLUE,Color::COLOR_BLUE);
-	Connection* conn;
-	for(int i=0;i<amountConnections;i++){
-		trip->getConnections()->GetAt(i,conn);
-		ConnectionNode* startNode 	= conn->getStartConnectionNode();
-		ConnectionNode* endNode 	= conn->getEndConnectionNode();
-	}
-
-	/*
-	 * create context menu
-	 */
-	ListContextItem* itemContext = new ListContextItem();
-	itemContext->Construct();
-	itemContext->AddElement(SAVE_CALENDAR_ACTION, "Save to calendar");
-	item->SetContextItem(itemContext);
-
-	return item;
-}
-
-bool
-RoutePlannerResults::DeleteItem(int index, Osp::Ui::Controls::ListItemBase* item, int itemWidth)
-{
-    delete item; item = null; return true;
-}
-
-int
-RoutePlannerResults::GetItemCount(void)
-{
-	return request->getTrips()->GetCount();
 }
 
 result RoutePlannerResults::OnInitializing(void) {
@@ -160,86 +111,95 @@ result RoutePlannerResults::OnTerminating(void) {
 void RoutePlannerResults::OnActionPerformed(const Osp::Ui::Control& source,int actionId) {
 	HeaderForm::OnActionPerformed(source,actionId);
 	if(actionId == NEXT_ACTION){
-		AppLog("Clicked RoutePlannerResults::search");
-		Controller::GetInstance()->retrieveRoutePlannerResults();
+		AppLog("Clicked RoutePlannerResults::next");
 	}else if(actionId == PREVIOUS_ACTION){
-		AppLog("Clicked RoutePlannerResults::clear");
+		AppLog("Clicked RoutePlannerResults::previous");
 	}
 }
 
 
 void RoutePlannerResults::RequestRedraw (bool show) const{
 	AppLog("RoutePlannerResults::RequestRedraw");
+	//load data
+	ArrayListT<Trip*>* trips = AppData::GetInstance()->getCurrentRequest()->getTrips();
+	Trip* trip=null;
+	for(int i=0;i<trips->GetCount();i++){
+		trips->GetAt(i,trip);
+		addTrip(trip);
+	}
 	Form::RequestRedraw(show);
 }
 
-/*
- * implement IGroupedListViewItemProvider
- */
-/*
-GroupItem * 	RoutePlannerResults::CreateGroupItem (int groupIndex, int itemWidth){
-	Trip* trip;
-	request->getTrips()->GetAt(groupIndex,trip);
-	//trip->getDuration();
+void RoutePlannerResults::addTrip(Trip* trip)const{
+	//GETTING THE DATA FROM THE TRIP
+	Connection* firstConn;
+	Connection* lastConn;
+	ArrayListT<Connection*>* connections = trip->getConnections();
+	connections->GetAt(0,firstConn);
+	connections->GetAt(connections->GetCount()-1,lastConn);
+	//Station names
+	/*
+	String stations;
+	stations += *firstConn->getStartNode()->getStation()->getName();
+	stations += L" - ";
+	stations += *lastConn->getEndNode()->getStation()->getName();
+	*/
+	//Times
+	String times= Utils::formatTime(firstConn->getStartConnectionNode()->getDateTime());
+	times += L" - " + Utils::formatTime(lastConn->getEndConnectionNode()->getDateTime());
+	//DELAY
+	String delay=" ";
+	//if(firstConn->getStartConnectionNode()->getDelay() != null)
+	delay = Utils::formatDelay(firstConn->getStartConnectionNode()->getDelay());
+	//String delay = L"+0H25";
+	//DURATION
+	String duration= Utils::formatTime(trip->getDuration());
+	//DATE
+	String date= Utils::formatDate(firstConn->getStartConnectionNode()->getDateTime());
 
+	//number of trains
+	String numberOfTrains;
+	if(trip->getConnections()->GetCount() == 0) numberOfTrains= L"direct";
+	else numberOfTrains = L"#" + Integer::ToString(trip->getConnections()->GetCount());
+	//CREATING ELEMENT
 	Rectangle bounds = this->GetClientAreaBounds();
-	int itemHeight = bounds.height/10;
+	int height = bounds.height/7;
 	if(bounds.width>bounds.height)
-		itemHeight = bounds.width /10;
+		height = bounds.width /7;
+	CustomListItem * newItem = new CustomListItem();
+	newItem->Construct(height);
+	newItem->SetItemFormat(*format);
+	//newItem->SetElement(LIST_ITEM_STATIONS, stations);
+	newItem->SetElement(LIST_ITEM_TIMES, times);
+	newItem->SetElement(LIST_ITEM_DELAYS, delay);
+	newItem->SetElement(LIST_ITEM_DURATION, duration);
+	newItem->SetElement(LIST_ITEM_NUMBER_CONNECTIONS, numberOfTrains);
+	newItem->SetElement(LIST_ITEM_DATE,date);
+	int itemNumber = list->GetItemCount();
+	list->AddItem(*newItem,itemNumber);
 
-	GroupItem* item = new GroupItem();
-	item->Construct(Osp::Graphics::Dimension(itemWidth,itemHeight));
-	item->SetElement("test1");
-	return item;
+	for(int i=0;i<trip->getConnections()->GetCount();i++){
+		Connection* conn = null;
+		trip->getConnections()->GetAt(i,conn);
+
+		String fromTime = Utils::formatTime(conn->getStartConnectionNode()->getDateTime());
+		String toTime = Utils::formatTime(conn->getEndConnectionNode()->getDateTime());
+		String fromStation = String(conn->getStartConnectionNode()->getStation()->getName());
+		String toStation = String(conn->getEndConnectionNode()->getStation()->getName());
+		String fromPlatform = String(conn->getStartConnectionNode()->getPlatform());
+		String toPlatform = String(conn->getEndConnectionNode()->getPlatform());
+
+		//SUBLIST_FROM_TIME,SUBLIST_TO_TIME,SUBLIST_FROM_STATION,SUBLIST_TO_STATION,SUBLIST_FROM_PLATFORM,SUBLIST_TO_PLATFORM
+		CustomListItem* subItem = new CustomListItem();
+		subItem->Construct(height);
+		subItem->SetItemFormat(*subListFormat);
+		subItem->SetElement(SUBLIST_FROM_TIME,fromTime);
+		subItem->SetElement(SUBLIST_FROM_STATION,fromStation);
+		subItem->SetElement(SUBLIST_FROM_PLATFORM,fromPlatform);
+		subItem->SetElement(SUBLIST_VEHICLE,conn->getVehicle()->getName());
+		subItem->SetElement(SUBLIST_TO_TIME,toTime);
+		subItem->SetElement(SUBLIST_TO_STATION,toStation);
+		subItem->SetElement(SUBLIST_TO_PLATFORM,toPlatform);
+		list->AddSubItem(itemNumber,*subItem,i);
+	}
 }
-
-ListItemBase * 	RoutePlannerResults::CreateItem (int groupIndex, int itemIndex, int itemWidth){
-	Trip* trip;
-	request->getTrips()->GetAt(groupIndex,trip);
-	Connection* connection;
-	trip->getConnections()->GetAt(itemIndex,connection);
-
-
-	Rectangle bounds = this->GetClientAreaBounds();
-	int itemHeight = bounds.height/12;
-	if(bounds.width>bounds.height)
-		itemHeight = bounds.width /12;
-
-	SimpleItem* item = new SimpleItem();
-	item->Construct(Osp::Graphics::Dimension(itemWidth,itemHeight), LIST_ANNEX_STYLE_NORMAL);
-	item->SetElement("test2");
-	return item;
-}
-
-bool 			RoutePlannerResults::DeleteGroupItem (int groupIndex, GroupItem *pItem, int itemWidth){
-	//we dont do this in this context
-	return false;
-}
-
-bool 			RoutePlannerResults::DeleteItem (int groupIndex, int itemIndex, ListItemBase *pItem, int itemWidth){
-	//we dont do this in this context
-	return false;
-}
-
-int 			RoutePlannerResults::GetGroupCount (void){
-	return request->getTrips()->GetCount();
-}
-
-int 			RoutePlannerResults::GetItemCount (int groupIndex){
-	Trip* trip;
-	request->getTrips()->GetAt(groupIndex,trip);
-	return trip->getConnections()->GetCount();
-}
-*/
-
-/*
- * implement IGroupedListViewItemEventListener
- */
-/*
-void 	RoutePlannerResults::OnGroupedListViewContextItemStateChanged (GroupedListView &listView, int groupIndex, int itemIndex, int elementId, ListContextItemStatus status){}
-void 	RoutePlannerResults::OnGroupedListViewItemLongPressed (GroupedListView &listView, int groupIndex, int itemIndex, int elementId, bool &invokeListViewItemCallback){
-	AppLog("RoutePlannerResults::OnGroupedListViewItemLongPressed gr:%S id:%S elementId:%S",Integer::ToString(groupIndex).GetPointer(),Integer::ToString(itemIndex).GetPointer(),Integer::ToString(elementId).GetPointer());
-}
-void 	RoutePlannerResults::OnGroupedListViewItemStateChanged (GroupedListView &listView, int groupIndex, int itemIndex, int elementId, ListItemStatus status){}
-void 	RoutePlannerResults::OnGroupedListViewItemSwept (GroupedListView &listView, int groupIndex, int itemIndex, SweepDirection direction){}
-*/
