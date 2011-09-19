@@ -6,6 +6,7 @@
  */
 
 #include "controller/Controller.h"
+#include "view/HeaderForm.h"
 
 using namespace Osp::App;
 using namespace Osp::Base;
@@ -44,19 +45,6 @@ Controller::GetInstance() {
 	return Controller::instance;
 }
 
-//switch forms
-void Controller::switchToFormLiveBoard() {
-	if (currentForm == null || currentForm != (Form*) formLiveBoard) {
-		prevForm = currentForm;
-		if(formLiveBoard ==null){
-			formLiveBoard = new FormLiveboard();
-			formLiveBoard->Initialize();
-		}
-		currentForm = formLiveBoard;
-		SetCurrentForm(currentForm);
-	}
-}
-
 void Controller::SetCurrentForm(Form* currentForm) {
 	// Add the form to the frame
 	Frame *pFrame = Application::GetInstance()->GetAppFrame()->GetFrame();
@@ -72,6 +60,23 @@ void Controller::SetCurrentForm(Form* currentForm) {
 	currentForm->Show();
 }
 
+
+//switch forms
+void Controller::switchToFormLiveBoard() {
+	if (currentForm == null || currentForm != (Form*) formLiveBoard) {
+		prevForm = currentForm;
+		if(formLiveBoard ==null){
+			formLiveBoard = new FormLiveboard();
+			formLiveBoard->Initialize();
+		}
+		currentForm = formLiveBoard;
+		Header* header = currentForm->GetHeader();
+		header->SetItemSelected(HeaderForm::HEADER_ID_LIVEBOARD);
+		header->SetItemSelected(HeaderForm::HEADER_ID_LIVEBOARD);
+		SetCurrentForm(currentForm);
+	}
+}
+
 void Controller::switchToFormRoutePlanner() {
 	if (currentForm == null || currentForm != (Form*) formRoutePlanner) {
 		prevForm = currentForm;
@@ -80,6 +85,8 @@ void Controller::switchToFormRoutePlanner() {
 			formRoutePlanner->Initialize();
 		}
 		currentForm = formRoutePlanner;
+		Header* header = currentForm->GetHeader();
+		header->SetItemSelected(HeaderForm::HEADER_ID_ROUTE_PLANNER);
 		SetCurrentForm(currentForm);
 	}
 }

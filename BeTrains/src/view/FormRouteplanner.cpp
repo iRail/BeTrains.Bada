@@ -204,4 +204,5 @@ void FormRouteplanner::RequestRedraw (bool show) const{
 	}
 
 	Form::RequestRedraw(show);
+
 }

@@ -58,6 +58,8 @@ bool RoutePlannerResults::Initialize() {
 	 */
 	list = new ExpandableList();
 	list->Construct(Rectangle(0,titleHeight,bounds.width,bounds.height-titleHeight),CUSTOM_LIST_STYLE_NORMAL,true);
+	list->Construct(Rectangle(0,0,bounds.width,bounds.height),CUSTOM_LIST_STYLE_NORMAL,true);
+	list->SetTextOfEmptyList("No results.");
 	AddControl(*list);
 
 	//CREATE FORMAT
@@ -81,27 +83,33 @@ bool RoutePlannerResults::Initialize() {
 
 	//CREATE SUBLISTFORMAT
 	subListFormat = new CustomListItemFormat();
+	Color timeColor = Color::COLOR_GREEN;
+	Color delayColor = Color::COLOR_RED;
+	Color stationColor = Color::COLOR_WHITE;
+	Color platformColor = Color::COLOR_WHITE;
+	Color vehicleColor = Color::COLOR_GREY;
+
 	subListFormat->Construct();
 	subListFormat->AddElement(SUBLIST_FROM_TIME,
-			Rectangle(0,0,0.2*width,0.33*height),0.33*height,Color::COLOR_GREEN,Color::COLOR_WHITE);
+			Rectangle(0,0,0.2*width,0.33*height),0.33*height,timeColor,timeColor);
 	subListFormat->AddElement(SUBLIST_FROM_DELAY,
-				Rectangle(0.2*width,0,0.2*width,0.33*height),0.33*height,Color::COLOR_RED,Color::COLOR_WHITE);
+				Rectangle(0.2*width,0,0.2*width,0.33*height),0.33*height,delayColor,delayColor);
 	subListFormat->AddElement(SUBLIST_FROM_STATION,
-			Rectangle(0.4*width,0,0.50*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+			Rectangle(0.4*width,0,0.50*width,0.33*height),0.33*height,stationColor,stationColor);
 	subListFormat->AddElement(SUBLIST_FROM_PLATFORM,
-			Rectangle(0.9*width,0,0.1*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+			Rectangle(0.9*width,0,0.1*width,0.33*height),0.33*height,platformColor,platformColor);
 
 	subListFormat->AddElement(SUBLIST_VEHICLE,
-			Rectangle(0.2*width,0.33*height,0.8*width,0.33*height),0.33*height,Color::COLOR_GREY,Color::COLOR_WHITE);
+			Rectangle(0.2*width,0.33*height,0.8*width,0.33*height),0.33*height,vehicleColor,vehicleColor);
 
 	subListFormat->AddElement(SUBLIST_TO_TIME,
-			Rectangle(0,0.66*height,0.2*width,0.33*height),0.33*height,Color::COLOR_GREEN,Color::COLOR_WHITE);
+			Rectangle(0,0.66*height,0.2*width,0.33*height),0.33*height,timeColor,timeColor);
 	subListFormat->AddElement(SUBLIST_TO_DELAY,
-			Rectangle(0.2*width,0.66*height,0.2*width,0.33*height),0.33*height,Color::COLOR_RED,Color::COLOR_WHITE);
+			Rectangle(0.2*width,0.66*height,0.2*width,0.33*height),0.33*height,delayColor,delayColor);
 	subListFormat->AddElement(SUBLIST_TO_STATION,
-			Rectangle(0.4*width,0.66*height,0.50*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+			Rectangle(0.4*width,0.66*height,0.50*width,0.33*height),0.33*height,stationColor,stationColor);
 	subListFormat->AddElement(SUBLIST_TO_PLATFORM,
-			Rectangle(0.9*width,0.66*height,0.1*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+			Rectangle(0.9*width,0.66*height,0.1*width,0.33*height),0.33*height,platformColor,platformColor);
 
 	return true;
 }
