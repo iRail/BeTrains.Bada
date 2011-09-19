@@ -49,7 +49,7 @@ bool RoutePlannerResults::Initialize() {
 	 */
 	list = new ExpandableList();
 	list->Construct(Rectangle(0,0,bounds.width,bounds.height),CUSTOM_LIST_STYLE_NORMAL,true);
-	list->SetTextOfEmptyList("lege liste");
+	list->SetTextOfEmptyList("No results.");
 	AddControl(*list);
 
 	//CREATE FORMAT
@@ -73,23 +73,28 @@ bool RoutePlannerResults::Initialize() {
 
 	//CREATE SUBLISTFORMAT
 	subListFormat = new CustomListItemFormat();
+	Color time_color = Color::COLOR_GREEN;
+	Color station_color = Color::COLOR_WHITE;
+	Color platform_color = Color::COLOR_WHITE;
+	Color vehicle_color = Color::COLOR_GREY;
+
 	subListFormat->Construct();
 	subListFormat->AddElement(SUBLIST_FROM_TIME,
-			Rectangle(0,0,0.35*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+			Rectangle(0,0,0.35*width,0.33*height),0.33*height,time_color,time_color);
 	subListFormat->AddElement(SUBLIST_FROM_STATION,
-			Rectangle(0.35*width,0,0.55*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+			Rectangle(0.35*width,0,0.55*width,0.33*height),0.33*height,station_color,station_color);
 	subListFormat->AddElement(SUBLIST_FROM_PLATFORM,
-			Rectangle(0.9*width,0,0.1*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+			Rectangle(0.9*width,0,0.1*width,0.33*height),0.33*height,platform_color,platform_color);
 
 	subListFormat->AddElement(SUBLIST_VEHICLE,
-			Rectangle(0.2*width,0.33*height,0.8*width,0.33*height),0.33*height,Color::COLOR_GREY,Color::COLOR_WHITE);
+			Rectangle(0.2*width,0.33*height,0.8*width,0.33*height),0.33*height,vehicle_color,vehicle_color);
 
 	subListFormat->AddElement(SUBLIST_TO_TIME,
-			Rectangle(0,0.66*height,0.35*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+			Rectangle(0,0.66*height,0.35*width,0.33*height),0.33*height,time_color,time_color);
 	subListFormat->AddElement(SUBLIST_TO_STATION,
-			Rectangle(0.35*width,0.66*height,0.55*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+			Rectangle(0.35*width,0.66*height,0.55*width,0.33*height),0.33*height,station_color,station_color);
 	subListFormat->AddElement(SUBLIST_TO_PLATFORM,
-			Rectangle(0.9*width,0.66*height,0.1*width,0.33*height),0.33*height,Color::COLOR_WHITE,Color::COLOR_WHITE);
+			Rectangle(0.9*width,0.66*height,0.1*width,0.33*height),0.33*height,platform_color,platform_color);
 
 	return true;
 }

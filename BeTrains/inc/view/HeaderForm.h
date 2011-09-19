@@ -35,9 +35,14 @@ public:
 	 * Action id's
 	 */
 
-	static const int HEADER_ID_LIVEBOARD = 201;
-	static const int HEADER_ID_ROUTE_PLANNER = 200;
+	static const int ACTION_HEADER_ID_LIVEBOARD = 201;
+	static const int ACTION_HEADER_ID_ROUTE_PLANNER = 200;
 
+	/*
+	 * Component id's
+	 */
+	static const int HEADER_ID_LIVEBOARD = 1;
+	static const int HEADER_ID_ROUTE_PLANNER = 0;
 };
 
 #endif /* HEADERFORM_H_ */

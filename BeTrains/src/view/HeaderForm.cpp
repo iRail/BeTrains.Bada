@@ -43,14 +43,14 @@ result HeaderForm::OnInitializing(int index) {
 	// Liveboard header
 	HeaderItem liveBoardHeaderItem;
 	liveBoardHeaderItem.Construct(HEADER_ID_LIVEBOARD);
-	liveBoardHeaderItem.SetText("liveboard");
-	liveBoardHeaderItem.SetActionId(this->HEADER_ID_LIVEBOARD);
+	liveBoardHeaderItem.SetText("Liveboard");
+	liveBoardHeaderItem.SetActionId(this->ACTION_HEADER_ID_LIVEBOARD);
 
 	// routePlanner header
 	HeaderItem routePlannerHeaderItem;
 	routePlannerHeaderItem.Construct(HEADER_ID_ROUTE_PLANNER);
 	routePlannerHeaderItem.SetText("Route Planner");
-	routePlannerHeaderItem.SetActionId(this->HEADER_ID_ROUTE_PLANNER);
+	routePlannerHeaderItem.SetActionId(this->ACTION_HEADER_ID_ROUTE_PLANNER);
 
 	/*
 	 * create HeaderItems
@@ -58,14 +58,6 @@ result HeaderForm::OnInitializing(int index) {
 	headerObj->AddItem(routePlannerHeaderItem);
 	headerObj->AddItem(liveBoardHeaderItem);
 
-	// derive correct index
-	if(index == HEADER_ID_LIVEBOARD){
-		index = 1;
-	}else if( HEADER_ID_ROUTE_PLANNER){
-		index = 0;
-	}else{
-		index = 0;
-	}
 	headerObj->SetItemSelected(index);
 	/*
 	 * add header action listener
@@ -82,9 +74,9 @@ result HeaderForm::OnTerminating(void) {
 }
 
 void HeaderForm::OnActionPerformed(const Osp::Ui::Control& source, int actionId){
-	if(actionId == this->HEADER_ID_ROUTE_PLANNER)
+	if(actionId == this->ACTION_HEADER_ID_ROUTE_PLANNER)
 		Controller::GetInstance()->switchToFormRoutePlanner();
-	if(actionId==this->HEADER_ID_LIVEBOARD)
+	if(actionId==this->ACTION_HEADER_ID_LIVEBOARD)
 		Controller::GetInstance()->switchToFormLiveBoard();
 }
 
