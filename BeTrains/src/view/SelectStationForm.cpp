@@ -31,9 +31,9 @@ bool SelectStationForm::Initialize() {
 	* Calculate sizes for all controls
 	*/
 	Rectangle bounds = this->GetClientAreaBounds();
-	int itemHeight = bounds.height/11;
+	int itemHeight = bounds.height/10;
 	if(bounds.width>bounds.height)
-		itemHeight = bounds.width /11;
+		itemHeight = bounds.width /10;
 	//AppLog("height:%S",Integer::ToString(bounds.height).GetPointer());
 	/*
 	 * create SCROLLPANEL
@@ -155,9 +155,9 @@ Osp::Ui::Controls::ListItemBase*
 SelectStationForm::CreateItem(int index, int itemWidth)
 {
 	Rectangle bounds = this->GetClientAreaBounds();
-	int itemHeight = bounds.height/12;
+	int itemHeight = bounds.height* 0.105;
 	if(bounds.width>bounds.height)
-		itemHeight = bounds.width /12;
+		itemHeight = bounds.width * 0.105;
 
 	SimpleItem* item = new SimpleItem();
     item->Construct(Osp::Graphics::Dimension(itemWidth,itemHeight), LIST_ANNEX_STYLE_NORMAL);

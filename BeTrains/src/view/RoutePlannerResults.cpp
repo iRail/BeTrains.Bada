@@ -40,14 +40,24 @@ bool RoutePlannerResults::Initialize() {
 	 * Calculate sizes for all controls
 	 */
 	Rectangle bounds = this->GetClientAreaBounds();
+	int titleHeight = bounds.height/12;
 	int height = bounds.height/7;
 	if(bounds.width>bounds.height)
 		height = bounds.width /7;
 	int width = bounds.width;
+
+	/*
+	 * Construct title label
+	 */
+	titleLabel = new Label();
+	titleLabel->Construct(Rectangle(0, 0, bounds.width, titleHeight), L"station - station");
+	AddControl(*titleLabel);
+
 	/*
 	 * Construct a ListView
 	 */
 	list = new ExpandableList();
+	list->Construct(Rectangle(0,titleHeight,bounds.width,bounds.height-titleHeight),CUSTOM_LIST_STYLE_NORMAL,true);
 	list->Construct(Rectangle(0,0,bounds.width,bounds.height),CUSTOM_LIST_STYLE_NORMAL,true);
 	list->SetTextOfEmptyList("No results.");
 	AddControl(*list);
@@ -73,28 +83,33 @@ bool RoutePlannerResults::Initialize() {
 
 	//CREATE SUBLISTFORMAT
 	subListFormat = new CustomListItemFormat();
-	Color time_color = Color::COLOR_GREEN;
-	Color station_color = Color::COLOR_WHITE;
-	Color platform_color = Color::COLOR_WHITE;
-	Color vehicle_color = Color::COLOR_GREY;
+	Color timeColor = Color::COLOR_GREEN;
+	Color delayColor = Color::COLOR_RED;
+	Color stationColor = Color::COLOR_WHITE;
+	Color platformColor = Color::COLOR_WHITE;
+	Color vehicleColor = Color::COLOR_GREY;
 
 	subListFormat->Construct();
 	subListFormat->AddElement(SUBLIST_FROM_TIME,
-			Rectangle(0,0,0.35*width,0.33*height),0.33*height,time_color,time_color);
+			Rectangle(0,0,0.2*width,0.33*height),0.33*height,timeColor,timeColor);
+	subListFormat->AddElement(SUBLIST_FROM_DELAY,
+				Rectangle(0.2*width,0,0.2*width,0.33*height),0.33*height,delayColor,delayColor);
 	subListFormat->AddElement(SUBLIST_FROM_STATION,
-			Rectangle(0.35*width,0,0.55*width,0.33*height),0.33*height,station_color,station_color);
+			Rectangle(0.4*width,0,0.50*width,0.33*height),0.33*height,stationColor,stationColor);
 	subListFormat->AddElement(SUBLIST_FROM_PLATFORM,
-			Rectangle(0.9*width,0,0.1*width,0.33*height),0.33*height,platform_color,platform_color);
+			Rectangle(0.9*width,0,0.1*width,0.33*height),0.33*height,platformColor,platformColor);
 
 	subListFormat->AddElement(SUBLIST_VEHICLE,
-			Rectangle(0.2*width,0.33*height,0.8*width,0.33*height),0.33*height,vehicle_color,vehicle_color);
+			Rectangle(0.2*width,0.33*height,0.8*width,0.33*height),0.33*height,vehicleColor,vehicleColor);
 
 	subListFormat->AddElement(SUBLIST_TO_TIME,
-			Rectangle(0,0.66*height,0.35*width,0.33*height),0.33*height,time_color,time_color);
+			Rectangle(0,0.66*height,0.2*width,0.33*height),0.33*height,timeColor,timeColor);
+	subListFormat->AddElement(SUBLIST_TO_DELAY,
+			Rectangle(0.2*width,0.66*height,0.2*width,0.33*height),0.33*height,delayColor,delayColor);
 	subListFormat->AddElement(SUBLIST_TO_STATION,
-			Rectangle(0.35*width,0.66*height,0.55*width,0.33*height),0.33*height,station_color,station_color);
+			Rectangle(0.4*width,0.66*height,0.50*width,0.33*height),0.33*height,stationColor,stationColor);
 	subListFormat->AddElement(SUBLIST_TO_PLATFORM,
-			Rectangle(0.9*width,0.66*height,0.1*width,0.33*height),0.33*height,platform_color,platform_color);
+			Rectangle(0.9*width,0.66*height,0.1*width,0.33*height),0.33*height,platformColor,platformColor);
 
 	return true;
 }
@@ -126,6 +141,8 @@ void RoutePlannerResults::OnActionPerformed(const Osp::Ui::Control& source,int a
 void RoutePlannerResults::RequestRedraw (bool show) const{
 	AppLog("RoutePlannerResults::RequestRedraw");
 	//load data
+	titleLabel->SetText(request->getFromStation()->getName() + " - " + request->getToStation()->getName());
+
 	ArrayListT<Trip*>* trips = AppData::GetInstance()->getCurrentRequest()->getTrips();
 	Trip* trip=null;
 	for(int i=0;i<trips->GetCount();i++){
@@ -189,6 +206,9 @@ void RoutePlannerResults::addTrip(Trip* trip)const{
 
 		String fromTime = Utils::formatTime(conn->getStartConnectionNode()->getDateTime());
 		String toTime = Utils::formatTime(conn->getEndConnectionNode()->getDateTime());
+		String fromDelay = Utils::formatDelay(conn->getStartConnectionNode()->getDelay());
+		String toDelay = Utils::formatDelay(conn->getEndConnectionNode()->getDelay());
+
 		String fromStation = String(conn->getStartConnectionNode()->getStation()->getName());
 		String toStation = String(conn->getEndConnectionNode()->getStation()->getName());
 		String fromPlatform = String(conn->getStartConnectionNode()->getPlatform());
@@ -199,6 +219,7 @@ void RoutePlannerResults::addTrip(Trip* trip)const{
 		subItem->Construct(height);
 		subItem->SetItemFormat(*subListFormat);
 		subItem->SetElement(SUBLIST_FROM_TIME,fromTime);
+		subItem->SetElement(SUBLIST_FROM_DELAY,fromDelay);
 		subItem->SetElement(SUBLIST_FROM_STATION,fromStation);
 		subItem->SetElement(SUBLIST_FROM_PLATFORM,fromPlatform);
 		subItem->SetElement(SUBLIST_VEHICLE,conn->getVehicle()->getName());
