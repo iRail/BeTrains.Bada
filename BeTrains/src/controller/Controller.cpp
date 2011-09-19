@@ -72,12 +72,12 @@ void Controller::switchToFormLiveBoard() {
 		currentForm = formLiveBoard;
 		Header* header = currentForm->GetHeader();
 		header->SetItemSelected(HeaderForm::HEADER_ID_LIVEBOARD);
+		header->SetItemSelected(HeaderForm::HEADER_ID_LIVEBOARD);
 		SetCurrentForm(currentForm);
 	}
 }
 
 void Controller::switchToFormRoutePlanner() {
-	AppLog("Set header to route planner.");
 	if (currentForm == null || currentForm != (Form*) formRoutePlanner) {
 		prevForm = currentForm;
 		if(formRoutePlanner ==null){

@@ -35,10 +35,10 @@ result HeaderForm::OnInitializing(int index) {
 	 */
 	this->SetOrientation(ORIENTATION_AUTOMATIC);
 	this->AddOrientationEventListener(*this);
+
 	// set header
 	Header* headerObj = this->GetHeader();
 	headerObj->SetStyle(HEADER_STYLE_SEGMENTED);
-
 
 	// Liveboard header
 	HeaderItem liveBoardHeaderItem;
@@ -57,7 +57,6 @@ result HeaderForm::OnInitializing(int index) {
 	 */
 	headerObj->AddItem(routePlannerHeaderItem);
 	headerObj->AddItem(liveBoardHeaderItem);
-
 	headerObj->SetItemSelected(index);
 	/*
 	 * add header action listener
