@@ -72,6 +72,8 @@ public:
 	void 					setRoutePlannerTime(DateTime time);
 	void 					setLiveboardTime(DateTime time);
 	void					cancelRequest();
+	void 					switchRequestStations();
+	void 					setIsDeparture(bool isDeparture);
 };
 
 #endif /* CONTROLLER_H_ */

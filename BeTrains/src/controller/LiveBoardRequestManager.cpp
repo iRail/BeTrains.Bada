@@ -66,23 +66,13 @@ void LiveBoardRequestManager::setRequest(LiveBoardRequest* req){
 
 	String hostAddr2(L"http://api.irail.be/liveboard/?id=");
 	hostAddr2.Append(req->getStation()->getId());
-	/*
+
 	DateTime* dt = req->getDateTime();
 	if(dt){
 		//LocaleManager localeManager;
 		//localeManager.Construct();
 		//TimeZone timeZone = localeManager.GetSystemTimeZone();
 		//DateTime utcDateTime = timeZone.WallTimeToUtcTime(*req->getDateTime());
-		hostAddr2.Append(L"&date=");
-		if(dt->GetDay()<10)
-			hostAddr2.Append(L"0");
-		hostAddr2.Append(Integer::ToString(dt->GetDay()));
-		if(dt->GetMonth()<10)
-			hostAddr2.Append(L"0");
-		hostAddr2.Append(Integer::ToString(dt->GetMonth()));
-		String year;
-		Integer::ToString(dt->GetYear()).SubString(2,year);
-		hostAddr2.Append(year);
 
 		hostAddr2.Append(L"&time=");
 		if(dt->GetHour()<10)
@@ -92,7 +82,7 @@ void LiveBoardRequestManager::setRequest(LiveBoardRequest* req){
 			hostAddr2.Append(L"0");
 		hostAddr2.Append(Integer::ToString(dt->GetMinute()));
 	}
-	*/
+
 	AppLogDebug("request link: %S",hostAddr2.GetPointer());
 
 	r = __pHttpRequest->SetUri(hostAddr2);

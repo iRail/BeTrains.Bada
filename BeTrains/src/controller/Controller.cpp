@@ -194,3 +194,12 @@ void Controller::cancelRequest(){
 	if(liveBoardRequestManager != null)
 		liveBoardRequestManager->cancelRequest();
 }
+
+void Controller::switchRequestStations(){
+	AppData::GetInstance()->getCurrentRequest()->switchStations();
+	formRoutePlanner->RequestRedraw(true);
+}
+
+void Controller::setIsDeparture(bool isDeparture){
+	AppData::GetInstance()->getCurrentRequest()->setIsDepart(isDeparture);
+}
