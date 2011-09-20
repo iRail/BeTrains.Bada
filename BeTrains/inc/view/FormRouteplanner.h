@@ -29,7 +29,7 @@ public:
 	virtual result 	OnTerminating(void);
 
 	void 			RequestRedraw (bool show=true) const;
-
+	void 			hideWaitingPopup();
 	//Action performed Listener
 	virtual void 	OnActionPerformed(const Osp::Ui::Control& source, int actionId);
 
@@ -54,7 +54,9 @@ public:
 	static const int SWITCH_ACTION = 303;
 	static const int IS_DEPARTURE = 304;
 	static const int IS_ARRIVAL = 305;
-	static const int UNCHECKED = 399;
+	static const int CANCEL_REQUEST	= 306;
+	static const int UNCHECKED = 307;
+
 private:
 	//DATA
 	Request* 				request;
@@ -65,9 +67,9 @@ private:
 	DateTimePicker* 		dateTimePicker;
 	Button* 				switchStationsButton;
 	EditField* 				editTimeDateField;
-
 	CheckButton * 			isDepart;
 	CheckButton * 			isArrivial;
+	Popup*					waitingPopup;
 };
 
 #endif	//_FormRouteplanner_H_

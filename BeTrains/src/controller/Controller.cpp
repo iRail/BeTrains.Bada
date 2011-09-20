@@ -12,6 +12,7 @@ using namespace Osp::App;
 using namespace Osp::Base;
 using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
+using namespace Osp::Social;
 
 Controller* Controller::instance = 0;
 
@@ -92,6 +93,8 @@ void Controller::switchToFormRoutePlanner() {
 }
 
 void Controller::switchToLiveBoardResults() {
+	if(formLiveBoard != null)
+		formLiveBoard->hideWaitingPopup();
 	if (currentForm == null || currentForm != (Form*) liveBoardResults) {
 			prevForm = currentForm;
 		if (liveBoardResults == null) {
@@ -104,6 +107,8 @@ void Controller::switchToLiveBoardResults() {
 }
 
 void Controller::switchToRoutePlannerResults() {
+	if(formRoutePlanner != null)
+		formRoutePlanner->hideWaitingPopup();
 	if (currentForm == null || currentForm != (Form*) routePlannerResults) {
 		prevForm = currentForm;
 		if(routePlannerResults ==null){
@@ -187,6 +192,13 @@ void Controller::setLiveboardTime(DateTime time){
 	formLiveBoard->RequestRedraw(true);
 }
 
+void Controller::cancelRequest(){
+	if(routeRequestManager != null)
+		routeRequestManager->cancelRequest();
+	if(liveBoardRequestManager != null)
+		liveBoardRequestManager->cancelRequest();
+}
+
 void Controller::switchRequestStations(){
 	AppData::GetInstance()->getCurrentRequest()->switchStations();
 	formRoutePlanner->RequestRedraw(true);
@@ -196,3 +208,29 @@ void Controller::setIsDeparture(bool isDeparture){
 	AppData::GetInstance()->getCurrentRequest()->setIsDepart(isDeparture);
 }
 
+void Controller::saveToCalendar(int index){
+	Trip* trip=null;
+	result r = AppData::GetInstance()->getCurrentRequest()->getTrips()->GetAt(index,trip);
+	if(r==E_SUCCESS && trip !=null){
+		/*
+		Osp::Social::Calendarbook* calendarbook = new Calendarbook();
+		calendarbook->Construct(null);
+		CalEvent event;
+		DateTime startTime, endTime;
+		event.SetCategory(EVENT_CATEGORY_APPOINTMENT);
+		Connection* first;
+		Connection* last;
+		trip->getConnections()->GetAt(0,first);
+		ConnectionNode* firstNode=first->getStartConnectionNode();
+		ConnectionNode* lastNode=last->getEndConnectionNode();
+		trip->getConnections()->GetAt(trip->getConnections()->GetCount()-1,last);
+		r = event.SetSubject(firstNode->getStation()->getName() + "-" + lastNode->getStation()->getName());
+		r = event.SetStartAndEndTime(firstNode->getDateTime(), lastNode->getDateTime());
+		String desc="testje";
+		event.SetDescription(desc);
+		calendarbook->AddEvent(event);
+		*/
+		AppLog("Controller::save to calendar");
+	}
+
+}

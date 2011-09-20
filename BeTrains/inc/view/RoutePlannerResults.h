@@ -15,7 +15,8 @@ using namespace Osp::App;
 
 
 class RoutePlannerResults :
-	public HeaderForm
+	public HeaderForm,
+	public ITouchEventListener
 {
 
 // Construction
@@ -31,12 +32,27 @@ public:
 
 	//Action performed Listener
 	virtual void 	OnActionPerformed(const Osp::Ui::Control& source, int actionId);
+
+
+	/*
+	 * ITouchEventListener
+	 */
+	virtual void 	OnTouchDoublePressed (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
+	virtual void 	OnTouchFocusIn (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
+	virtual void 	OnTouchFocusOut (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
+	virtual void 	OnTouchLongPressed (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
+	virtual void 	OnTouchMoved (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
+	virtual void 	OnTouchPressed (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
+	virtual void 	OnTouchReleased (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
+
+	void ShowContextMenu(bool show);
+
 	/*
 	 * action id's
 	 */
-	static const int NEXT_ACTION = 301;
-	static const int PREVIOUS_ACTION = 302;
-	static const int SAVE_CALENDAR_ACTION = 303;
+	static const int NEXT_ACTION 			= 301;
+	static const int PREVIOUS_ACTION 		= 302;
+	static const int SAVE_CALENDAR_ACTION 	= 303;
 
 	/*
 	 * Element id's for custom element
@@ -62,6 +78,7 @@ private:
 	ExpandableList*			list;
 	CustomListItemFormat*	format;
 	CustomListItemFormat*	subListFormat;
+	ContextMenu* 			contextMenu;
 
 	//help methods
 	void addTrip(Trip* trip)const;
