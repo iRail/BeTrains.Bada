@@ -12,6 +12,7 @@
 #include <FBase.h>
 #include <FSystem.h>
 #include <FUi.h>
+#include <FSocial.h>
 
 #include "view/HeaderForm.h"
 #include "view/FormLiveboard.h"
@@ -74,6 +75,7 @@ public:
 	void					cancelRequest();
 	void 					switchRequestStations();
 	void 					setIsDeparture(bool isDeparture);
+	void					saveToCalendar(int index); //saves from index from current results to calendar
 };
 
 #endif /* CONTROLLER_H_ */

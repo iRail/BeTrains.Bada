@@ -58,9 +58,18 @@ bool RoutePlannerResults::Initialize() {
 	 */
 	list = new ExpandableList();
 	list->Construct(Rectangle(0,titleHeight,bounds.width,bounds.height-titleHeight),CUSTOM_LIST_STYLE_NORMAL,true);
-	list->Construct(Rectangle(0,0,bounds.width,bounds.height),CUSTOM_LIST_STYLE_NORMAL,true);
+	//list->Construct(Rectangle(0,0,bounds.width,bounds.height),CUSTOM_LIST_STYLE_NORMAL,true);
 	list->SetTextOfEmptyList("No results.");
+	list->AddTouchEventListener(*this);
 	AddControl(*list);
+
+	/*
+	 * Create context menu
+	 */
+	contextMenu = new ContextMenu;
+	contextMenu->Construct(Point(50,50), CONTEXT_MENU_STYLE_LIST);
+	contextMenu->AddItem(L"Save in Calendar", SAVE_CALENDAR_ACTION);
+	contextMenu->AddActionEventListener(*this);
 
 	//CREATE FORMAT
 	format = new CustomListItemFormat();
@@ -229,3 +238,36 @@ void RoutePlannerResults::addTrip(Trip* trip)const{
 		list->AddSubItem(itemNumber,*subItem,i);
 	}
 }
+
+void RoutePlannerResults::ShowContextMenu(bool show)
+{
+	contextMenu->SetShowState(show);
+	if (show == true)
+		contextMenu->Show();
+	else
+		//Call Show of the form -> this makes sure the context menu is removed again when needed
+		Show();
+}
+
+/*
+ * ITouchEventListener
+ */
+void RoutePlannerResults::OnTouchDoublePressed (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo){}
+void RoutePlannerResults::OnTouchFocusIn (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo){}
+void RoutePlannerResults::OnTouchFocusOut (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo){}
+void RoutePlannerResults::OnTouchLongPressed (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo){
+	if (&source == list) {
+		contextMenu->SetPosition(currentPosition.x, currentPosition.y+contextMenu->GetBounds().y);
+		ShowContextMenu(true);
+		int sub = -1;
+		int mainIndex=-1;
+		list->GetItemIndexFromPosition(currentPosition,mainIndex,sub);
+		if(mainIndex >=0 )
+			Controller::GetInstance()->saveToCalendar(mainIndex);
+			//AppLog("RoutePlannerResults::OnTouchLongPressed mainitem:%S",Integer::ToString(mainIndex).GetPointer());
+	}
+}
+void RoutePlannerResults::OnTouchMoved (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo){}
+void RoutePlannerResults::OnTouchPressed (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo){}
+void RoutePlannerResults::OnTouchReleased (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo){}
+

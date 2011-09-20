@@ -8,10 +8,12 @@ using namespace Osp::Graphics;
 
 FormRouteplanner::FormRouteplanner(void) {
 	request=null;
+	waitingPopup=null;
 }
 
 FormRouteplanner::~FormRouteplanner(void) {
 	delete dateTimePicker;
+	delete waitingPopup;
 }
 
 bool FormRouteplanner::Initialize() {
@@ -127,6 +129,26 @@ bool FormRouteplanner::Initialize() {
 	radioGroup->Add(*isArrivial);
 	//default must me set after the group is set
 	isDepart->SetSelected(true); //default is alwayls on arrival
+
+
+	//popup
+	waitingPopup = new Popup();
+	int width=bounds.width*0.85;
+	int height=bounds.height/3;
+	AppLog("width %S height %S",Integer::ToString(width).GetPointer(),Integer::ToString(height).GetPointer());
+	//int width=400;
+	//int height=300;
+
+	Dimension dim(width,height);
+	waitingPopup->Construct(true, dim);
+	waitingPopup->SetTitleText(L"Loading...");
+
+	// Creates a button to close the Popup.
+	Button* button = new Button();
+	button->Construct(Rectangle(width*0.15,height/3,width*0.6,height/4), L"Cancel");
+	button->SetActionId(CANCEL_REQUEST);
+	button->AddActionEventListener(*this);
+	waitingPopup->AddControl(*button);
 	return true;
 }
 
@@ -148,6 +170,8 @@ void FormRouteplanner::OnActionPerformed(const Osp::Ui::Control& source,int acti
 	HeaderForm::OnActionPerformed(source,actionId);
 	if(actionId == SEARCH_ACTION){
 		AppLog("Clicked FormRoutePlanner::search");
+		waitingPopup->SetShowState(true);
+		waitingPopup->Show();
 		Controller::GetInstance()->retrieveRoutePlannerResults();
 	}else if(actionId == CLEAR_ACTION){
 		AppLog("Clicked FormRoutePlanner::clear");
@@ -161,6 +185,10 @@ void FormRouteplanner::OnActionPerformed(const Osp::Ui::Control& source,int acti
 	}else if(actionId == IS_DEPARTURE){
 		AppLog("The request must be on departure time.");
 		Controller::GetInstance()->setIsDeparture(true);
+	}else if(actionId == CANCEL_REQUEST){
+		AppLogDebug("popup cancel button pressed");
+		Controller::GetInstance()->cancelRequest();
+		hideWaitingPopup();
 	}
 }
 
@@ -230,3 +258,11 @@ void FormRouteplanner::RequestRedraw (bool show) const{
 	editTimeDateField->SetText(dateTimePicker->GetDateTime().ToString());
 	Form::RequestRedraw(show);
 }
+
+void FormRouteplanner::hideWaitingPopup()
+{
+    waitingPopup->SetShowState(false);
+    Draw();
+    Show();
+}
+

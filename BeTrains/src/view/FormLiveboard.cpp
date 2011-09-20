@@ -77,9 +77,6 @@ bool FormLiveboard::Initialize() {
 	button->SetActionId(CANCEL_REQUEST);
 	button->AddActionEventListener(*this);
 	waitingPopup->AddControl(*button);
-
-
-	//AddControl(*waitingPopup);
 	return true;
 }
 
