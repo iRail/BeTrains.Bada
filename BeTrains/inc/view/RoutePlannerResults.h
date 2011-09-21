@@ -21,7 +21,7 @@ class RoutePlannerResults :
 
 // Construction
 public:
-	RoutePlannerResults(void);
+	RoutePlannerResults();
 	virtual ~RoutePlannerResults(void);
 	bool Initialize(void);
 
@@ -50,8 +50,8 @@ public:
 	/*
 	 * action id's
 	 */
-	static const int NEXT_ACTION 			= 301;
-	static const int PREVIOUS_ACTION 		= 302;
+	static const int REFRESH_ACTION			= 301;
+	static const int BACK_ACTION 			= 302;
 	static const int SAVE_CALENDAR_ACTION 	= 303;
 
 	/*
@@ -70,6 +70,7 @@ public:
 private:
 	//DATA
 	Request* 				request;
+	bool*					addToResults;
 	enum LIST_ITEMS{LIST_ITEM_STATIONS,LIST_ITEM_TIMES,LIST_ITEM_DELAYS,LIST_ITEM_DURATION,LIST_ITEM_VEHICLE_TYPE,LIST_ITEM_VEHICLE_NAME,LIST_ITEM_NUMBER_CONNECTIONS,LIST_ITEM_DATE};
 	enum SUB_LIST_ITEMS{SUBLIST_FROM_TIME,SUBLIST_TO_TIME,SUBLIST_FROM_DELAY,SUBLIST_TO_DELAY,SUBLIST_FROM_STATION,SUBLIST_TO_STATION,SUBLIST_FROM_PLATFORM,SUBLIST_TO_PLATFORM,SUBLIST_VEHICLE};
 

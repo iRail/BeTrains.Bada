@@ -20,8 +20,8 @@ using namespace Osp::Io;
 RouteRequestManager::RouteRequestManager():
 	__pSession(null),
 	__pTransaction(null),
-	__pRequest(null)
-	//TODO set all null pointers
+	__pRequest(null),
+	addToResults(false)
 {
 }
 
@@ -42,8 +42,8 @@ void RouteRequestManager::cancelRequest(){
 	}
 }
 
-void RouteRequestManager::setRequest(Request* req){
-
+void RouteRequestManager::setRequest(Request* req,bool addToResults_){
+	addToResults= addToResults_;
 	__pRequest = req;
 	String hostAddr = L"http://api.irail.be";
 
@@ -148,6 +148,8 @@ void RouteRequestManager::OnTransactionReadyToRead(Osp::Net::Http::HttpSession& 
 		trips = h.createTripList(buffer);
 	}
 	if(trips != null){
+		if(!addToResults)
+			AppData::GetInstance()->getCurrentRequest()->clearTrips();
 		AppData::GetInstance()->getCurrentRequest()->getTrips()->AddItems(*trips);
 		AppLog("parsing succesfull");
 		Controller::GetInstance()->switchToRoutePlannerResults();

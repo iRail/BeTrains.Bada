@@ -19,7 +19,7 @@ public:
 	virtual ~RouteRequestManager();
 
 	void cancelRequest();
-	void setRequest(Request* req);
+	void setRequest(Request* req,bool addToResults_=false);
 
 	void OnTransactionReadyToRead(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, int availableBodyLen);
 	void OnTransactionAborted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, result r);
@@ -33,6 +33,7 @@ private:
 	Osp::Net::Http::HttpTransaction* 		__pTransaction; //ownership
 	Osp::Net::Http::HttpRequest* 			__pHttpRequest;	//ownership
 	Request*								__pRequest; 	//no ownership
+	bool 									addToResults;	//do we add results to all the results or clear them first
 };
 
 #endif /* ROUTEREQUESTMANAGER_H_ */

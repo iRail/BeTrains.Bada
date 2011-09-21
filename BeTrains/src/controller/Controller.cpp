@@ -117,8 +117,8 @@ void Controller::switchToRoutePlannerResults() {
 		}
 		currentForm = routePlannerResults;
 		SetCurrentForm(currentForm);
-		routePlannerResults->RequestRedraw();
 	}
+	routePlannerResults->RequestRedraw();
 }
 
 void Controller::selectStation(Station* &station) { //Station* station
@@ -152,13 +152,17 @@ void Controller::setPreviousForm(){
 	}
 }
 
-void Controller::retrieveRoutePlannerResults(){
+void Controller::retrieveRoutePlannerResults(bool addToResults){
+	AppLog("delete route request manager");
 	if(routeRequestManager != null)
 		delete routeRequestManager;
+	AppLog("create new manager");
 	routeRequestManager = new RouteRequestManager();
-	routeRequestManager->setRequest(AppData::GetInstance()->getCurrentRequest());
+	AppLog("set request");
+	routeRequestManager->setRequest(AppData::GetInstance()->getCurrentRequest(),addToResults);
 }
 
+//if add to results is false==default then the results get cleared before adding the new onces from the last request
 void Controller::retrieveLiveBoardResults(){
 	if(liveBoardRequestManager != null)
 		delete liveBoardRequestManager;
@@ -212,24 +216,34 @@ void Controller::saveToCalendar(int index){
 	Trip* trip=null;
 	result r = AppData::GetInstance()->getCurrentRequest()->getTrips()->GetAt(index,trip);
 	if(r==E_SUCCESS && trip !=null){
-		/*
+		AppLog("1");
 		Osp::Social::Calendarbook* calendarbook = new Calendarbook();
+		AppLog("2");
 		calendarbook->Construct(null);
+		AppLog("3");
 		CalEvent event;
 		DateTime startTime, endTime;
+		AppLog("4");
 		event.SetCategory(EVENT_CATEGORY_APPOINTMENT);
 		Connection* first;
 		Connection* last;
+		AppLog("5");
 		trip->getConnections()->GetAt(0,first);
+		AppLog("6");
+		trip->getConnections()->GetAt(trip->getConnections()->GetCount()-1,last);
 		ConnectionNode* firstNode=first->getStartConnectionNode();
 		ConnectionNode* lastNode=last->getEndConnectionNode();
-		trip->getConnections()->GetAt(trip->getConnections()->GetCount()-1,last);
+		AppLog("7");
 		r = event.SetSubject(firstNode->getStation()->getName() + "-" + lastNode->getStation()->getName());
-		r = event.SetStartAndEndTime(firstNode->getDateTime(), lastNode->getDateTime());
+		DateTime start= firstNode->getDateTime();
+		DateTime end  = lastNode->getDateTime();
+		AppLog("8");
+		r = event.SetStartAndEndTime(start, end);
 		String desc="testje";
+		AppLog("9");
 		event.SetDescription(desc);
 		calendarbook->AddEvent(event);
-		*/
+
 		AppLog("Controller::save to calendar");
 	}
 
