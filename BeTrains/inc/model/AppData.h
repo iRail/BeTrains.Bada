@@ -63,10 +63,13 @@ public:
 	//returns current Route Planner Request
 	Request*			getCurrentRequest();
 	void 				clearTripListFromCurrentRequest();
+	void				newRequest();
 
 	//returns current  Live Board Request�
 	LiveBoardRequest* 	getCurrentLiveBoardRequest();
 	void				clearLiveBoardResults();
+	void				newLiveboardRequest();
+
 private:
 	AppData();
 	~AppData();

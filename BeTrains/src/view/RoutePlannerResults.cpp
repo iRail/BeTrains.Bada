@@ -174,6 +174,7 @@ void RoutePlannerResults::OnActionPerformed(const Osp::Ui::Control& source,
 		//goes back to the request. so we could edit the form we already made.
 		//in contrary to pressing on the header button route planner, that should give an empty form
 		AppLog("Clicked RoutePlannerResults::back");
+		Controller::GetInstance()->setPreviousForm();
 	}
 }
 

@@ -84,10 +84,14 @@ result HeaderForm::OnTerminating(void) {
 }
 
 void HeaderForm::OnActionPerformed(const Osp::Ui::Control& source, int actionId) {
-	if (actionId == this->ACTION_HEADER_ID_ROUTE_PLANNER)
+	if (actionId == this->ACTION_HEADER_ID_ROUTE_PLANNER){
+		Controller::GetInstance()->newRequest();
 		Controller::GetInstance()->switchToFormRoutePlanner();
-	if (actionId == this->ACTION_HEADER_ID_LIVEBOARD)
+	}
+	if (actionId == this->ACTION_HEADER_ID_LIVEBOARD){
+		Controller::GetInstance()->newLiveboardRequest();
 		Controller::GetInstance()->switchToFormLiveBoard();
+	}
 }
 
 void HeaderForm::OnOrientationChanged(const Control& source,

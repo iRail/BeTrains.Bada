@@ -76,6 +76,8 @@ public:
 	void 					switchRequestStations();
 	void 					setIsDeparture(bool isDeparture);
 	void					saveToCalendar(int index); //saves from index from current results to calendar
+	void					newRequest();
+	void					newLiveboardRequest();
 };
 
 #endif /* CONTROLLER_H_ */

@@ -123,6 +123,13 @@ void AppData::clearTripListFromCurrentRequest(){
 	_currentRequest->clearTrips();
 }
 
+void AppData::newRequest(){
+	if(_currentRequest != null)
+		delete _currentRequest;
+	_currentRequest = new Request();
+}
+
+
 LiveBoardRequest* AppData::getCurrentLiveBoardRequest(){
 	if(!_currentLiveBoardRequest)
 		_currentLiveBoardRequest = new LiveBoardRequest();
@@ -131,4 +138,10 @@ LiveBoardRequest* AppData::getCurrentLiveBoardRequest(){
 
 void AppData::clearLiveBoardResults(){
 	_currentLiveBoardRequest->clearResults();
+}
+
+void AppData::newLiveboardRequest(){
+	if(_currentLiveBoardRequest != null)
+		delete _currentLiveBoardRequest;
+	_currentLiveBoardRequest = new LiveBoardRequest();
 }

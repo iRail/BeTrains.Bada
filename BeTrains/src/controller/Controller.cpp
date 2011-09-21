@@ -76,6 +76,7 @@ void Controller::switchToFormLiveBoard() {
 		header->SetItemSelected(HeaderForm::HEADER_ID_LIVEBOARD);
 		SetCurrentForm(currentForm);
 	}
+	formLiveBoard->RequestRedraw();
 }
 
 void Controller::switchToFormRoutePlanner() {
@@ -90,6 +91,7 @@ void Controller::switchToFormRoutePlanner() {
 		header->SetItemSelected(HeaderForm::HEADER_ID_ROUTE_PLANNER);
 		SetCurrentForm(currentForm);
 	}
+	formRoutePlanner->RequestRedraw();
 }
 
 void Controller::switchToLiveBoardResults() {
@@ -245,5 +247,12 @@ void Controller::saveToCalendar(int index){
 
 		AppLog("Controller::save to calendar");
 	}
+}
 
+void Controller::newRequest(){
+	AppData::GetInstance()->newRequest();
+}
+
+void Controller::newLiveboardRequest(){
+	AppData::GetInstance()->newLiveboardRequest();
 }

@@ -159,6 +159,7 @@ void LiveBoardResults::OnActionPerformed(const Osp::Ui::Control& source,int acti
 		Controller::GetInstance()->retrieveLiveBoardResults();
 	}else if(actionId == BACK_ACTION){
 		AppLog("Clicked LiveBoardResults::back");
+		Controller::GetInstance()->setPreviousForm();
 	}
 }
 
