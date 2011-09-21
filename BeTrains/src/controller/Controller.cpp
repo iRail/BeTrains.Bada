@@ -31,6 +31,15 @@ Controller::Controller() {
 
 	//set start screen
 	switchToFormRoutePlanner();
+
+	/*
+	 * test getting Locale lang. setting
+	 */
+	//Osp::Locations::Services::ServicePreferences preferences;
+	//Osp::Locales::LanguageCode language = preferences.GetLanguage();
+	//AppLog("Language is: %S",language)
+
+
 }
 
 Controller::~Controller() {
