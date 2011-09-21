@@ -20,11 +20,12 @@ public:
 	bool Initialize(void);
 
 public:
-	virtual result OnInitializing(void);
-	virtual result OnTerminating(void);
-	virtual void OnActionPerformed(const Osp::Ui::Control& source, int actionId);
-	void RequestRedraw (bool show=true) const;
-	void hideWaitingPopup();
+	virtual result 	OnInitializing(void);
+	virtual result 	OnTerminating(void);
+	virtual void   	OnActionPerformed(const Osp::Ui::Control& source, int actionId);
+	virtual void    recalculateComponents();
+	void 			RequestRedraw (bool show=true) const;
+	void 			hideWaitingPopup();
 	/*
 	 * ITouchEventListeners
 	 */

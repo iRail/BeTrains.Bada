@@ -24,7 +24,7 @@ bool FormLiveboard::Initialize() {
 	AppResource* appRes = Application::GetInstance()->GetAppResource();
 	appRes->GetString(L"LB_SEARCH", search);
 	appRes->GetString(L"LB_CLEAR", clear);
-	appRes->GetString(L"LB_STATION",station);
+	appRes->GetString(L"LB_STATION", station);
 
 	/*
 	 * Set softkeys
@@ -195,4 +195,25 @@ void FormLiveboard::hideWaitingPopup() {
 	waitingPopup->SetShowState(false);
 	Draw();
 	Show();
+}
+
+void FormLiveboard::recalculateComponents() {
+
+	Rectangle bounds = this->GetClientAreaBounds();
+	int y = 10;
+	int border = 0.05 * bounds.width;
+	int widthBody = 0.9 * bounds.width;
+
+	int heightBody = int(1.0 / 6.0 * double(bounds.height));
+	/*
+	 * add Controls to form
+	 */
+	stationEditField->SetBounds(Rectangle(border, heightBody, widthBody,heightBody));
+	y+=heightBody;
+	//editTime->SetBounds(Rectangle(border,y,widthBody,heightBody));
+	Rectangle editTimeBounds = editTime->GetBounds();
+	int editTimeBorder = (bounds.width - editTimeBounds.width) / 2;
+	//reposition to align in the middle
+	editTime->SetPosition(editTimeBorder, 3 * heightBody);
+	this->RequestRedraw();
 }

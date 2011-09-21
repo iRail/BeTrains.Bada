@@ -334,6 +334,9 @@ void FormRouteplanner::recalculateComponents() {
 	 */
 	Rectangle bounds = this->GetClientAreaBounds();
 	scrollPanel->SetBounds(Rectangle(0,0,bounds.width,bounds.height));
+	AppLog("width: %S", Integer::ToString(bounds.width).GetPointer());
+	AppLog("width: %S", Integer::ToString(bounds.height).GetPointer());
+
 	//int x = bounds.x;
 	int y = 10;
 	int border = 0.05 * bounds.width;
@@ -341,31 +344,31 @@ void FormRouteplanner::recalculateComponents() {
 
 	int heightBody = bounds.height / 6;
 	if (bounds.width > bounds.height)
-		heightBody = bounds.width / 10;
-
-	//int heightBody = int(1.0 / 6.0 * double(bounds.height));
+		heightBody = bounds.width / 6;
 
 	int stationWidth = 0.85 * widthBody;
 	int switchButtonWidth = 0.15 * widthBody;
+
 
 	/*
 	 * Adjust bounds of the components
 	 */
 	fromStationEditField->SetBounds(Rectangle(border, y, stationWidth,heightBody));
+	switchStationsButton->Construct(Rectangle(border + stationWidth, y,
+					switchButtonWidth, heightBody * 2));
 	switchStationsButton->SetBounds(Rectangle(border + stationWidth, y,switchButtonWidth, heightBody * 2));
-	y += heightBody; // cumulate y
+	y += heightBody; // cummulate y
 	toStationEditField->SetBounds(Rectangle(border, y, stationWidth, heightBody));
 	//dateTimePicker->SetBound
 
-	y += heightBody + border; // cumulate y
+	y += heightBody + border; // cummulate y
 	editTimeDateField->SetBounds(Rectangle(border, y, widthBody, heightBody));
 
-	y += heightBody; // cumulate y
+	y += heightBody+10; // cummulate y
 	isDepart->SetBounds(Rectangle(border, y, widthBody, heightBody));
 	y += heightBody;
 	isArrivial->SetBounds(Rectangle(border, y, widthBody, heightBody));
 
 	this->RequestRedraw(true);
-
 }
 
