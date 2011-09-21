@@ -66,8 +66,8 @@ public:
 	void					setPreviousForm(); //GO BACK
 
 	//actions
-	void					retrieveRoutePlannerResults();
-	void					retrieveLiveBoardResults();
+	void					retrieveRoutePlannerResults(bool addToResults=false);
+	void					retrieveLiveBoardResults(bool addToResults=false);
 	void 					clearRoutePlanner();
 	void 					clearLiveboard();
 	void 					setRoutePlannerTime(DateTime time);
