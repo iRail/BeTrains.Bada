@@ -9,7 +9,7 @@ using namespace Osp::Ui::Controls;
 using namespace Osp::Graphics;
 
 LiveBoardResults::LiveBoardResults(void) {
-	liveBoardRequest=null;
+	liveBoardRequest = null;
 }
 
 LiveBoardResults::~LiveBoardResults(void) {
@@ -17,17 +17,31 @@ LiveBoardResults::~LiveBoardResults(void) {
 
 bool LiveBoardResults::Initialize() {
 	RemoveAllControls();
+
+	/*
+	 * I18N
+	 */
+	String refresh = "Refresh";
+	String back = "Back";
+	String empty = "Empty list";
+	String saveToCalendar = "Save to calendar";
+	AppResource* appRes = Application::GetInstance()->GetAppResource();
+	appRes->GetString(L"LB_RES_REFRESH", refresh);
+	appRes->GetString(L"LB_RES_BACK", back);
+	appRes->GetString(L"LB_RES_EMPTY",empty);
+
+
 	HeaderForm::Initialize(true, true); //enables left and right softkey
 	/*
 	 * get Data from current request from appdata
 	 */
 	liveBoardRequest = AppData::GetInstance()->getCurrentLiveBoardRequest(); // no ownership offcourse
 
-	SetSoftkeyText(SOFTKEY_0, "Refresh");
+	SetSoftkeyText(SOFTKEY_0, refresh);
 	SetSoftkeyActionId(SOFTKEY_0, REFRESH_ACTION);
 	AddSoftkeyActionListener(SOFTKEY_0,*this);
 
-	SetSoftkeyText(SOFTKEY_1, "Back");
+	SetSoftkeyText(SOFTKEY_1, back);
 	SetSoftkeyActionId(SOFTKEY_1, BACK_ACTION);
 	AddSoftkeyActionListener(SOFTKEY_1,*this);
 
@@ -40,8 +54,8 @@ bool LiveBoardResults::Initialize() {
 	 * Construct a ListView
 	 */
 	list = new ListView();
-	list->Construct(Rectangle(0,0,bounds.width,bounds.height),true,false);
-	list->SetTextOfEmptyList("empty list");
+	list->Construct(Rectangle(0, 0, bounds.width, bounds.height), true, false);
+	list->SetTextOfEmptyList(empty);
 	list->SetItemProvider(*this);
 	list->AddListViewItemEventListener(*this);
 	AddControl(*list);
@@ -49,16 +63,22 @@ bool LiveBoardResults::Initialize() {
 	return true;
 }
 
-
 /*
  * implements IListViewItemEventListener
  */
-void LiveBoardResults::OnListViewItemStateChanged(Osp::Ui::Controls::ListView &listView, int index, int elementId, Osp::Ui::Controls::ListItemStatus status){}
+void LiveBoardResults::OnListViewItemStateChanged(
+		Osp::Ui::Controls::ListView &listView, int index, int elementId,
+		Osp::Ui::Controls::ListItemStatus status) {
+}
 
-void LiveBoardResults::OnListViewItemSwept(Osp::Ui::Controls::ListView &listView, int index, Osp::Ui::Controls::SweepDirection direction){}
+void LiveBoardResults::OnListViewItemSwept(
+		Osp::Ui::Controls::ListView &listView, int index,
+		Osp::Ui::Controls::SweepDirection direction) {
+}
 
-void LiveBoardResults::OnListViewContextItemStateChanged(Osp::Ui::Controls::ListView &listView, int index, int elementId, Osp::Ui::Controls::ListContextItemStatus state)
-{
+void LiveBoardResults::OnListViewContextItemStateChanged(
+		Osp::Ui::Controls::ListView &listView, int index, int elementId,
+		Osp::Ui::Controls::ListContextItemStatus state) {
 	//TODO make context menu to add to calendar
 }
 
@@ -68,7 +88,6 @@ void LiveBoardResults::OnListViewContextItemStateChanged(Osp::Ui::Controls::List
 Osp::Ui::Controls::ListItemBase*
 LiveBoardResults::CreateItem(int index, int itemWidth)
 {
-	AppLog("create item:%S",Integer::ToString(index).GetPointer());
 	Rectangle bounds = GetClientAreaBounds();
 	int itemHeight = bounds.height/8;
 	if(bounds.width>bounds.height)
@@ -78,7 +97,7 @@ LiveBoardResults::CreateItem(int index, int itemWidth)
 	 * Get the trip from the index id
 	 */
 	LiveBoardResult* result;
-	liveBoardRequest->getResults()->GetAt(index,result);
+	liveBoardRequest->getResults()->GetAt(index, result);
 	/*
 	 * Get trip data
 	 */
@@ -89,11 +108,20 @@ LiveBoardResults::CreateItem(int index, int itemWidth)
 
 	//create custom item with right size, height is calculated with amount of connections
 	CustomItem* item = new CustomItem();
-	item->Construct(Osp::Graphics::Dimension(itemWidth,itemHeight), LIST_ANNEX_STYLE_NORMAL); //+itemHeight*amountConnections
-	item->AddElement(Rectangle(0				, 0					, itemWidth*0.75	, 0.5*itemHeight), STATION		, station	, 0.5*itemHeight	, Color::COLOR_WHITE	, Color::COLOR_WHITE	, Color::COLOR_WHITE);
-	item->AddElement(Rectangle(0				, 0.5*itemHeight	, itemWidth*0.75	, 0.5*itemHeight), TIME			, time		, 0.5*itemHeight	, Color::COLOR_WHITE	, Color::COLOR_WHITE	, Color::COLOR_WHITE);
-	item->AddElement(Rectangle(itemWidth*0.75	, 0					, itemWidth*0.25	, 0.5*itemHeight), PLATFORM		, platform	, 0.5*itemHeight	, Color::COLOR_WHITE	, Color::COLOR_BLUE		, Color::COLOR_BLUE);
-	item->AddElement(Rectangle(itemWidth*0.75	, 0.5*itemHeight	, itemWidth*0.25	, 0.5*itemHeight), DELAY		, delay  	, 0.5*itemHeight	, Color::COLOR_RED		, Color::COLOR_BLUE		, Color::COLOR_BLUE);
+	item->Construct(Osp::Graphics::Dimension(itemWidth, itemHeight),
+			LIST_ANNEX_STYLE_NORMAL); //+itemHeight*amountConnections
+	item->AddElement(Rectangle(0, 0, itemWidth * 0.75, 0.5 * itemHeight),
+			STATION, station, 0.5 * itemHeight, Color::COLOR_WHITE,
+			Color::COLOR_WHITE, Color::COLOR_WHITE);
+	item->AddElement(Rectangle(0, 0.5 * itemHeight, itemWidth * 0.75, 0.5
+			* itemHeight), TIME, time, 0.5 * itemHeight, Color::COLOR_WHITE,
+			Color::COLOR_WHITE, Color::COLOR_WHITE);
+	item->AddElement(Rectangle(itemWidth * 0.75, 0, itemWidth * 0.25, 0.5
+			* itemHeight), PLATFORM, platform, 0.5 * itemHeight,
+			Color::COLOR_WHITE, Color::COLOR_BLUE, Color::COLOR_BLUE);
+	item->AddElement(Rectangle(itemWidth * 0.75, 0.5 * itemHeight, itemWidth
+			* 0.25, 0.5 * itemHeight), DELAY, delay, 0.5 * itemHeight,
+			Color::COLOR_RED, Color::COLOR_BLUE, Color::COLOR_BLUE);
 
 	return item;
 }
@@ -101,14 +129,12 @@ LiveBoardResults::CreateItem(int index, int itemWidth)
 bool
 LiveBoardResults::DeleteItem(int index, Osp::Ui::Controls::ListItemBase* item, int itemWidth)
 {
-	AppLog("delete items");
     delete item; item = null; return true;
 }
 
 int
 LiveBoardResults::GetItemCount(void)
 {
-	AppLog("get item count:%S",Integer::ToString(liveBoardRequest->getResults()->GetCount()).GetPointer());
 	return liveBoardRequest->getResults()->GetCount();
 }
 
@@ -136,8 +162,7 @@ void LiveBoardResults::OnActionPerformed(const Osp::Ui::Control& source,int acti
 	}
 }
 
-
-void LiveBoardResults::RequestRedraw (bool show){
+void LiveBoardResults::RequestRedraw(bool show) {
 	AppLog("LiveBoardResults::RequestRedraw");
 	liveBoardRequest = AppData::GetInstance()->getCurrentLiveBoardRequest();
 	list->UpdateList();

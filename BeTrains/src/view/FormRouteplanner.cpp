@@ -25,11 +25,33 @@ bool FormRouteplanner::Initialize() {
 	 */
 	request = AppData::GetInstance()->getCurrentRequest(); // no ownership offcourse
 
-	this->SetSoftkeyText(SOFTKEY_0, "Search");
+	/*
+	 * I18N
+	 */
+	String search = "zoekt";
+	String clear = "wis";
+	String from = "van";
+	String to = "naar";
+	String pickTime = "kies tijd en datum";
+	String depart = "vertrek";
+	String arrival = "aankomst";
+	AppResource* appRes = Application::GetInstance()->GetAppResource();
+	appRes->GetString(L"RP_SEARCH",search);
+	appRes->GetString(L"RP_CLEAR",clear);
+	appRes->GetString(L"RP_FROM",from);
+	appRes->GetString(L"RP_TO",to);
+	appRes->GetString(L"RP_PICK_TIME",pickTime);
+	appRes->GetString(L"RP_DEPARTURE",depart);
+	appRes->GetString(L"RP_ARRIVAL",arrival);
+
+	/*
+	 * Set soft keys
+	 */
+	this->SetSoftkeyText(SOFTKEY_0, search);
 	this->SetSoftkeyActionId(SOFTKEY_0, SEARCH_ACTION);
 	this->AddSoftkeyActionListener(SOFTKEY_0,*this);
 
-	this->SetSoftkeyText(SOFTKEY_1, "Clear");
+	this->SetSoftkeyText(SOFTKEY_1, clear);
 	this->SetSoftkeyActionId(SOFTKEY_1, CLEAR_ACTION);
 	this->AddSoftkeyActionListener(SOFTKEY_1,*this);
 
@@ -51,7 +73,7 @@ bool FormRouteplanner::Initialize() {
 	 */
 	fromStationEditField = new EditField();
 	fromStationEditField->Construct( Rectangle(border, y, stationWidth, heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 100,GROUP_STYLE_TOP);
-	fromStationEditField->SetTitleText(L"From");
+	fromStationEditField->SetTitleText(from);
 	AddControl(*fromStationEditField);
 	fromStationEditField->AddTouchEventListener(*this);
 	fromStationEditField->SetEnabled(false);//prevents opening default text input
@@ -78,7 +100,7 @@ bool FormRouteplanner::Initialize() {
 	y += heightBody; // cumulate y
 	toStationEditField = new EditField();
 	toStationEditField->Construct( Rectangle(border, y, stationWidth, heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 100,GROUP_STYLE_BOTTOM);
-	toStationEditField->SetTitleText(L"To");
+	toStationEditField->SetTitleText(to);
 	AddControl(*toStationEditField);
 	toStationEditField->AddTouchEventListener(*this);
 	toStationEditField->SetEnabled(false);//prevents opening default text input
@@ -89,7 +111,7 @@ bool FormRouteplanner::Initialize() {
 	 * Carefull, this dateTimePicker must be destroyed in Destructor
 	 */
 	dateTimePicker = new DateTimePicker();
-	dateTimePicker->Construct("Pick time and date");
+	dateTimePicker->Construct(pickTime);
 	dateTimePicker->Set24HourNotationEnabled(true);
 	dateTimePicker->AddDateTimeChangeEventListener(*this);
 
@@ -101,7 +123,7 @@ bool FormRouteplanner::Initialize() {
 	editTimeDateField->Construct( Rectangle(border, y, widthBody, heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 100,GROUP_STYLE_TOP);
 	editTimeDateField->SetEnabled(false);
 	editTimeDateField->SetText(dateTimePicker->GetDateTime().ToString());
-	editTimeDateField->SetTitleText(L"Pick time and date");
+	editTimeDateField->SetTitleText(pickTime);
 	editTimeDateField->AddTouchEventListener(*this);
 	AddControl(*editTimeDateField);
 
@@ -112,13 +134,13 @@ bool FormRouteplanner::Initialize() {
 	 */
 	y += heightBody; // cumulate y
 	isDepart = new CheckButton();
-	isDepart->Construct(Rectangle(border, y, widthBody, heightBody), CHECK_BUTTON_STYLE_RADIO_WITH_DIVIDER, BACKGROUND_STYLE_DEFAULT, false, L"Depart",GROUP_STYLE_MIDDLE);
+	isDepart->Construct(Rectangle(border, y, widthBody, heightBody), CHECK_BUTTON_STYLE_RADIO_WITH_DIVIDER, BACKGROUND_STYLE_DEFAULT, false, depart,GROUP_STYLE_MIDDLE);
 	isDepart->AddActionEventListener(*this);
 	isDepart->SetActionId(IS_DEPARTURE,UNCHECKED,IS_DEPARTURE);
 	AddControl(*isDepart);
 	y += heightBody;
 	isArrivial = new CheckButton();
-	isArrivial->Construct(Rectangle(border, y, widthBody, heightBody), CHECK_BUTTON_STYLE_RADIO_WITH_DIVIDER,BACKGROUND_STYLE_DEFAULT, false, L"Arrival",GROUP_STYLE_BOTTOM);
+	isArrivial->Construct(Rectangle(border, y, widthBody, heightBody), CHECK_BUTTON_STYLE_RADIO_WITH_DIVIDER,BACKGROUND_STYLE_DEFAULT, false,arrival,GROUP_STYLE_BOTTOM);
 	isArrivial->AddActionEventListener(*this);
 	isArrivial->SetActionId(IS_ARRIVAL,UNCHECKED,IS_ARRIVAL);
 	AddControl(*isArrivial);
