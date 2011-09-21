@@ -32,6 +32,7 @@ public:
 	void 			hideWaitingPopup();
 	//Action performed Listener
 	virtual void 	OnActionPerformed(const Osp::Ui::Control& source, int actionId);
+	virtual void 	recalculateComponents();
 
 	//IDateTimeChangeEventListener
 	virtual void 	OnDateTimeChangeCanceled (const Osp::Ui::Control &source);
@@ -70,6 +71,7 @@ private:
 	CheckButton * 			isDepart;
 	CheckButton * 			isArrivial;
 	Popup*					waitingPopup;
+	ScrollPanel*			scrollPanel;
 };
 
 #endif	//_FormRouteplanner_H_

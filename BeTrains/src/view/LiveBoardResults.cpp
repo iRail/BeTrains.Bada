@@ -8,8 +8,10 @@ using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
 using namespace Osp::Graphics;
 
-LiveBoardResults::LiveBoardResults(void) {
-	liveBoardRequest = null;
+LiveBoardResults::LiveBoardResults(void):
+		liveBoardRequest(null)
+{
+
 }
 
 LiveBoardResults::~LiveBoardResults(void) {

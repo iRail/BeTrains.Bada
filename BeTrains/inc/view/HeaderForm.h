@@ -31,6 +31,8 @@ public:
 	virtual result OnTerminating(void);
 	virtual void OnActionPerformed(const Osp::Ui::Control& source, int actionId);
 	void OnOrientationChanged(const Control& source, OrientationStatus orientationStatus);
+	virtual void recalculateComponents();
+
 	/*
 	 * Action id's
 	 */
