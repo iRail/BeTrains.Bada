@@ -14,12 +14,27 @@ FormLiveboard::~FormLiveboard(void) {
 }
 
 bool FormLiveboard::Initialize() {
+
+	/*
+	 * I18N
+	 */
+	String search = "zoekt";
+	String clear = "wis";
+	String station = "station";
+	AppResource* appRes = Application::GetInstance()->GetAppResource();
+	appRes->GetString(L"LB_SEARCH", search);
+	appRes->GetString(L"LB_CLEAR", clear);
+	appRes->GetString(L"LB_STATION",station);
+
+	/*
+	 * Set softkeys
+	 */
 	HeaderForm::Initialize(true, true);
-	this->SetSoftkeyText(SOFTKEY_0, "Search");
+	this->SetSoftkeyText(SOFTKEY_0, search);
 	this->SetSoftkeyActionId(SOFTKEY_0, SEARCH_ACTION);
 	this->AddSoftkeyActionListener(SOFTKEY_0, *this);
 
-	this->SetSoftkeyText(SOFTKEY_1, "Clear");
+	this->SetSoftkeyText(SOFTKEY_1, clear);
 	this->SetSoftkeyActionId(SOFTKEY_1, CLEAR_ACTION);
 	this->AddSoftkeyActionListener(SOFTKEY_1, *this);
 	liveBoardRequest = AppData::GetInstance()->getCurrentLiveBoardRequest();
@@ -40,7 +55,7 @@ bool FormLiveboard::Initialize() {
 	stationEditField->Construct(Rectangle(border, heightBody, widthBody,
 			heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true,
 			100);
-	stationEditField->SetTitleText(L"Station");
+	stationEditField->SetTitleText(station);
 	AddControl(*stationEditField);
 	stationEditField->AddTouchEventListener(*this);
 	stationEditField->SetEnabled(false);//prevents opening default text input
@@ -61,19 +76,20 @@ bool FormLiveboard::Initialize() {
 	//waitingPopup = new WaitingPopup("Loading request",bounds.width*0.6,bounds.height/3);
 	//waitingPopup->Construct(true,Dimension(bounds.width*0.6,bounds.height/3));
 	waitingPopup = new Popup();
-	int width=bounds.width*0.85;
-	int height=bounds.height/3;
+	int width = bounds.width * 0.85;
+	int height = bounds.height / 3;
 	AppLog("width %S height %S",Integer::ToString(width).GetPointer(),Integer::ToString(height).GetPointer());
 	//int width=400;
 	//int height=300;
 
-	Dimension dim(width,height);
+	Dimension dim(width, height);
 	waitingPopup->Construct(true, dim);
 	waitingPopup->SetTitleText(L"Loading...");
 
 	// Creates a button to close the Popup.
 	Button* button = new Button();
-	button->Construct(Rectangle(width*0.15,height/3,width*0.6,height/4), L"Cancel");
+	button->Construct(Rectangle(width * 0.15, height / 3, width * 0.6, height
+			/ 4), L"Cancel");
 	button->SetActionId(CANCEL_REQUEST);
 	button->AddActionEventListener(*this);
 	waitingPopup->AddControl(*button);
@@ -102,7 +118,7 @@ void FormLiveboard::OnActionPerformed(const Osp::Ui::Control& source,
 	} else if (actionId == CLEAR_ACTION) {
 		AppLog("Clicked FormLiveBoard::clear");
 		Controller::GetInstance()->clearLiveboard();
-	}else if(actionId == CANCEL_REQUEST){
+	} else if (actionId == CANCEL_REQUEST) {
 		AppLogDebug("popup cancel button pressed");
 		Controller::GetInstance()->cancelRequest();
 		hideWaitingPopup();
@@ -175,9 +191,8 @@ void FormLiveboard::OnTimeChanged(const Osp::Ui::Control& source, int hour,
 	Controller::GetInstance()->setLiveboardTime(newTime);
 }
 
-void FormLiveboard::hideWaitingPopup()
-{
-    waitingPopup->SetShowState(false);
-    Draw();
-    Show();
+void FormLiveboard::hideWaitingPopup() {
+	waitingPopup->SetShowState(false);
+	Draw();
+	Show();
 }

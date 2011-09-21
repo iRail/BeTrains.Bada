@@ -40,7 +40,7 @@ bool FormRouteplanner::Initialize() {
 	appRes->GetString(L"RP_CLEAR",clear);
 	appRes->GetString(L"RP_FROM",from);
 	appRes->GetString(L"RP_TO",to);
-	appRes->GetString(L"PICK_TIME",pickTime);
+	appRes->GetString(L"RP_PICK_TIME",pickTime);
 	appRes->GetString(L"RP_DEPARTURE",depart);
 	appRes->GetString(L"RP_ARRIVAL",arrival);
 
