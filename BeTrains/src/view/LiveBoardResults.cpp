@@ -16,25 +16,25 @@ LiveBoardResults::~LiveBoardResults(void) {
 }
 
 bool LiveBoardResults::Initialize() {
-	this->RemoveAllControls();
+	RemoveAllControls();
 	HeaderForm::Initialize(true, true); //enables left and right softkey
 	/*
 	 * get Data from current request from appdata
 	 */
 	liveBoardRequest = AppData::GetInstance()->getCurrentLiveBoardRequest(); // no ownership offcourse
 
-	this->SetSoftkeyText(SOFTKEY_0, "Previous");
-	this->SetSoftkeyActionId(SOFTKEY_0, PREVIOUS_ACTION);
-	this->AddSoftkeyActionListener(SOFTKEY_0,*this);
+	SetSoftkeyText(SOFTKEY_0, "Refresh");
+	SetSoftkeyActionId(SOFTKEY_0, REFRESH_ACTION);
+	AddSoftkeyActionListener(SOFTKEY_0,*this);
 
-	this->SetSoftkeyText(SOFTKEY_1, "Next");
-	this->SetSoftkeyActionId(SOFTKEY_1, NEXT_ACTION);
-	this->AddSoftkeyActionListener(SOFTKEY_1,*this);
+	SetSoftkeyText(SOFTKEY_1, "Back");
+	SetSoftkeyActionId(SOFTKEY_1, BACK_ACTION);
+	AddSoftkeyActionListener(SOFTKEY_1,*this);
 
 	/*
 	 * Calculate sizes for all controls
 	 */
-	Rectangle bounds = this->GetClientAreaBounds();
+	Rectangle bounds = GetClientAreaBounds();
 
 	/*
 	 * Construct a ListView
@@ -68,7 +68,8 @@ void LiveBoardResults::OnListViewContextItemStateChanged(Osp::Ui::Controls::List
 Osp::Ui::Controls::ListItemBase*
 LiveBoardResults::CreateItem(int index, int itemWidth)
 {
-	Rectangle bounds = this->GetClientAreaBounds();
+	AppLog("create item:%S",Integer::ToString(index).GetPointer());
+	Rectangle bounds = GetClientAreaBounds();
 	int itemHeight = bounds.height/8;
 	if(bounds.width>bounds.height)
 		itemHeight = bounds.width /8;
@@ -94,26 +95,20 @@ LiveBoardResults::CreateItem(int index, int itemWidth)
 	item->AddElement(Rectangle(itemWidth*0.75	, 0					, itemWidth*0.25	, 0.5*itemHeight), PLATFORM		, platform	, 0.5*itemHeight	, Color::COLOR_WHITE	, Color::COLOR_BLUE		, Color::COLOR_BLUE);
 	item->AddElement(Rectangle(itemWidth*0.75	, 0.5*itemHeight	, itemWidth*0.25	, 0.5*itemHeight), DELAY		, delay  	, 0.5*itemHeight	, Color::COLOR_RED		, Color::COLOR_BLUE		, Color::COLOR_BLUE);
 
-	/*
-	 * create context menu
-	 */
-	ListContextItem* itemContext = new ListContextItem();
-	itemContext->Construct();
-	itemContext->AddElement(SAVE_CALENDAR_ACTION, "Save to calendar");
-	item->SetContextItem(itemContext);
-
 	return item;
 }
 
 bool
 LiveBoardResults::DeleteItem(int index, Osp::Ui::Controls::ListItemBase* item, int itemWidth)
 {
+	AppLog("delete items");
     delete item; item = null; return true;
 }
 
 int
 LiveBoardResults::GetItemCount(void)
 {
+	AppLog("get item count:%S",Integer::ToString(liveBoardRequest->getResults()->GetCount()).GetPointer());
 	return liveBoardRequest->getResults()->GetCount();
 }
 
@@ -133,16 +128,18 @@ result LiveBoardResults::OnTerminating(void) {
  */
 void LiveBoardResults::OnActionPerformed(const Osp::Ui::Control& source,int actionId) {
 	HeaderForm::OnActionPerformed(source,actionId);
-	if(actionId == NEXT_ACTION){
-		AppLog("Clicked LiveBoardResults::search");
+	if(actionId == REFRESH_ACTION){
+		AppLog("Clicked LiveBoardResults::refresh");
 		Controller::GetInstance()->retrieveLiveBoardResults();
-	}else if(actionId == PREVIOUS_ACTION){
-		AppLog("Clicked LiveBoardResults::clear");
+	}else if(actionId == BACK_ACTION){
+		AppLog("Clicked LiveBoardResults::back");
 	}
 }
 
 
-void LiveBoardResults::RequestRedraw (bool show) const{
+void LiveBoardResults::RequestRedraw (bool show){
 	AppLog("LiveBoardResults::RequestRedraw");
+	liveBoardRequest = AppData::GetInstance()->getCurrentLiveBoardRequest();
+	list->UpdateList();
 	Form::RequestRedraw(show);
 }

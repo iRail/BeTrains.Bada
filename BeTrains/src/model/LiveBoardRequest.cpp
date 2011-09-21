@@ -25,6 +25,7 @@ void LiveBoardRequest::clearResults(){
 		results.GetAt(i,result);
 		delete result;
 	}
+	results.RemoveAll();
 }
 
 Station*& LiveBoardRequest::getStation()

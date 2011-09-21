@@ -67,7 +67,7 @@ public:
 
 	//actions
 	void					retrieveRoutePlannerResults(bool addToResults=false);
-	void					retrieveLiveBoardResults();
+	void					retrieveLiveBoardResults(bool addToResults=false);
 	void 					clearRoutePlanner();
 	void 					clearLiveboard();
 	void 					setRoutePlannerTime(DateTime time);
