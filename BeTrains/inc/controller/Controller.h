@@ -66,7 +66,7 @@ public:
 	void					setPreviousForm(); //GO BACK
 
 	//actions
-	void					retrieveRoutePlannerResults();
+	void					retrieveRoutePlannerResults(bool addToResults=false);
 	void					retrieveLiveBoardResults();
 	void 					clearRoutePlanner();
 	void 					clearLiveboard();

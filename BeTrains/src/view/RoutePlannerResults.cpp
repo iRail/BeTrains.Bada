@@ -8,10 +8,11 @@ using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
 using namespace Osp::Graphics;
 
-RoutePlannerResults::RoutePlannerResults(void) {
-	request=null;
-	format=null;
-	subListFormat=null;
+RoutePlannerResults::RoutePlannerResults(void):
+	request(null),
+	format(null),
+	subListFormat(null)
+{
 }
 
 RoutePlannerResults::~RoutePlannerResults(void) {
@@ -28,12 +29,12 @@ bool RoutePlannerResults::Initialize() {
 	 */
 	request = AppData::GetInstance()->getCurrentRequest(); // no ownership offcourse
 
-	this->SetSoftkeyText(SOFTKEY_0, "Previous");
-	this->SetSoftkeyActionId(SOFTKEY_0, PREVIOUS_ACTION);
+	this->SetSoftkeyText(SOFTKEY_0, "Refresh");
+	this->SetSoftkeyActionId(SOFTKEY_0, REFRESH_ACTION);
 	this->AddSoftkeyActionListener(SOFTKEY_0,*this);
 
-	this->SetSoftkeyText(SOFTKEY_1, "Next");
-	this->SetSoftkeyActionId(SOFTKEY_1, NEXT_ACTION);
+	this->SetSoftkeyText(SOFTKEY_1, "Back");
+	this->SetSoftkeyActionId(SOFTKEY_1, BACK_ACTION);
 	this->AddSoftkeyActionListener(SOFTKEY_1,*this);
 
 	/*
@@ -139,10 +140,17 @@ result RoutePlannerResults::OnTerminating(void) {
  */
 void RoutePlannerResults::OnActionPerformed(const Osp::Ui::Control& source,int actionId) {
 	HeaderForm::OnActionPerformed(source,actionId);
-	if(actionId == NEXT_ACTION){
-		AppLog("Clicked RoutePlannerResults::next");
-	}else if(actionId == PREVIOUS_ACTION){
-		AppLog("Clicked RoutePlannerResults::previous");
+	if(actionId == REFRESH_ACTION){
+		AppLog("Clicked RoutePlannerResults::refresh");
+
+		//show waiting popup with cancel interaction -> that then should go back to previous results
+		//when the results got back succesfull, only then the old results must be deleted and replaced by new
+		//this makes sure if we press cancel, we remain the previous results
+		Controller::GetInstance()->retrieveRoutePlannerResults();
+	}else if(actionId == BACK_ACTION){
+		//goes back to the request. so we could edit the form we already made.
+		//in contrary to pressing on the header button route planner, that should give an empty form
+		AppLog("Clicked RoutePlannerResults::back");
 	}
 }
 
@@ -154,6 +162,7 @@ void RoutePlannerResults::RequestRedraw (bool show) const{
 
 	ArrayListT<Trip*>* trips = AppData::GetInstance()->getCurrentRequest()->getTrips();
 	Trip* trip=null;
+	list->RemoveAllItems();
 	for(int i=0;i<trips->GetCount();i++){
 		trips->GetAt(i,trip);
 		addTrip(trip);
