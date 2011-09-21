@@ -19,7 +19,8 @@ using namespace Osp::Base::Collection;
 LiveBoardRequestManager::LiveBoardRequestManager():
 	__pSession(null),
 	__pTransaction(null),
-	__pRequest(null)
+	__pRequest(null),
+	addToResults(false)
 {
 }
 
@@ -40,8 +41,8 @@ void LiveBoardRequestManager::cancelRequest(){
 	}
 }
 
-void LiveBoardRequestManager::setRequest(LiveBoardRequest* req){
-
+void LiveBoardRequestManager::setRequest(LiveBoardRequest* req,bool addToResults_){
+	addToResults = addToResults_;
 	__pRequest = req;
 	String hostAddr = L"http://api.irail.be";
 
@@ -134,6 +135,8 @@ void LiveBoardRequestManager::OnTransactionReadyToRead(Osp::Net::Http::HttpSessi
 		results = h.createLiveBoardList(buffer);
 	}
 	if(results != null){
+		if(!addToResults)
+			AppData::GetInstance()->getCurrentLiveBoardRequest()->clearResults();
 		AppLog("parsing live board successfull. #%S",Integer::ToString(results->GetCount()).GetPointer());
 		AppData::GetInstance()->getCurrentLiveBoardRequest()->getResults()->AddItems(*results);
 		Controller::GetInstance()->switchToLiveBoardResults();

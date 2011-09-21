@@ -18,38 +18,39 @@ LiveBoardResults::~LiveBoardResults(void) {
 }
 
 bool LiveBoardResults::Initialize() {
+	RemoveAllControls();
 
 	/*
 	 * I18N
 	 */
-	String previous = "Previous";
-	String next = "Next";
+	String refresh = "Refresh";
+	String back = "Back";
 	String empty = "Empty list";
 	String saveToCalendar = "Save to calendar";
 	AppResource* appRes = Application::GetInstance()->GetAppResource();
-	appRes->GetString(L"LB_RES_PREV", previous);
-	appRes->GetString(L"LB_RES_NEXT", next);
+	appRes->GetString(L"LB_RES_REFRESH", refresh);
+	appRes->GetString(L"LB_RES_BACK", back);
 	appRes->GetString(L"LB_RES_EMPTY",empty);
 
-	this->RemoveAllControls();
+
 	HeaderForm::Initialize(true, true); //enables left and right softkey
 	/*
 	 * get Data from current request from appdata
 	 */
 	liveBoardRequest = AppData::GetInstance()->getCurrentLiveBoardRequest(); // no ownership offcourse
 
-	this->SetSoftkeyText(SOFTKEY_0, previous);
-	this->SetSoftkeyActionId(SOFTKEY_0, PREVIOUS_ACTION);
-	this->AddSoftkeyActionListener(SOFTKEY_0, *this);
+	SetSoftkeyText(SOFTKEY_0, refresh);
+	SetSoftkeyActionId(SOFTKEY_0, REFRESH_ACTION);
+	AddSoftkeyActionListener(SOFTKEY_0,*this);
 
-	this->SetSoftkeyText(SOFTKEY_1, next);
-	this->SetSoftkeyActionId(SOFTKEY_1, NEXT_ACTION);
-	this->AddSoftkeyActionListener(SOFTKEY_1, *this);
+	SetSoftkeyText(SOFTKEY_1, back);
+	SetSoftkeyActionId(SOFTKEY_1, BACK_ACTION);
+	AddSoftkeyActionListener(SOFTKEY_1,*this);
 
 	/*
 	 * Calculate sizes for all controls
 	 */
-	Rectangle bounds = this->GetClientAreaBounds();
+	Rectangle bounds = GetClientAreaBounds();
 
 	/*
 	 * Construct a ListView
@@ -87,11 +88,12 @@ void LiveBoardResults::OnListViewContextItemStateChanged(
  * implements IListViewItemProvider
  */
 Osp::Ui::Controls::ListItemBase*
-LiveBoardResults::CreateItem(int index, int itemWidth) {
-	Rectangle bounds = this->GetClientAreaBounds();
-	int itemHeight = bounds.height / 8;
-	if (bounds.width > bounds.height)
-		itemHeight = bounds.width / 8;
+LiveBoardResults::CreateItem(int index, int itemWidth)
+{
+	Rectangle bounds = GetClientAreaBounds();
+	int itemHeight = bounds.height/8;
+	if(bounds.width>bounds.height)
+		itemHeight = bounds.width /8;
 
 	/*
 	 * Get the trip from the index id
@@ -123,32 +125,18 @@ LiveBoardResults::CreateItem(int index, int itemWidth) {
 			* 0.25, 0.5 * itemHeight), DELAY, delay, 0.5 * itemHeight,
 			Color::COLOR_RED, Color::COLOR_BLUE, Color::COLOR_BLUE);
 
-	/*
-	 * I18N
-	 */
-	String saveToCalendar = "Save to calendar";
-	AppResource* appRes = Application::GetInstance()->GetAppResource();
-	appRes->GetString(L"LB_RES_TO_CAL",saveToCalendar);
-
-	/*
-	 * create context menu
-	 */
-	ListContextItem* itemContext = new ListContextItem();
-	itemContext->Construct();
-	itemContext->AddElement(SAVE_CALENDAR_ACTION, saveToCalendar);
-	item->SetContextItem(itemContext);
-
 	return item;
 }
 
-bool LiveBoardResults::DeleteItem(int index,
-		Osp::Ui::Controls::ListItemBase* item, int itemWidth) {
-	delete item;
-	item = null;
-	return true;
+bool
+LiveBoardResults::DeleteItem(int index, Osp::Ui::Controls::ListItemBase* item, int itemWidth)
+{
+    delete item; item = null; return true;
 }
 
-int LiveBoardResults::GetItemCount(void) {
+int
+LiveBoardResults::GetItemCount(void)
+{
 	return liveBoardRequest->getResults()->GetCount();
 }
 
@@ -166,18 +154,19 @@ result LiveBoardResults::OnTerminating(void) {
 /*
  * IAction Event Listener
  */
-void LiveBoardResults::OnActionPerformed(const Osp::Ui::Control& source,
-		int actionId) {
-	HeaderForm::OnActionPerformed(source, actionId);
-	if (actionId == NEXT_ACTION) {
-		AppLog("Clicked LiveBoardResults::search");
+void LiveBoardResults::OnActionPerformed(const Osp::Ui::Control& source,int actionId) {
+	HeaderForm::OnActionPerformed(source,actionId);
+	if(actionId == REFRESH_ACTION){
+		AppLog("Clicked LiveBoardResults::refresh");
 		Controller::GetInstance()->retrieveLiveBoardResults();
-	} else if (actionId == PREVIOUS_ACTION) {
-		AppLog("Clicked LiveBoardResults::clear");
+	}else if(actionId == BACK_ACTION){
+		AppLog("Clicked LiveBoardResults::back");
 	}
 }
 
-void LiveBoardResults::RequestRedraw(bool show) const {
+void LiveBoardResults::RequestRedraw(bool show) {
 	AppLog("LiveBoardResults::RequestRedraw");
+	liveBoardRequest = AppData::GetInstance()->getCurrentLiveBoardRequest();
+	list->UpdateList();
 	Form::RequestRedraw(show);
 }

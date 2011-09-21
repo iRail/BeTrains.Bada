@@ -104,6 +104,7 @@ void Controller::switchToLiveBoardResults() {
 		currentForm = liveBoardResults;
 		SetCurrentForm(currentForm);
 	}
+	liveBoardResults->RequestRedraw();
 }
 
 void Controller::switchToRoutePlannerResults() {
@@ -153,21 +154,19 @@ void Controller::setPreviousForm(){
 }
 
 void Controller::retrieveRoutePlannerResults(bool addToResults){
-	AppLog("delete route request manager");
 	if(routeRequestManager != null)
 		delete routeRequestManager;
-	AppLog("create new manager");
 	routeRequestManager = new RouteRequestManager();
 	AppLog("set request");
 	routeRequestManager->setRequest(AppData::GetInstance()->getCurrentRequest(),addToResults);
 }
 
 //if add to results is false==default then the results get cleared before adding the new onces from the last request
-void Controller::retrieveLiveBoardResults(){
+void Controller::retrieveLiveBoardResults(bool addToResults){
 	if(liveBoardRequestManager != null)
 		delete liveBoardRequestManager;
 	liveBoardRequestManager = new LiveBoardRequestManager();
-	liveBoardRequestManager->setRequest(AppData::GetInstance()->getCurrentLiveBoardRequest());
+	liveBoardRequestManager->setRequest(AppData::GetInstance()->getCurrentLiveBoardRequest(),addToResults);
 }
 
 void Controller::clearRoutePlanner(){

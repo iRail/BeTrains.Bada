@@ -52,10 +52,10 @@ public:
 	 */
 	static const int SEARCH_ACTION = 301;
 	static const int CLEAR_ACTION = 302;
-	static const int SWITCH_ACTION = 303;
+	static const int CANCEL_REQUEST	= 303;
 	static const int IS_DEPARTURE = 304;
 	static const int IS_ARRIVAL = 305;
-	static const int CANCEL_REQUEST	= 306;
+	static const int SWITCH_ACTION = 306;
 	static const int UNCHECKED = 307;
 
 private:
