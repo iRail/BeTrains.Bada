@@ -7,6 +7,8 @@
 
 #include "controller/Controller.h"
 #include "view/HeaderForm.h"
+#include "model/Connection.h"
+#include "model/Trip.h"
 
 using namespace Osp::App;
 using namespace Osp::Base;
@@ -255,4 +257,16 @@ void Controller::newRequest(){
 
 void Controller::newLiveboardRequest(){
 	AppData::GetInstance()->newLiveboardRequest();
+}
+
+void Controller::getMoreResults(){
+	Request* request = AppData::GetInstance()->getCurrentRequest();
+	Trip* lastTrip;
+	request->getTrips()->GetAt(request->getTrips()->GetCount()-1,lastTrip);
+	Connection* firstConn;
+	lastTrip->getConnections()->GetAt(0,firstConn);
+	DateTime lastTripTime = firstConn->getStartConnectionNode()->getDateTime();
+	request->setDateTime(lastTripTime);
+	request->setIsDepart(true); //could be problems if on arrival, then the request is somewhat wrong
+	retrieveRoutePlannerResults(true);
 }

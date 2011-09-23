@@ -78,6 +78,7 @@ public:
 	void					saveToCalendar(int index); //saves from index from current results to calendar
 	void					newRequest();
 	void					newLiveboardRequest();
+	void 					getMoreResults();
 };
 
 #endif /* CONTROLLER_H_ */

@@ -53,7 +53,7 @@ public:
 	static const int REFRESH_ACTION			= 301;
 	static const int BACK_ACTION 			= 302;
 	static const int SAVE_CALENDAR_ACTION 	= 303;
-
+	static const int MORE_ACTION			= 304;
 	/*
 	 * Element id's for custom element
 	 */

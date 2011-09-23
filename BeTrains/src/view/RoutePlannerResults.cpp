@@ -27,11 +27,13 @@ bool RoutePlannerResults::Initialize() {
 	String empty = "Empty List";
 	String saveToCalendar = "Save to calendar";
 	String direct = "Direct";
+	String more = "More";
 	AppResource* appRes = Application::GetInstance()->GetAppResource();
 	appRes->GetString(L"RP_RES_REFRESH", refresh);
 	appRes->GetString(L"RP_RES_BACK", back);
 	appRes->GetString(L"RP_RES_EMPTY", empty);
 	appRes->GetString(L"RP_RES_SAVE_TO_CAL", saveToCalendar);
+	appRes->GetString(L"RP_RES_MORE", more);
 
 	this->RemoveAllControls();
 	HeaderForm::Initialize(true, true); //enables left and right softkey
@@ -67,16 +69,31 @@ bool RoutePlannerResults::Initialize() {
 			L"station - station");
 	AddControl(*titleLabel);
 
+
+	/*
+	 * scrollpanel
+	 */
+	ScrollPanel* scrollPanel = new ScrollPanel();
+	scrollPanel->Construct(Rectangle(0, titleHeight, bounds.width, bounds.height- titleHeight));
+	AddControl(*scrollPanel);
+	/*
+	 * More Button
+	 */
+	Button* moreButton = new Button();
+	moreButton->Construct(Rectangle(0,bounds.height - 2*titleHeight,bounds.width,titleHeight),more);
+	moreButton->SetActionId(MORE_ACTION);
+	moreButton->AddActionEventListener(*this);
+	scrollPanel->AddControl(*moreButton);
+
 	/*
 	 * Construct a ListView
 	 */
 	list = new ExpandableList();
-	list->Construct(Rectangle(0, titleHeight, bounds.width, bounds.height
-			- titleHeight), CUSTOM_LIST_STYLE_NORMAL, true);
+	list->Construct(Rectangle(0, 0, bounds.width, bounds.height - 2*titleHeight), CUSTOM_LIST_STYLE_NORMAL, true);
 	//list->Construct(Rectangle(0,0,bounds.width,bounds.height),CUSTOM_LIST_STYLE_NORMAL,true);
 	list->SetTextOfEmptyList(empty);
 	list->AddTouchEventListener(*this);
-	AddControl(*list);
+	scrollPanel->AddControl(*list);
 
 	/*
 	 * Create context menu
@@ -175,6 +192,10 @@ void RoutePlannerResults::OnActionPerformed(const Osp::Ui::Control& source,
 		//in contrary to pressing on the header button route planner, that should give an empty form
 		AppLog("Clicked RoutePlannerResults::back");
 		Controller::GetInstance()->setPreviousForm();
+	}else if(actionId == MORE_ACTION){
+
+		AppLog("Clicked RoutePlannerResults::More");
+		Controller::GetInstance()->getMoreResults();
 	}
 }
 
@@ -192,6 +213,7 @@ void RoutePlannerResults::RequestRedraw(bool show) const {
 		trips->GetAt(i, trip);
 		addTrip(trip);
 	}
+
 	Form::RequestRedraw(show);
 }
 
