@@ -6,6 +6,7 @@ using namespace Osp::Ui::Controls;
 using namespace Osp::Graphics;
 
 FormLiveboard::FormLiveboard(void) {
+	liveBoardRequest = null;
 }
 
 FormLiveboard::~FormLiveboard(void) {
@@ -20,6 +21,7 @@ bool FormLiveboard::Initialize() {
 	this->SetSoftkeyText(SOFTKEY_1,"Clear");
 	this->SetSoftkeyActionId(SOFTKEY_1,CLEAR_ACTION);
 	this->AddSoftkeyActionListener(SOFTKEY_1,*this);
+	liveBoardRequest = AppData::GetInstance()->getCurrentLiveBoardRequest();
 
 	/*
 	 * Calculate sizes for all controls
@@ -70,13 +72,23 @@ void FormLiveboard::OnActionPerformed(const Osp::Ui::Control& source, int action
 	HeaderForm::OnActionPerformed(source,actionId);
 	if(actionId == SEARCH_ACTION){
 		AppLog("Clicked FormLiveBoard::search");
+		Controller::GetInstance()->retrieveLiveBoardResults();
 	}else if(actionId == CLEAR_ACTION){
 		AppLog("Clicked FormLiveBoard::clear");
 	}
 }
 
+void FormLiveboard::RequestRedraw (bool show) const{
+	AppLog("FormLiveboard::RequestRedraw");
+	Station* station =  liveBoardRequest->getStation();
+	if(station != null){
+		stationEditField->SetText(station->getName());
+	}
+	Form::RequestRedraw(show);
+}
+
 /*
- * ITouch Event Listerer methods
+ * ITouch Event Listener methods
  */
 void FormLiveboard::OnTouchMoved(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
 void FormLiveboard::OnTouchLongPressed(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
@@ -89,7 +101,7 @@ void FormLiveboard::OnTouchPressed(const Osp::Ui::Control & source, const Osp::G
 	Controller* controller = Controller::GetInstance();
 	if(source.Equals(*stationEditField)){
 		AppLog("Clicked FormLiveboard::fromStationEditField");
-		//controller->selectStation(*station);
+		controller->selectStation(liveBoardRequest->getStation());
 	}
 }
 

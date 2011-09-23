@@ -10,6 +10,7 @@
 #include "Model/Trip.h"
 #include "model/IRailAPI.h"
 #include "model/AppData.h"
+#include "controller/controller.h"
 
 using namespace Osp::Net::Http;
 using namespace Osp::Base;
@@ -144,10 +145,11 @@ void LiveBoardRequestManager::OnTransactionReadyToRead(Osp::Net::Http::HttpSessi
 		results = h.createLiveBoardList(buffer);
 	}
 	if(results != null){
+		AppLog("parsing live board successfull");
 		AppData::GetInstance()->getCurrentLiveBoardRequest()->getResults()->AddItems(*results);
-		//Frame *pFrame = Application::GetInstance()->GetAppFrame()->GetFrame();
-		//FormManager *pFormMrg = static_cast<FormManager*>(pFrame->GetControl("FormManager"));
-		//pFormMrg->SendUserEvent(FormManager::LIVE_BOARD_SEARCH_DONE, null);
+		Controller::GetInstance()->switchToLiveBoardResults();
+	}else{
+		AppLog("parsing failed liveboards");
 	}
 }
 void LiveBoardRequestManager::OnTransactionAborted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, result r){}

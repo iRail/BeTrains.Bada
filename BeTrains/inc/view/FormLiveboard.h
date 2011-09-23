@@ -3,7 +3,8 @@
 
 #include <FBase.h>
 #include <FUi.h>
-#include "HeaderForm.h"
+#include "view/HeaderForm.h"
+#include "model/liveBoardRequest.h"
 
 class FormLiveboard :
 	public HeaderForm,
@@ -20,6 +21,7 @@ public:
 	virtual result OnInitializing(void);
 	virtual result OnTerminating(void);
 	virtual void OnActionPerformed(const Osp::Ui::Control& source, int actionId);
+	void RequestRedraw(bool Show = true) const;
 
 	/*
 	 * ITouchEventListeners
@@ -39,6 +41,13 @@ public:
 	static const int SEARCH_ACTION 		= 301;
 	static const int CLEAR_ACTION 		= 302;
 private:
+
+	/*
+	 * Data
+	 */
+	LiveBoardRequest*					liveBoardRequest;
+
+
 	/*
 	 * Controls
 	 */

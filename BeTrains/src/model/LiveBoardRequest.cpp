@@ -26,7 +26,7 @@ void LiveBoardRequest::clearResults(){
 	}
 }
 
-Station *LiveBoardRequest::getStation() const
+Station*& LiveBoardRequest::getStation()
 {
 	return _station;
 }

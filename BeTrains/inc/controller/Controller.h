@@ -2,7 +2,7 @@
  * Controller.h
  *
  *  Created on: 10 sep. 2011
- *      Author: Jan
+ *  Author: Jan
  */
 
 #ifndef CONTROLLER_H_
@@ -18,6 +18,7 @@
 #include "view/FormRouteplanner.h"
 #include "view/SelectStationForm.h"
 #include "view/RoutePlannerResults.h"
+#include "view/LiveBoardResults.h"
 
 #include "controller/RouteRequestManager.h"
 #include "controller/LiveBoardRequestManager.h"
@@ -36,6 +37,7 @@ private:
 	FormRouteplanner*  		formRoutePlanner;
 	SelectStationForm* 		selectStationForm;
 	RoutePlannerResults*	routePlannerResults;
+	LiveBoardResults*		liveBoardResults;
 
 	Form* 					prevForm;
 	Form* 					currentForm;
@@ -65,6 +67,7 @@ public:
 	//actions
 	void 					returnSelectedStation();
 	void					retrieveRoutePlannerResults();
+	void					retrieveLiveBoardResults();
 };
 
 #endif /* CONTROLLER_H_ */
