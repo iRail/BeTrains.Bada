@@ -6,6 +6,7 @@
     <text id="LB_CANCEL">Annuleer</text>
     <text id="RP_CLEAR">Reset</text>
     <text id="HEADER_LIVEBOARD">Liveboard</text>
+    <text id="RP_RES_MORE">Later...</text>
     <text id="LB_RES_EMPTY">Geen resultaten</text>
     <text id="STATION_SELECT_CANCEL">Annuleer</text>
     <text id="LB_STATION">Station</text>
@@ -27,6 +28,6 @@
     <text id="RP_RES_EMPTY">Geen resultaten</text>
     <text id="RP_RES_DIRECT">Direct</text>
     <text id="STATION_SELECT_CLEAR">Wis</text>
-    <text id="LB_CLEAR">Reset</text>
     <text id="RP_TO">Naar</text>
+    <text id="LB_CLEAR">Reset</text>
 </string_table>

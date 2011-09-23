@@ -6,6 +6,7 @@
     <text id="LB_CANCEL">Annulez</text>
     <text id="RP_CLEAR">Videz</text>
     <text id="HEADER_LIVEBOARD">Paneau</text>
+    <text id="RP_RES_MORE">Apres...</text>
     <text id="LB_RES_EMPTY">Pas de résultat</text>
     <text id="STATION_SELECT_CANCEL">Annulez</text>
     <text id="LB_STATION">Gare</text>
@@ -27,6 +28,6 @@
     <text id="RP_RES_EMPTY">Pas de résultat</text>
     <text id="RP_RES_DIRECT">Directe</text>
     <text id="STATION_SELECT_CLEAR">Videz</text>
-    <text id="LB_CLEAR">Videz</text>
     <text id="RP_TO">Arrivée</text>
+    <text id="LB_CLEAR">Videz</text>
 </string_table>
