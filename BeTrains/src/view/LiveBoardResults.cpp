@@ -8,8 +8,10 @@ using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
 using namespace Osp::Graphics;
 
-LiveBoardResults::LiveBoardResults(void) {
-	liveBoardRequest = null;
+LiveBoardResults::LiveBoardResults(void):
+		liveBoardRequest(null)
+{
+
 }
 
 LiveBoardResults::~LiveBoardResults(void) {
@@ -36,6 +38,7 @@ bool LiveBoardResults::Initialize() {
 	 * get Data from current request from appdata
 	 */
 	liveBoardRequest = AppData::GetInstance()->getCurrentLiveBoardRequest(); // no ownership offcourse
+
 
 	SetSoftkeyText(SOFTKEY_0, refresh);
 	SetSoftkeyActionId(SOFTKEY_0, REFRESH_ACTION);
@@ -66,21 +69,12 @@ bool LiveBoardResults::Initialize() {
 /*
  * implements IListViewItemEventListener
  */
-void LiveBoardResults::OnListViewItemStateChanged(
-		Osp::Ui::Controls::ListView &listView, int index, int elementId,
-		Osp::Ui::Controls::ListItemStatus status) {
-}
+void LiveBoardResults::OnListViewItemStateChanged(Osp::Ui::Controls::ListView &listView, int index, int elementId, Osp::Ui::Controls::ListItemStatus status){}
 
-void LiveBoardResults::OnListViewItemSwept(
-		Osp::Ui::Controls::ListView &listView, int index,
-		Osp::Ui::Controls::SweepDirection direction) {
-}
+void LiveBoardResults::OnListViewItemSwept(Osp::Ui::Controls::ListView &listView, int index, Osp::Ui::Controls::SweepDirection direction){}
 
-void LiveBoardResults::OnListViewContextItemStateChanged(
-		Osp::Ui::Controls::ListView &listView, int index, int elementId,
-		Osp::Ui::Controls::ListContextItemStatus state) {
-	//TODO make context menu to add to calendar
-}
+void LiveBoardResults::OnListViewContextItemStateChanged(Osp::Ui::Controls::ListView &listView, int index, int elementId, Osp::Ui::Controls::ListContextItemStatus state){}
+
 
 /*
  * implements IListViewItemProvider
@@ -108,6 +102,14 @@ LiveBoardResults::CreateItem(int index, int itemWidth)
 
 	//create custom item with right size, height is calculated with amount of connections
 	CustomItem* item = new CustomItem();
+
+	item->Construct(Osp::Graphics::Dimension(itemWidth,itemHeight), LIST_ANNEX_STYLE_NORMAL); //+itemHeight*amountConnections
+	item->AddElement(Rectangle(0				, 0					, itemWidth*0.75	, 0.5*itemHeight), STATION		, station	, 0.5*itemHeight	, Color::COLOR_WHITE	, Color::COLOR_WHITE	, Color::COLOR_WHITE);
+	item->AddElement(Rectangle(0				, 0.5*itemHeight	, itemWidth*0.75	, 0.5*itemHeight), TIME			, time		, 0.5*itemHeight	, Color::COLOR_WHITE	, Color::COLOR_WHITE	, Color::COLOR_WHITE);
+	item->AddElement(Rectangle(itemWidth*0.75	, 0					, itemWidth*0.25	, 0.5*itemHeight), PLATFORM		, platform	, 0.5*itemHeight	, Color::COLOR_WHITE	, Color::COLOR_BLUE		, Color::COLOR_BLUE);
+	item->AddElement(Rectangle(itemWidth*0.75	, 0.5*itemHeight	, itemWidth*0.25	, 0.5*itemHeight), DELAY		, delay  	, 0.5*itemHeight	, Color::COLOR_RED		, Color::COLOR_BLUE		, Color::COLOR_BLUE);
+
+	/*
 	item->Construct(Osp::Graphics::Dimension(itemWidth, itemHeight),
 			LIST_ANNEX_STYLE_NORMAL); //+itemHeight*amountConnections
 	item->AddElement(Rectangle(0, 0, itemWidth * 0.75, 0.5 * itemHeight),
@@ -122,6 +124,7 @@ LiveBoardResults::CreateItem(int index, int itemWidth)
 	item->AddElement(Rectangle(itemWidth * 0.75, 0.5 * itemHeight, itemWidth
 			* 0.25, 0.5 * itemHeight), DELAY, delay, 0.5 * itemHeight,
 			Color::COLOR_RED, Color::COLOR_BLUE, Color::COLOR_BLUE);
+	*/
 
 	return item;
 }

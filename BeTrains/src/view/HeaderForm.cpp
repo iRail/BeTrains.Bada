@@ -96,5 +96,5 @@ void HeaderForm::OnActionPerformed(const Osp::Ui::Control& source, int actionId)
 
 void HeaderForm::OnOrientationChanged(const Control& source,
 		OrientationStatus orientationStatus) {
-
+	recalculateComponents();
 }

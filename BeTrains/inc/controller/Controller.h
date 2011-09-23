@@ -2,7 +2,7 @@
  * Controller.h
  *
  *  Created on: 10 sep. 2011
- *      Author: Jan
+ *  Author: Jan
  */
 
 #ifndef CONTROLLER_H_
@@ -66,6 +66,7 @@ public:
 	void					setPreviousForm(); //GO BACK
 
 	//actions
+
 	void					retrieveRoutePlannerResults(bool addToResults=false);
 	void					retrieveLiveBoardResults(bool addToResults=false);
 	void 					clearRoutePlanner();
@@ -76,9 +77,11 @@ public:
 	void 					switchRequestStations();
 	void 					setIsDeparture(bool isDeparture);
 	void					saveToCalendar(int index); //saves from index from current results to calendar
+
 	void					newRequest();
 	void					newLiveboardRequest();
 	void 					getMoreResults();
+
 };
 
 #endif /* CONTROLLER_H_ */

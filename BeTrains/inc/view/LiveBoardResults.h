@@ -26,6 +26,7 @@ public:
 	virtual result 	OnInitializing(void);
 	virtual result 	OnTerminating(void);
 
+
 	void 			RequestRedraw (bool show=true);
 
 	//Action performed Listener
@@ -44,6 +45,7 @@ public:
 	/*
 	 * action id's
 	 */
+	static const int SAVE_CALENDAR_ACTION 	= 303;
 	static const int REFRESH_ACTION			= 301;
 	static const int BACK_ACTION 			= 302;
 

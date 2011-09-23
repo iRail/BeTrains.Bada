@@ -13,9 +13,10 @@ using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
 using namespace Osp::Graphics;
 
-SelectStationForm::SelectStationForm(void) {
+SelectStationForm::SelectStationForm(void):
+		selectedStation(null)
+{
 	AppLog("SelectStation constructor");
-	selectedStation = null;
 }
 
 SelectStationForm::~SelectStationForm(void) {

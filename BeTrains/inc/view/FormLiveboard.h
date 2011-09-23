@@ -3,6 +3,7 @@
 
 #include <FBase.h>
 #include <FUi.h>
+
 #include "HeaderForm.h"
 #include "model/LiveBoardRequest.h"
 #include "view/WaitingPopup.h"
@@ -20,11 +21,13 @@ public:
 	bool Initialize(void);
 
 public:
-	virtual result OnInitializing(void);
-	virtual result OnTerminating(void);
-	virtual void OnActionPerformed(const Osp::Ui::Control& source, int actionId);
-	void RequestRedraw (bool show=true) const;
-	void hideWaitingPopup();
+	virtual result 	OnInitializing(void);
+	virtual result 	OnTerminating(void);
+	virtual void   	OnActionPerformed(const Osp::Ui::Control& source, int actionId);
+	virtual void    recalculateComponents();
+	void 			RequestRedraw (bool show=true) const;
+	void 			hideWaitingPopup();
+
 	/*
 	 * ITouchEventListeners
 	 */
@@ -45,6 +48,7 @@ public:
 	static const int CANCEL_REQUEST	= 303;
 
 private:
+
 	/*
 	 * Data
 	 */

@@ -23,6 +23,8 @@ Controller::Controller() {
 	formLiveBoard = null;
 	formRoutePlanner = null;
 	selectStationForm = null;
+	routePlannerResults = null;
+	liveBoardResults = null;
 	liveBoardResults = null;
 
 	prevForm = null;
@@ -33,6 +35,15 @@ Controller::Controller() {
 
 	//set start screen
 	switchToFormRoutePlanner();
+
+	/*
+	 * test getting Locale lang. setting
+	 */
+	//Osp::Locations::Services::ServicePreferences preferences;
+	//Osp::Locales::LanguageCode language = preferences.GetLanguage();
+	//AppLog("Language is: %S",language)
+
+
 }
 
 Controller::~Controller() {
@@ -56,10 +67,9 @@ void Controller::SetCurrentForm(Form* currentForm) {
 	//if (prevForm != null)
 	//	pFrame->RemoveControl(*prevForm);
 	pFrame->SetCurrentForm(*currentForm);
-
 	// Draw and Show the form
 	currentForm->Draw();
-	currentForm->RequestRedraw();
+	currentForm->RequestRedraw(true);
 	currentForm->Show();
 }
 
@@ -102,12 +112,14 @@ void Controller::switchToLiveBoardResults() {
 	if (currentForm == null || currentForm != (Form*) liveBoardResults) {
 			prevForm = currentForm;
 		if (liveBoardResults == null) {
+
 			liveBoardResults = new LiveBoardResults();
 			liveBoardResults->Initialize();
 		}
 		currentForm = liveBoardResults;
 		SetCurrentForm(currentForm);
 	}
+
 	liveBoardResults->RequestRedraw();
 }
 
@@ -120,6 +132,7 @@ void Controller::switchToRoutePlannerResults() {
 			routePlannerResults = new RoutePlannerResults();
 			routePlannerResults->Initialize();
 		}
+		routePlannerResults->RequestRedraw(true);
 		currentForm = routePlannerResults;
 		SetCurrentForm(currentForm);
 	}
@@ -219,31 +232,22 @@ void Controller::saveToCalendar(int index){
 	Trip* trip=null;
 	result r = AppData::GetInstance()->getCurrentRequest()->getTrips()->GetAt(index,trip);
 	if(r==E_SUCCESS && trip !=null){
-		AppLog("1");
 		Osp::Social::Calendarbook* calendarbook = new Calendarbook();
-		AppLog("2");
 		calendarbook->Construct(null);
-		AppLog("3");
 		CalEvent event;
 		DateTime startTime, endTime;
-		AppLog("4");
 		event.SetCategory(EVENT_CATEGORY_APPOINTMENT);
 		Connection* first;
 		Connection* last;
-		AppLog("5");
 		trip->getConnections()->GetAt(0,first);
-		AppLog("6");
 		trip->getConnections()->GetAt(trip->getConnections()->GetCount()-1,last);
 		ConnectionNode* firstNode=first->getStartConnectionNode();
 		ConnectionNode* lastNode=last->getEndConnectionNode();
-		AppLog("7");
 		r = event.SetSubject(firstNode->getStation()->getName() + "-" + lastNode->getStation()->getName());
 		DateTime start= firstNode->getDateTime();
 		DateTime end  = lastNode->getDateTime();
-		AppLog("8");
 		r = event.SetStartAndEndTime(start, end);
 		String desc="testje";
-		AppLog("9");
 		event.SetDescription(desc);
 		calendarbook->AddEvent(event);
 

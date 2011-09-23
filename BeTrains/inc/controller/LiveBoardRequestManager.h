@@ -9,7 +9,7 @@
 #define LIVE_BOARD_REQUEST_MANAGER_H_
 
 #include <FNet.h>
-#include "Model/LiveBoardRequest.h"
+#include "model/LiveBoardRequest.h"
 
 class LiveBoardRequestManager:
 	public Osp::Net::Http::IHttpTransactionEventListener

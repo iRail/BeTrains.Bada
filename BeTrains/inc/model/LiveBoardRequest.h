@@ -26,6 +26,7 @@ public:
     void setDateTime(Osp::Base::DateTime time);
 
     Station*& getStation();
+    Osp::Base::DateTime getTime() const;
     Osp::Base::DateTime* getDateTime() const;
     Osp::Base::Collection::ArrayListT<LiveBoardResult*>* getResults();
 
