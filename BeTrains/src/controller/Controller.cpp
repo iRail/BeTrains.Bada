@@ -6,11 +6,13 @@
  */
 
 #include "controller/Controller.h"
+#include "view/HeaderForm.h"
 
 using namespace Osp::App;
 using namespace Osp::Base;
 using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
+using namespace Osp::Social;
 
 Controller* Controller::instance = 0;
 
@@ -19,8 +21,13 @@ Controller::Controller() {
 	formLiveBoard = null;
 	formRoutePlanner = null;
 	selectStationForm = null;
+<<<<<<< HEAD
 	routePlannerResults = null;
 	liveBoardResults = null;
+=======
+	liveBoardResults = null;
+
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 	prevForm = null;
 	currentForm = null;
 
@@ -29,6 +36,15 @@ Controller::Controller() {
 
 	//set start screen
 	switchToFormRoutePlanner();
+
+	/*
+	 * test getting Locale lang. setting
+	 */
+	//Osp::Locations::Services::ServicePreferences preferences;
+	//Osp::Locales::LanguageCode language = preferences.GetLanguage();
+	//AppLog("Language is: %S",language)
+
+
 }
 
 Controller::~Controller() {
@@ -42,19 +58,6 @@ Controller::GetInstance() {
 		Controller::instance = new Controller();
 	}
 	return Controller::instance;
-}
-
-//switch forms
-void Controller::switchToFormLiveBoard() {
-	if (currentForm == null || currentForm != (Form*) formLiveBoard) {
-		prevForm = currentForm;
-		if(formLiveBoard ==null){
-			formLiveBoard = new FormLiveboard();
-			formLiveBoard->Initialize();
-		}
-		currentForm = formLiveBoard;
-		SetCurrentForm(currentForm);
-	}
 }
 
 void Controller::SetCurrentForm(Form* currentForm) {
@@ -71,6 +74,23 @@ void Controller::SetCurrentForm(Form* currentForm) {
 	currentForm->Show();
 }
 
+
+//switch forms
+void Controller::switchToFormLiveBoard() {
+	if (currentForm == null || currentForm != (Form*) formLiveBoard) {
+		prevForm = currentForm;
+		if(formLiveBoard ==null){
+			formLiveBoard = new FormLiveboard();
+			formLiveBoard->Initialize();
+		}
+		currentForm = formLiveBoard;
+		Header* header = currentForm->GetHeader();
+		header->SetItemSelected(HeaderForm::HEADER_ID_LIVEBOARD);
+		header->SetItemSelected(HeaderForm::HEADER_ID_LIVEBOARD);
+		SetCurrentForm(currentForm);
+	}
+}
+
 void Controller::switchToFormRoutePlanner() {
 	if (currentForm == null || currentForm != (Form*) formRoutePlanner) {
 		prevForm = currentForm;
@@ -79,23 +99,39 @@ void Controller::switchToFormRoutePlanner() {
 			formRoutePlanner->Initialize();
 		}
 		currentForm = formRoutePlanner;
+		Header* header = currentForm->GetHeader();
+		header->SetItemSelected(HeaderForm::HEADER_ID_ROUTE_PLANNER);
 		SetCurrentForm(currentForm);
 	}
 }
 
 void Controller::switchToLiveBoardResults() {
+<<<<<<< HEAD
 	if (currentForm == null || currentForm != (Form*) liveBoardResults) {
 		prevForm = currentForm;
 		if(liveBoardResults ==null){
+=======
+	if(formLiveBoard != null)
+		formLiveBoard->hideWaitingPopup();
+	if (currentForm == null || currentForm != (Form*) liveBoardResults) {
+			prevForm = currentForm;
+		if (liveBoardResults == null) {
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 			liveBoardResults = new LiveBoardResults();
 			liveBoardResults->Initialize();
 		}
 		currentForm = liveBoardResults;
 		SetCurrentForm(currentForm);
 	}
+<<<<<<< HEAD
+=======
+	liveBoardResults->RequestRedraw();
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 }
 
 void Controller::switchToRoutePlannerResults() {
+	if(formRoutePlanner != null)
+		formRoutePlanner->hideWaitingPopup();
 	if (currentForm == null || currentForm != (Form*) routePlannerResults) {
 		prevForm = currentForm;
 		if(routePlannerResults ==null){
@@ -106,6 +142,7 @@ void Controller::switchToRoutePlannerResults() {
 		currentForm = routePlannerResults;
 		SetCurrentForm(currentForm);
 	}
+	routePlannerResults->RequestRedraw();
 }
 
 void Controller::selectStation(Station* &station) { //Station* station
@@ -139,11 +176,103 @@ void Controller::setPreviousForm(){
 	}
 }
 
+<<<<<<< HEAD
 void Controller::retrieveRoutePlannerResults(){
+=======
+void Controller::retrieveRoutePlannerResults(bool addToResults){
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 	if(routeRequestManager != null)
 		delete routeRequestManager;
 	routeRequestManager = new RouteRequestManager();
-	routeRequestManager->setRequest(AppData::GetInstance()->getCurrentRequest());
+	AppLog("set request");
+	routeRequestManager->setRequest(AppData::GetInstance()->getCurrentRequest(),addToResults);
+}
+
+//if add to results is false==default then the results get cleared before adding the new onces from the last request
+void Controller::retrieveLiveBoardResults(bool addToResults){
+	if(liveBoardRequestManager != null)
+		delete liveBoardRequestManager;
+	liveBoardRequestManager = new LiveBoardRequestManager();
+	liveBoardRequestManager->setRequest(AppData::GetInstance()->getCurrentLiveBoardRequest(),addToResults);
+}
+
+void Controller::clearRoutePlanner(){
+	// clear our request model
+	AppData::GetInstance()->getCurrentRequest()->clear();
+
+	// clear the views by requesting a redraw
+	formRoutePlanner->RequestRedraw(true);
+}
+
+void Controller::clearLiveboard(){
+	// clear our liveboard model
+	AppData::GetInstance()->getCurrentLiveBoardRequest()->clear();
+
+	// clear the views by requesting a redraw
+	formLiveBoard->RequestRedraw(true);
+}
+
+void Controller::setRoutePlannerTime(DateTime time){
+	AppData::GetInstance()->getCurrentRequest()->setDateTime(time);
+	formRoutePlanner->RequestRedraw(true);
+}
+
+void Controller::setLiveboardTime(DateTime time){
+	AppData::GetInstance()->getCurrentLiveBoardRequest()->setDateTime(time);
+	formLiveBoard->RequestRedraw(true);
+}
+
+void Controller::cancelRequest(){
+	if(routeRequestManager != null)
+		routeRequestManager->cancelRequest();
+	if(liveBoardRequestManager != null)
+		liveBoardRequestManager->cancelRequest();
+}
+
+void Controller::switchRequestStations(){
+	AppData::GetInstance()->getCurrentRequest()->switchStations();
+	formRoutePlanner->RequestRedraw(true);
+}
+
+void Controller::setIsDeparture(bool isDeparture){
+	AppData::GetInstance()->getCurrentRequest()->setIsDepart(isDeparture);
+}
+
+void Controller::saveToCalendar(int index){
+	Trip* trip=null;
+	result r = AppData::GetInstance()->getCurrentRequest()->getTrips()->GetAt(index,trip);
+	if(r==E_SUCCESS && trip !=null){
+		AppLog("1");
+		Osp::Social::Calendarbook* calendarbook = new Calendarbook();
+		AppLog("2");
+		calendarbook->Construct(null);
+		AppLog("3");
+		CalEvent event;
+		DateTime startTime, endTime;
+		AppLog("4");
+		event.SetCategory(EVENT_CATEGORY_APPOINTMENT);
+		Connection* first;
+		Connection* last;
+		AppLog("5");
+		trip->getConnections()->GetAt(0,first);
+		AppLog("6");
+		trip->getConnections()->GetAt(trip->getConnections()->GetCount()-1,last);
+		ConnectionNode* firstNode=first->getStartConnectionNode();
+		ConnectionNode* lastNode=last->getEndConnectionNode();
+		AppLog("7");
+		r = event.SetSubject(firstNode->getStation()->getName() + "-" + lastNode->getStation()->getName());
+		DateTime start= firstNode->getDateTime();
+		DateTime end  = lastNode->getDateTime();
+		AppLog("8");
+		r = event.SetStartAndEndTime(start, end);
+		String desc="testje";
+		AppLog("9");
+		event.SetDescription(desc);
+		calendarbook->AddEvent(event);
+
+		AppLog("Controller::save to calendar");
+	}
+
 }
 
 void Controller::retrieveLiveBoardResults(){

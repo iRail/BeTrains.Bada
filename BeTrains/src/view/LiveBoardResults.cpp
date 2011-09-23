@@ -8,21 +8,47 @@ using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
 using namespace Osp::Graphics;
 
+<<<<<<< HEAD
 LiveBoardResults::LiveBoardResults(void) {
 	liveBoardRequest=null;
+=======
+LiveBoardResults::LiveBoardResults(void):
+		liveBoardRequest(null)
+{
+
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 }
 
 LiveBoardResults::~LiveBoardResults(void) {
 }
 
 bool LiveBoardResults::Initialize() {
+<<<<<<< HEAD
 	this->RemoveAllControls();
+=======
+	RemoveAllControls();
+
+	/*
+	 * I18N
+	 */
+	String refresh = "Refresh";
+	String back = "Back";
+	String empty = "Empty list";
+	String saveToCalendar = "Save to calendar";
+	AppResource* appRes = Application::GetInstance()->GetAppResource();
+	appRes->GetString(L"LB_RES_REFRESH", refresh);
+	appRes->GetString(L"LB_RES_BACK", back);
+	appRes->GetString(L"LB_RES_EMPTY",empty);
+
+
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 	HeaderForm::Initialize(true, true); //enables left and right softkey
 	/*
 	 * get Data from current request from appdata
 	 */
 	liveBoardRequest = AppData::GetInstance()->getCurrentLiveBoardRequest(); // no ownership offcourse
 
+<<<<<<< HEAD
 	this->SetSoftkeyText(SOFTKEY_0, "Previous");
 	this->SetSoftkeyActionId(SOFTKEY_0, PREVIOUS_ACTION);
 	this->AddSoftkeyActionListener(SOFTKEY_0,*this);
@@ -30,18 +56,36 @@ bool LiveBoardResults::Initialize() {
 	this->SetSoftkeyText(SOFTKEY_1, "Next");
 	this->SetSoftkeyActionId(SOFTKEY_1, NEXT_ACTION);
 	this->AddSoftkeyActionListener(SOFTKEY_1,*this);
+=======
+	SetSoftkeyText(SOFTKEY_0, refresh);
+	SetSoftkeyActionId(SOFTKEY_0, REFRESH_ACTION);
+	AddSoftkeyActionListener(SOFTKEY_0,*this);
+
+	SetSoftkeyText(SOFTKEY_1, back);
+	SetSoftkeyActionId(SOFTKEY_1, BACK_ACTION);
+	AddSoftkeyActionListener(SOFTKEY_1,*this);
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 
 	/*
 	 * Calculate sizes for all controls
 	 */
+<<<<<<< HEAD
 	Rectangle bounds = this->GetClientAreaBounds();
+=======
+	Rectangle bounds = GetClientAreaBounds();
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 
 	/*
 	 * Construct a ListView
 	 */
 	list = new ListView();
+<<<<<<< HEAD
 	list->Construct(Rectangle(0,0,bounds.width,bounds.height),true,false);
 	list->SetTextOfEmptyList("empty list");
+=======
+	list->Construct(Rectangle(0, 0, bounds.width, bounds.height), true, false);
+	list->SetTextOfEmptyList(empty);
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 	list->SetItemProvider(*this);
 	list->AddListViewItemEventListener(*this);
 	AddControl(*list);
@@ -49,6 +93,7 @@ bool LiveBoardResults::Initialize() {
 	return true;
 }
 
+<<<<<<< HEAD
 
 /*
  * implements IListViewItemEventListener
@@ -59,6 +104,24 @@ void LiveBoardResults::OnListViewItemSwept(Osp::Ui::Controls::ListView &listView
 
 void LiveBoardResults::OnListViewContextItemStateChanged(Osp::Ui::Controls::ListView &listView, int index, int elementId, Osp::Ui::Controls::ListContextItemStatus state)
 {
+=======
+/*
+ * implements IListViewItemEventListener
+ */
+void LiveBoardResults::OnListViewItemStateChanged(
+		Osp::Ui::Controls::ListView &listView, int index, int elementId,
+		Osp::Ui::Controls::ListItemStatus status) {
+}
+
+void LiveBoardResults::OnListViewItemSwept(
+		Osp::Ui::Controls::ListView &listView, int index,
+		Osp::Ui::Controls::SweepDirection direction) {
+}
+
+void LiveBoardResults::OnListViewContextItemStateChanged(
+		Osp::Ui::Controls::ListView &listView, int index, int elementId,
+		Osp::Ui::Controls::ListContextItemStatus state) {
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 	//TODO make context menu to add to calendar
 }
 
@@ -68,7 +131,11 @@ void LiveBoardResults::OnListViewContextItemStateChanged(Osp::Ui::Controls::List
 Osp::Ui::Controls::ListItemBase*
 LiveBoardResults::CreateItem(int index, int itemWidth)
 {
+<<<<<<< HEAD
 	Rectangle bounds = this->GetClientAreaBounds();
+=======
+	Rectangle bounds = GetClientAreaBounds();
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 	int itemHeight = bounds.height/8;
 	if(bounds.width>bounds.height)
 		itemHeight = bounds.width /8;
@@ -77,7 +144,11 @@ LiveBoardResults::CreateItem(int index, int itemWidth)
 	 * Get the trip from the index id
 	 */
 	LiveBoardResult* result;
+<<<<<<< HEAD
 	liveBoardRequest->getResults()->GetAt(index,result);
+=======
+	liveBoardRequest->getResults()->GetAt(index, result);
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 	/*
 	 * Get trip data
 	 */
@@ -88,6 +159,7 @@ LiveBoardResults::CreateItem(int index, int itemWidth)
 
 	//create custom item with right size, height is calculated with amount of connections
 	CustomItem* item = new CustomItem();
+<<<<<<< HEAD
 	item->Construct(Osp::Graphics::Dimension(itemWidth,itemHeight), LIST_ANNEX_STYLE_NORMAL); //+itemHeight*amountConnections
 	item->AddElement(Rectangle(0				, 0					, itemWidth*0.75	, 0.5*itemHeight), STATION		, station	, 0.5*itemHeight	, Color::COLOR_WHITE	, Color::COLOR_WHITE	, Color::COLOR_WHITE);
 	item->AddElement(Rectangle(0				, 0.5*itemHeight	, itemWidth*0.75	, 0.5*itemHeight), TIME			, time		, 0.5*itemHeight	, Color::COLOR_WHITE	, Color::COLOR_WHITE	, Color::COLOR_WHITE);
@@ -101,6 +173,22 @@ LiveBoardResults::CreateItem(int index, int itemWidth)
 	itemContext->Construct();
 	itemContext->AddElement(SAVE_CALENDAR_ACTION, "Save to calendar");
 	item->SetContextItem(itemContext);
+=======
+	item->Construct(Osp::Graphics::Dimension(itemWidth, itemHeight),
+			LIST_ANNEX_STYLE_NORMAL); //+itemHeight*amountConnections
+	item->AddElement(Rectangle(0, 0, itemWidth * 0.75, 0.5 * itemHeight),
+			STATION, station, 0.5 * itemHeight, Color::COLOR_WHITE,
+			Color::COLOR_WHITE, Color::COLOR_WHITE);
+	item->AddElement(Rectangle(0, 0.5 * itemHeight, itemWidth * 0.75, 0.5
+			* itemHeight), TIME, time, 0.5 * itemHeight, Color::COLOR_WHITE,
+			Color::COLOR_WHITE, Color::COLOR_WHITE);
+	item->AddElement(Rectangle(itemWidth * 0.75, 0, itemWidth * 0.25, 0.5
+			* itemHeight), PLATFORM, platform, 0.5 * itemHeight,
+			Color::COLOR_WHITE, Color::COLOR_BLUE, Color::COLOR_BLUE);
+	item->AddElement(Rectangle(itemWidth * 0.75, 0.5 * itemHeight, itemWidth
+			* 0.25, 0.5 * itemHeight), DELAY, delay, 0.5 * itemHeight,
+			Color::COLOR_RED, Color::COLOR_BLUE, Color::COLOR_BLUE);
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 
 	return item;
 }
@@ -133,6 +221,7 @@ result LiveBoardResults::OnTerminating(void) {
  */
 void LiveBoardResults::OnActionPerformed(const Osp::Ui::Control& source,int actionId) {
 	HeaderForm::OnActionPerformed(source,actionId);
+<<<<<<< HEAD
 	if(actionId == NEXT_ACTION){
 		AppLog("Clicked LiveBoardResults::search");
 		Controller::GetInstance()->retrieveLiveBoardResults();
@@ -144,5 +233,19 @@ void LiveBoardResults::OnActionPerformed(const Osp::Ui::Control& source,int acti
 
 void LiveBoardResults::RequestRedraw (bool show) const{
 	AppLog("LiveBoardResults::RequestRedraw");
+=======
+	if(actionId == REFRESH_ACTION){
+		AppLog("Clicked LiveBoardResults::refresh");
+		Controller::GetInstance()->retrieveLiveBoardResults();
+	}else if(actionId == BACK_ACTION){
+		AppLog("Clicked LiveBoardResults::back");
+	}
+}
+
+void LiveBoardResults::RequestRedraw(bool show) {
+	AppLog("LiveBoardResults::RequestRedraw");
+	liveBoardRequest = AppData::GetInstance()->getCurrentLiveBoardRequest();
+	list->UpdateList();
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 	Form::RequestRedraw(show);
 }

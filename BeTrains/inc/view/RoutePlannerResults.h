@@ -6,6 +6,7 @@
 #include "HeaderForm.h"
 #include "model/Request.h"
 #include "model/Station.h"
+#include "model/Trip.h"
 
 using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
@@ -15,61 +16,43 @@ using namespace Osp::App;
 
 class RoutePlannerResults :
 	public HeaderForm,
-	//public IGroupedListViewItemProvider,
-	//public IGroupedListViewItemEventListener
-	public IListViewItemEventListener,
-	public IListViewItemProvider
+	public ITouchEventListener
 {
 
 // Construction
 public:
-	RoutePlannerResults(void);
+	RoutePlannerResults();
 	virtual ~RoutePlannerResults(void);
 	bool Initialize(void);
 
 	virtual result 	OnInitializing(void);
 	virtual result 	OnTerminating(void);
 
-	void 			RequestRedraw (bool show=true) const;
+	void 			RequestRedraw (bool show=true)const; //todo, make it a const method
 
 	//Action performed Listener
 	virtual void 	OnActionPerformed(const Osp::Ui::Control& source, int actionId);
 
-	//IGroupedListViewItemProvider
+
 	/*
-	virtual GroupItem * 	CreateGroupItem (int groupIndex, int itemWidth);
-	virtual ListItemBase * 	CreateItem (int groupIndex, int itemIndex, int itemWidth);
-	virtual bool 			DeleteGroupItem (int groupIndex, GroupItem *pItem, int itemWidth);
-	virtual bool 			DeleteItem (int groupIndex, int itemIndex, ListItemBase *pItem, int itemWidth);
-	virtual int 			GetGroupCount (void);
-	virtual int 			GetItemCount (int groupIndex);
-	*/
+	 * ITouchEventListener
+	 */
+	virtual void 	OnTouchDoublePressed (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
+	virtual void 	OnTouchFocusIn (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
+	virtual void 	OnTouchFocusOut (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
+	virtual void 	OnTouchLongPressed (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
+	virtual void 	OnTouchMoved (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
+	virtual void 	OnTouchPressed (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
+	virtual void 	OnTouchReleased (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
 
-	//IGroupedListViewItemEventListener
-	/*
-	virtual void 	OnGroupedListViewContextItemStateChanged (GroupedListView &listView, int groupIndex, int itemIndex, int elementId, ListContextItemStatus status);
-	virtual void 	OnGroupedListViewItemLongPressed (GroupedListView &listView, int groupIndex, int itemIndex, int elementId, bool &invokeListViewItemCallback);
-	virtual void 	OnGroupedListViewItemStateChanged (GroupedListView &listView, int groupIndex, int itemIndex, int elementId, ListItemStatus status);
-	virtual void 	OnGroupedListViewItemSwept (GroupedListView &listView, int groupIndex, int itemIndex, SweepDirection direction);
-	*/
-
-
-	//implements IListViewItemEventListener
-	virtual void OnListViewContextItemStateChanged(Osp::Ui::Controls::ListView &listView, int index, int elementId, Osp::Ui::Controls::ListContextItemStatus state);
-	virtual void OnListViewItemStateChanged(Osp::Ui::Controls::ListView &listView, int index, int elementId, Osp::Ui::Controls::ListItemStatus status);
-	virtual void OnListViewItemSwept(Osp::Ui::Controls::ListView &listView, int index, Osp::Ui::Controls::SweepDirection direction);
-
-	//implements IListViewItemProvider
-	virtual Osp::Ui::Controls::ListItemBase* CreateItem(int index, int itemWidth);
-	virtual bool DeleteItem(int index, Osp::Ui::Controls::ListItemBase* pItem, int itemWidth);
-	virtual int GetItemCount(void);
+	void ShowContextMenu(bool show);
 
 	/*
 	 * action id's
 	 */
-	static const int NEXT_ACTION = 301;
-	static const int PREVIOUS_ACTION = 302;
-	static const int SAVE_CALENDAR_ACTION = 303;
+	static const int REFRESH_ACTION			= 301;
+	static const int BACK_ACTION 			= 302;
+	static const int SAVE_CALENDAR_ACTION 	= 303;
 
 	/*
 	 * Element id's for custom element
@@ -87,10 +70,19 @@ public:
 private:
 	//DATA
 	Request* 				request;
+	bool*					addToResults;
+	enum LIST_ITEMS{LIST_ITEM_STATIONS,LIST_ITEM_TIMES,LIST_ITEM_DELAYS,LIST_ITEM_DURATION,LIST_ITEM_VEHICLE_TYPE,LIST_ITEM_VEHICLE_NAME,LIST_ITEM_NUMBER_CONNECTIONS,LIST_ITEM_DATE};
+	enum SUB_LIST_ITEMS{SUBLIST_FROM_TIME,SUBLIST_TO_TIME,SUBLIST_FROM_DELAY,SUBLIST_TO_DELAY,SUBLIST_FROM_STATION,SUBLIST_TO_STATION,SUBLIST_FROM_PLATFORM,SUBLIST_TO_PLATFORM,SUBLIST_VEHICLE};
 
 	//Compontents
-	//GroupedListView*		list;
-	ListView*				list;
+	Label*					titleLabel;
+	ExpandableList*			list;
+	CustomListItemFormat*	format;
+	CustomListItemFormat*	subListFormat;
+	ContextMenu* 			contextMenu;
+
+	//help methods
+	void addTrip(Trip* trip)const;
 };
 
 #endif	//_RoutePlannerResults_H_

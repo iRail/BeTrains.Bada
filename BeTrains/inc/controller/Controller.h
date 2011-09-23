@@ -12,6 +12,7 @@
 #include <FBase.h>
 #include <FSystem.h>
 #include <FUi.h>
+#include <FSocial.h>
 
 #include "view/HeaderForm.h"
 #include "view/FormLiveboard.h"
@@ -65,9 +66,22 @@ public:
 	void					setPreviousForm(); //GO BACK
 
 	//actions
+<<<<<<< HEAD
 	void 					returnSelectedStation();
 	void					retrieveRoutePlannerResults();
 	void					retrieveLiveBoardResults();
+=======
+	void					retrieveRoutePlannerResults(bool addToResults=false);
+	void					retrieveLiveBoardResults(bool addToResults=false);
+	void 					clearRoutePlanner();
+	void 					clearLiveboard();
+	void 					setRoutePlannerTime(DateTime time);
+	void 					setLiveboardTime(DateTime time);
+	void					cancelRequest();
+	void 					switchRequestStations();
+	void 					setIsDeparture(bool isDeparture);
+	void					saveToCalendar(int index); //saves from index from current results to calendar
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 };
 
 #endif /* CONTROLLER_H_ */

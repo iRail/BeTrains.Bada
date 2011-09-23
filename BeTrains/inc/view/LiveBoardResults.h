@@ -26,7 +26,11 @@ public:
 	virtual result 	OnInitializing(void);
 	virtual result 	OnTerminating(void);
 
+<<<<<<< HEAD
 	void 			RequestRedraw (bool show=true) const;
+=======
+	void 			RequestRedraw (bool show=true);
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 
 	//Action performed Listener
 	virtual void 	OnActionPerformed(const Osp::Ui::Control& source, int actionId);
@@ -44,9 +48,14 @@ public:
 	/*
 	 * action id's
 	 */
+<<<<<<< HEAD
 	static const int NEXT_ACTION = 301;
 	static const int PREVIOUS_ACTION = 302;
 	static const int SAVE_CALENDAR_ACTION = 303;
+=======
+	static const int REFRESH_ACTION			= 301;
+	static const int BACK_ACTION 			= 302;
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 
 	/*
 	 * Element id's for custom element

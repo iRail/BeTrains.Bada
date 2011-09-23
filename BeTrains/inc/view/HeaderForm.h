@@ -31,13 +31,20 @@ public:
 	virtual result OnTerminating(void);
 	virtual void OnActionPerformed(const Osp::Ui::Control& source, int actionId);
 	void OnOrientationChanged(const Control& source, OrientationStatus orientationStatus);
+	virtual void recalculateComponents();
+
 	/*
 	 * Action id's
 	 */
 
-	static const int HEADER_ID_LIVEBOARD = 201;
-	static const int HEADER_ID_ROUTE_PLANNER = 200;
+	static const int ACTION_HEADER_ID_LIVEBOARD = 201;
+	static const int ACTION_HEADER_ID_ROUTE_PLANNER = 200;
 
+	/*
+	 * Component id's
+	 */
+	static const int HEADER_ID_LIVEBOARD = 1;
+	static const int HEADER_ID_ROUTE_PLANNER = 0;
 };
 
 #endif /* HEADERFORM_H_ */

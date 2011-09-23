@@ -3,12 +3,19 @@
 
 #include <FBase.h>
 #include <FUi.h>
+<<<<<<< HEAD
 #include "view/HeaderForm.h"
 #include "model/liveBoardRequest.h"
+=======
+#include "HeaderForm.h"
+#include "model/LiveBoardRequest.h"
+#include "view/WaitingPopup.h"
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 
 class FormLiveboard :
 	public HeaderForm,
-	public Osp::Ui::ITouchEventListener
+	public Osp::Ui::ITouchEventListener,
+	public ITimeChangeEventListener
 {
 
 // Construction
@@ -18,11 +25,20 @@ public:
 	bool Initialize(void);
 
 public:
+<<<<<<< HEAD
 	virtual result OnInitializing(void);
 	virtual result OnTerminating(void);
 	virtual void OnActionPerformed(const Osp::Ui::Control& source, int actionId);
 	void RequestRedraw(bool Show = true) const;
 
+=======
+	virtual result 	OnInitializing(void);
+	virtual result 	OnTerminating(void);
+	virtual void   	OnActionPerformed(const Osp::Ui::Control& source, int actionId);
+	virtual void    recalculateComponents();
+	void 			RequestRedraw (bool show=true) const;
+	void 			hideWaitingPopup();
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 	/*
 	 * ITouchEventListeners
 	 */
@@ -33,13 +49,15 @@ public:
 	void OnTouchMoved (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
 	void OnTouchPressed (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
 	void OnTouchReleased (const Osp::Ui::Control &source, const Osp::Graphics::Point &currentPosition, const Osp::Ui::TouchEventInfo &touchInfo);
-
+	void OnTimeChanged(const Osp::Ui::Control& source, int hour, int minute);
+	void OnTimeChangeCanceled(const Osp::Ui::Control& source);
 	/*
 	 * Action id's
 	 */
+	static const int SEARCH_ACTION = 301;
+	static const int CLEAR_ACTION = 302;
+	static const int CANCEL_REQUEST	= 303;
 
-	static const int SEARCH_ACTION 		= 301;
-	static const int CLEAR_ACTION 		= 302;
 private:
 
 	/*
@@ -49,10 +67,16 @@ private:
 
 
 	/*
+	 * Data
+	 */
+	LiveBoardRequest*					liveBoardRequest;
+
+	/*
 	 * Controls
 	 */
 	Osp::Ui::Controls::EditField* 		stationEditField;
 	Osp::Ui::Controls::EditTime*		editTime;
+	Popup*								waitingPopup;
 };
 
 #endif	//_FormLiveboard_H_

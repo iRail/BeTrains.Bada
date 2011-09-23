@@ -19,7 +19,7 @@ public:
 	virtual ~LiveBoardRequestManager();
 
 	void cancelRequest();
-	void setRequest(LiveBoardRequest* req);
+	void setRequest(LiveBoardRequest* req,bool addToResults_=false);
 
 	void OnTransactionReadyToRead(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, int availableBodyLen);
 	void OnTransactionAborted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, result r);
@@ -33,6 +33,7 @@ private:
 	Osp::Net::Http::HttpTransaction* 		__pTransaction; //ownership
 	Osp::Net::Http::HttpRequest* 			__pHttpRequest;	//ownership
 	LiveBoardRequest*						__pRequest; 	//no ownership
+	bool 									addToResults;
 };
 
 #endif /* LIVE_BOARD_REQUEST_MANAGER_H_ */

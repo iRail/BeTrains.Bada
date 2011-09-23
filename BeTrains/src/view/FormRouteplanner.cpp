@@ -6,12 +6,14 @@ using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
 using namespace Osp::Graphics;
 
-FormRouteplanner::FormRouteplanner(void) {
-	request=null;
+FormRouteplanner::FormRouteplanner(void) :
+	request(null), waitingPopup(null) {
+
 }
 
 FormRouteplanner::~FormRouteplanner(void) {
 	delete dateTimePicker;
+	delete waitingPopup;
 }
 
 bool FormRouteplanner::Initialize() {
@@ -22,51 +24,77 @@ bool FormRouteplanner::Initialize() {
 	 * get Data from current request from appdata
 	 */
 	request = AppData::GetInstance()->getCurrentRequest(); // no ownership offcourse
-	//stubru huisnummer: 600-6+8-599+17 *2 +10 what about the haakjes?
-	// (600 + 6 + 8 - 599 + 17 ) *  2 +10 	= 74
-	// (600 + 6 + 8 - 599 + 17 ) *  (2+10) 	= 384
-	//  600 + 6 + 8 - 599 + 17   *  2 +10 	= 59
-	//  600 + 6 + 8 - 599 + 17   *  (2+10) 	= 291
 
-	this->SetSoftkeyText(SOFTKEY_0, "Search");
+	/*
+	 * I18N
+	 */
+	String search = "zoekt";
+	String clear = "wis";
+	String from = "van";
+	String to = "naar";
+	String pickTime = "kies tijd en datum";
+	String depart = "vertrek";
+	String arrival = "aankomst";
+	AppResource* appRes = Application::GetInstance()->GetAppResource();
+	appRes->GetString(L"RP_SEARCH", search);
+	appRes->GetString(L"RP_CLEAR", clear);
+	appRes->GetString(L"RP_FROM", from);
+	appRes->GetString(L"RP_TO", to);
+	appRes->GetString(L"RP_PICK_TIME", pickTime);
+	appRes->GetString(L"RP_DEPARTURE", depart);
+	appRes->GetString(L"RP_ARRIVAL", arrival);
+
+	/*
+	 * Set soft keys
+	 */
+	this->SetSoftkeyText(SOFTKEY_0, search);
 	this->SetSoftkeyActionId(SOFTKEY_0, SEARCH_ACTION);
-	this->AddSoftkeyActionListener(SOFTKEY_0,*this);
+	this->AddSoftkeyActionListener(SOFTKEY_0, *this);
 
-	this->SetSoftkeyText(SOFTKEY_1, "Clear");
+	this->SetSoftkeyText(SOFTKEY_1, clear);
 	this->SetSoftkeyActionId(SOFTKEY_1, CLEAR_ACTION);
-	this->AddSoftkeyActionListener(SOFTKEY_1,*this);
+	this->AddSoftkeyActionListener(SOFTKEY_1, *this);
 
+	Rectangle bounds = this->GetClientAreaBounds();
+
+	scrollPanel = new ScrollPanel();
+	scrollPanel->Construct(Rectangle(0,0,bounds.width,bounds.height));
 	/*
 	 * Calculate sizes for all controls
 	 */
-	Rectangle bounds = this->GetClientAreaBounds();
+
 	//int x = bounds.x;
 	int y = 10;
 	int border = 0.05 * bounds.width;
 	int widthBody = 0.9 * bounds.width;
 
-	int heightBody = int( 1.0 / 6.0 * double(bounds.height));
+	int heightBody = int(1.0 / 6.0 * double(bounds.height));
 
 	int stationWidth = 0.85 * widthBody;
 	int switchButtonWidth = 0.15 * widthBody;
+
 	/*
 	 * Make From Station Edit Field
 	 */
 	fromStationEditField = new EditField();
-	fromStationEditField->Construct( Rectangle(border, y, stationWidth, heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 100,GROUP_STYLE_TOP);
-	fromStationEditField->SetTitleText(L"From");
-	AddControl(*fromStationEditField);
+	fromStationEditField->Construct(Rectangle(border, y, stationWidth,
+			heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true,
+			100, GROUP_STYLE_TOP);
+	fromStationEditField->SetTitleText(from);
+	scrollPanel->AddControl(*fromStationEditField);
 	fromStationEditField->AddTouchEventListener(*this);
 	fromStationEditField->SetEnabled(false);//prevents opening default text input
 	fromStationEditField->BeginBlock();
+
 	/*
 	 * Make Switch Button
 	 */
 	switchStationsButton = new Button();
-	switchStationsButton->Construct(Rectangle(border+stationWidth, y, switchButtonWidth, heightBody*2));
+	switchStationsButton->Construct(Rectangle(border + stationWidth, y,
+			switchButtonWidth, heightBody * 2));
 	switchStationsButton->SetActionId(SWITCH_ACTION);
 	switchStationsButton->SetText(L"Sw"); //Switch Stations
-	AddControl(*switchStationsButton);
+	scrollPanel->AddControl(*switchStationsButton);
 	switchStationsButton->AddActionEventListener(*this);
 	//Osp::Graphics::Bitmap* switchIcon = Utils::GetBitmapN(L"Icons/Switch.png");
 	//switchStationsButton->SetNormalBackgroundBitmap(*switchIcon);
@@ -80,9 +108,12 @@ bool FormRouteplanner::Initialize() {
 	 */
 	y += heightBody; // cumulate y
 	toStationEditField = new EditField();
-	toStationEditField->Construct( Rectangle(border, y, stationWidth, heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 100,GROUP_STYLE_BOTTOM);
-	toStationEditField->SetTitleText(L"To");
-	AddControl(*toStationEditField);
+	toStationEditField->Construct(
+			Rectangle(border, y, stationWidth, heightBody),
+			EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 100,
+			GROUP_STYLE_BOTTOM);
+	toStationEditField->SetTitleText(to);
+	scrollPanel->AddControl(*toStationEditField);
 	toStationEditField->AddTouchEventListener(*this);
 	toStationEditField->SetEnabled(false);//prevents opening default text input
 	toStationEditField->BeginBlock();
@@ -92,7 +123,7 @@ bool FormRouteplanner::Initialize() {
 	 * Carefull, this dateTimePicker must be destroyed in Destructor
 	 */
 	dateTimePicker = new DateTimePicker();
-	dateTimePicker->Construct("Pick date and time");
+	dateTimePicker->Construct(pickTime);
 	dateTimePicker->Set24HourNotationEnabled(true);
 	dateTimePicker->AddDateTimeChangeEventListener(*this);
 
@@ -101,13 +132,14 @@ bool FormRouteplanner::Initialize() {
 	 */
 	y += heightBody + border; // cumulate y
 	editTimeDateField = new EditField();
-	editTimeDateField->Construct( Rectangle(border, y, widthBody, heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 100,GROUP_STYLE_TOP);
+	editTimeDateField->Construct(Rectangle(border, y, widthBody, heightBody),
+			EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 100,
+			GROUP_STYLE_TOP);
 	editTimeDateField->SetEnabled(false);
 	editTimeDateField->SetText(dateTimePicker->GetDateTime().ToString());
-	editTimeDateField->SetTitleText(L"Pick Time and Date");
+	editTimeDateField->SetTitleText(pickTime);
 	editTimeDateField->AddTouchEventListener(*this);
-	AddControl(*editTimeDateField);
-
+	scrollPanel->AddControl(*editTimeDateField);
 
 	/*
 	 * Make a group of Radio Buttons with on Depart and on arrival
@@ -115,13 +147,20 @@ bool FormRouteplanner::Initialize() {
 	 */
 	y += heightBody; // cumulate y
 	isDepart = new CheckButton();
-	isDepart->Construct(Rectangle(border, y, widthBody, heightBody), CHECK_BUTTON_STYLE_RADIO_WITH_DIVIDER, BACKGROUND_STYLE_DEFAULT, false, L"Depart",GROUP_STYLE_MIDDLE);
-
-	AddControl(*isDepart);
+	isDepart->Construct(Rectangle(border, y, widthBody, heightBody),
+			CHECK_BUTTON_STYLE_RADIO_WITH_DIVIDER, BACKGROUND_STYLE_DEFAULT,
+			false, depart, GROUP_STYLE_MIDDLE);
+	isDepart->AddActionEventListener(*this);
+	isDepart->SetActionId(IS_DEPARTURE, UNCHECKED, IS_DEPARTURE);
+	scrollPanel->AddControl(*isDepart);
 	y += heightBody;
 	isArrivial = new CheckButton();
-	isArrivial->Construct(Rectangle(border, y, widthBody, heightBody), CHECK_BUTTON_STYLE_RADIO_WITH_DIVIDER,BACKGROUND_STYLE_DEFAULT, false, L"Arrival",GROUP_STYLE_BOTTOM);
-	AddControl(*isArrivial);
+	isArrivial->Construct(Rectangle(border, y, widthBody, heightBody),
+			CHECK_BUTTON_STYLE_RADIO_WITH_DIVIDER, BACKGROUND_STYLE_DEFAULT,
+			false, arrival, GROUP_STYLE_BOTTOM);
+	isArrivial->AddActionEventListener(*this);
+	isArrivial->SetActionId(IS_ARRIVAL, UNCHECKED, IS_ARRIVAL);
+	scrollPanel->AddControl(*isArrivial);
 	// Create the RadioGroup
 	RadioGroup *radioGroup = new RadioGroup();
 	radioGroup->Construct();
@@ -129,6 +168,30 @@ bool FormRouteplanner::Initialize() {
 	radioGroup->Add(*isArrivial);
 	//default must me set after the group is set
 	isDepart->SetSelected(true); //default is alwayls on arrival
+
+
+	//popup
+	waitingPopup = new Popup();
+	int width = bounds.width * 0.85;
+	int height = bounds.height / 3;
+	AppLog("width %S height %S",Integer::ToString(width).GetPointer(),Integer::ToString(height).GetPointer());
+	//int width=400;
+	//int height=300;
+
+	Dimension dim(width, height);
+	waitingPopup->Construct(true, dim);
+	waitingPopup->SetTitleText(L"Loading...");
+
+	// Creates a button to close the Popup.
+	Button* button = new Button();
+	button->Construct(Rectangle(width * 0.15, height / 3, width * 0.6, height
+			/ 4), L"Cancel");
+	button->SetActionId(CANCEL_REQUEST);
+	button->AddActionEventListener(*this);
+	waitingPopup->AddControl(*button);
+
+	AddControl(*scrollPanel);
+
 	return true;
 }
 
@@ -146,67 +209,166 @@ result FormRouteplanner::OnTerminating(void) {
 /*
  * IAction Event Listener
  */
-void FormRouteplanner::OnActionPerformed(const Osp::Ui::Control& source,int actionId) {
-	HeaderForm::OnActionPerformed(source,actionId);
-	if(actionId == SEARCH_ACTION){
+void FormRouteplanner::OnActionPerformed(const Osp::Ui::Control& source,
+		int actionId) {
+	HeaderForm::OnActionPerformed(source, actionId);
+	if (actionId == SEARCH_ACTION) {
 		AppLog("Clicked FormRoutePlanner::search");
+		waitingPopup->SetShowState(true);
+		waitingPopup->Show();
 		Controller::GetInstance()->retrieveRoutePlannerResults();
-	}else if(actionId == CLEAR_ACTION){
+	} else if (actionId == CLEAR_ACTION) {
 		AppLog("Clicked FormRoutePlanner::clear");
-	}else if(actionId == SWITCH_ACTION){
+		Controller::GetInstance()->clearRoutePlanner();
+	} else if (actionId == SWITCH_ACTION) {
 		AppLog("Clicked FormRoutePlanner::switch");
+		Controller::GetInstance()->switchRequestStations();
+	} else if (actionId == IS_ARRIVAL) {
+		AppLog("The request must be on arrival time.");
+		Controller::GetInstance()->setIsDeparture(false);
+	} else if (actionId == IS_DEPARTURE) {
+		AppLog("The request must be on departure time.");
+		Controller::GetInstance()->setIsDeparture(true);
+	} else if (actionId == CANCEL_REQUEST) {
+		AppLogDebug("popup cancel button pressed");
+		Controller::GetInstance()->cancelRequest();
+		hideWaitingPopup();
 	}
 }
-
 
 /*
  * IDateTime Event Listener methods
  */
-void FormRouteplanner::OnDateTimeChanged(const Osp::Ui::Control & source, int year, int month, int day, int hour, int minute)
-{
-	//TODO update
+void FormRouteplanner::OnDateTimeChanged(const Osp::Ui::Control & source,
+		int year, int month, int day, int hour, int minute) {
+	DateTime newDate = dateTimePicker->GetDateTime();
+	Controller::GetInstance()->setRoutePlannerTime(newDate);
 }
 
-void FormRouteplanner::OnDateTimeChangeCanceled(const Osp::Ui::Control & source){
-	//TODO reset time
+void FormRouteplanner::OnDateTimeChangeCanceled(const Osp::Ui::Control & source) {
+
 }
 /*
  * ITouch Event Listerer methods
  */
-void FormRouteplanner::OnTouchMoved(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
-void FormRouteplanner::OnTouchLongPressed(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
-void FormRouteplanner::OnTouchReleased(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
-void FormRouteplanner::OnTouchFocusIn(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
-void FormRouteplanner::OnTouchDoublePressed(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
-void FormRouteplanner::OnTouchFocusOut(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
-void FormRouteplanner::OnTouchPressed(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo)
-{
+void FormRouteplanner::OnTouchMoved(const Osp::Ui::Control & source,
+		const Osp::Graphics::Point & currentPosition,
+		const Osp::Ui::TouchEventInfo & touchInfo) {
+}
+void FormRouteplanner::OnTouchLongPressed(const Osp::Ui::Control & source,
+		const Osp::Graphics::Point & currentPosition,
+		const Osp::Ui::TouchEventInfo & touchInfo) {
+}
+void FormRouteplanner::OnTouchReleased(const Osp::Ui::Control & source,
+		const Osp::Graphics::Point & currentPosition,
+		const Osp::Ui::TouchEventInfo & touchInfo) {
+}
+void FormRouteplanner::OnTouchFocusIn(const Osp::Ui::Control & source,
+		const Osp::Graphics::Point & currentPosition,
+		const Osp::Ui::TouchEventInfo & touchInfo) {
+}
+void FormRouteplanner::OnTouchDoublePressed(const Osp::Ui::Control & source,
+		const Osp::Graphics::Point & currentPosition,
+		const Osp::Ui::TouchEventInfo & touchInfo) {
+}
+void FormRouteplanner::OnTouchFocusOut(const Osp::Ui::Control & source,
+		const Osp::Graphics::Point & currentPosition,
+		const Osp::Ui::TouchEventInfo & touchInfo) {
+}
+void FormRouteplanner::OnTouchPressed(const Osp::Ui::Control & source,
+		const Osp::Graphics::Point & currentPosition,
+		const Osp::Ui::TouchEventInfo & touchInfo) {
 	Controller* controller = Controller::GetInstance();
-	if(source.Equals(*fromStationEditField)){
+	if (source.Equals(*fromStationEditField)) {
 		AppLog("Clicked FormRoutePlanner::fromStationEditField");
 
 		//Station* from =  request->getFromStation();
 		controller->selectStation(request->getFromStation());
-	}else if(source.Equals(*toStationEditField)){
+	} else if (source.Equals(*toStationEditField)) {
 		AppLog("Clicked FormRoutePlanner::toStationEditField");
 		controller->selectStation(request->getToStation());
-	}else if(source.Equals(*editTimeDateField)){
+	} else if (source.Equals(*editTimeDateField)) {
 		AppLog("Clicked FormRoutePlanner::EditDateTimeField");
 		dateTimePicker->SetShowState(true);
 		dateTimePicker->Show();
 	}
 }
 
-void FormRouteplanner::RequestRedraw (bool show) const{
+void FormRouteplanner::RequestRedraw(bool show) const {
 	AppLog("FormRouteplanner::RequestRedraw");
-	Station* from =  (request->getFromStation());
-	Station* to = 	 (request->getToStation());
-	if(from != null){
+	Station* from = (request->getFromStation());
+	Station* to = (request->getToStation());
+	if (from != null) {
 		fromStationEditField->SetText(from->getName());
+	} else {
+		fromStationEditField->SetText("");
 	}
-	if(to != null){
+	if (to != null) {
 		toStationEditField->SetText(to->getName());
+	} else {
+		toStationEditField->SetText("");
 	}
 
+	DateTime* time = (request->getDateTime());
+
+	if (time != null) {
+		dateTimePicker->SetDateTime(*time);
+	} else {
+		dateTimePicker->SetCurrentDateTime();
+	}
+
+	editTimeDateField->SetText(dateTimePicker->GetDateTime().ToString());
 	Form::RequestRedraw(show);
 }
+
+void FormRouteplanner::hideWaitingPopup() {
+	waitingPopup->SetShowState(false);
+	Draw();
+	Show();
+}
+
+void FormRouteplanner::recalculateComponents() {
+	AppLog("Recalculate components!!");
+	/*
+	 * Calculate sizes for all controls
+	 */
+	Rectangle bounds = this->GetClientAreaBounds();
+	scrollPanel->SetBounds(Rectangle(0,0,bounds.width,bounds.height));
+	AppLog("width: %S", Integer::ToString(bounds.width).GetPointer());
+	AppLog("width: %S", Integer::ToString(bounds.height).GetPointer());
+
+	//int x = bounds.x;
+	int y = 10;
+	int border = 0.05 * bounds.width;
+	int widthBody = 0.9 * bounds.width;
+
+	int heightBody = bounds.height / 6;
+	if (bounds.width > bounds.height)
+		heightBody = bounds.width / 6;
+
+	int stationWidth = 0.85 * widthBody;
+	int switchButtonWidth = 0.15 * widthBody;
+
+
+	/*
+	 * Adjust bounds of the components
+	 */
+	fromStationEditField->SetBounds(Rectangle(border, y, stationWidth,heightBody));
+	switchStationsButton->Construct(Rectangle(border + stationWidth, y,
+					switchButtonWidth, heightBody * 2));
+	switchStationsButton->SetBounds(Rectangle(border + stationWidth, y,switchButtonWidth, heightBody * 2));
+	y += heightBody; // cummulate y
+	toStationEditField->SetBounds(Rectangle(border, y, stationWidth, heightBody));
+	//dateTimePicker->SetBound
+
+	y += heightBody + border; // cummulate y
+	editTimeDateField->SetBounds(Rectangle(border, y, widthBody, heightBody));
+
+	y += heightBody+10; // cummulate y
+	isDepart->SetBounds(Rectangle(border, y, widthBody, heightBody));
+	y += heightBody;
+	isArrivial->SetBounds(Rectangle(border, y, widthBody, heightBody));
+
+	this->RequestRedraw(true);
+}
+

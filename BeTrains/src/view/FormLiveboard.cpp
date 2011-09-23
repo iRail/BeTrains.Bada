@@ -10,17 +10,40 @@ FormLiveboard::FormLiveboard(void) {
 }
 
 FormLiveboard::~FormLiveboard(void) {
+	liveBoardRequest = null;
+	waitingPopup = null;
 }
 
 bool FormLiveboard::Initialize() {
-	HeaderForm::Initialize(true,true);
-	this->SetSoftkeyText(SOFTKEY_0,"Search");
-	this->SetSoftkeyActionId(SOFTKEY_0,SEARCH_ACTION);
-	this->AddSoftkeyActionListener(SOFTKEY_0,*this);
 
+<<<<<<< HEAD
 	this->SetSoftkeyText(SOFTKEY_1,"Clear");
 	this->SetSoftkeyActionId(SOFTKEY_1,CLEAR_ACTION);
 	this->AddSoftkeyActionListener(SOFTKEY_1,*this);
+=======
+	/*
+	 * I18N
+	 */
+	String search = "zoekt";
+	String clear = "wis";
+	String station = "station";
+	AppResource* appRes = Application::GetInstance()->GetAppResource();
+	appRes->GetString(L"LB_SEARCH", search);
+	appRes->GetString(L"LB_CLEAR", clear);
+	appRes->GetString(L"LB_STATION", station);
+
+	/*
+	 * Set softkeys
+	 */
+	HeaderForm::Initialize(true, true);
+	this->SetSoftkeyText(SOFTKEY_0, search);
+	this->SetSoftkeyActionId(SOFTKEY_0, SEARCH_ACTION);
+	this->AddSoftkeyActionListener(SOFTKEY_0, *this);
+
+	this->SetSoftkeyText(SOFTKEY_1, clear);
+	this->SetSoftkeyActionId(SOFTKEY_1, CLEAR_ACTION);
+	this->AddSoftkeyActionListener(SOFTKEY_1, *this);
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 	liveBoardRequest = AppData::GetInstance()->getCurrentLiveBoardRequest();
 
 	/*
@@ -31,13 +54,15 @@ bool FormLiveboard::Initialize() {
 	int border = 0.05 * bounds.width;
 	int widthBody = 0.9 * bounds.width;
 
-	int heightBody = int( 1.0 / 6.0 * double(bounds.height));
+	int heightBody = int(1.0 / 6.0 * double(bounds.height));
 	/*
 	 * add Controls to form
 	 */
 	stationEditField = new EditField();
-	stationEditField->Construct( Rectangle(border, heightBody, widthBody, heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true, 100);
-	stationEditField->SetTitleText(L"Station");
+	stationEditField->Construct(Rectangle(border, heightBody, widthBody,
+			heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true,
+			100);
+	stationEditField->SetTitleText(station);
 	AddControl(*stationEditField);
 	stationEditField->AddTouchEventListener(*this);
 	stationEditField->SetEnabled(false);//prevents opening default text input
@@ -45,15 +70,36 @@ bool FormLiveboard::Initialize() {
 
 	editTime = new EditTime();
 	Rectangle editTimeBounds = editTime->GetBounds();
-	editTime->Construct(Osp::Graphics::Point(0,3*heightBody),L"pick a time");
+	editTime->Construct(Osp::Graphics::Point(0, 3 * heightBody), L"pick a time");
 	//get size from this editbounds
 	editTimeBounds = editTime->GetBounds();
-	int editTimeBorder = (bounds.width - editTimeBounds.width)/2;
+	int editTimeBorder = (bounds.width - editTimeBounds.width) / 2;
 	//re postition to align in the middle
-	editTime->SetPosition(editTimeBorder,3*heightBody);
+	editTime->SetPosition(editTimeBorder, 3 * heightBody);
 	editTime->Set24HourNotationEnabled(true);
 	editTime->SetCurrentTime();
+	editTime->AddTimeChangeEventListener(*this);
 	AddControl(*editTime);
+	//waitingPopup = new WaitingPopup("Loading request",bounds.width*0.6,bounds.height/3);
+	//waitingPopup->Construct(true,Dimension(bounds.width*0.6,bounds.height/3));
+	waitingPopup = new Popup();
+	int width = bounds.width * 0.85;
+	int height = bounds.height / 3;
+	AppLog("width %S height %S",Integer::ToString(width).GetPointer(),Integer::ToString(height).GetPointer());
+	//int width=400;
+	//int height=300;
+
+	Dimension dim(width, height);
+	waitingPopup->Construct(true, dim);
+	waitingPopup->SetTitleText(L"Loading...");
+
+	// Creates a button to close the Popup.
+	Button* button = new Button();
+	button->Construct(Rectangle(width * 0.15, height / 3, width * 0.6, height
+			/ 4), L"Cancel");
+	button->SetActionId(CANCEL_REQUEST);
+	button->AddActionEventListener(*this);
+	waitingPopup->AddControl(*button);
 	return true;
 }
 
@@ -68,40 +114,131 @@ result FormLiveboard::OnTerminating(void) {
 	return r;
 }
 
-void FormLiveboard::OnActionPerformed(const Osp::Ui::Control& source, int actionId) {
-	HeaderForm::OnActionPerformed(source,actionId);
-	if(actionId == SEARCH_ACTION){
+void FormLiveboard::OnActionPerformed(const Osp::Ui::Control& source,
+		int actionId) {
+	HeaderForm::OnActionPerformed(source, actionId);
+	if (actionId == SEARCH_ACTION) {
 		AppLog("Clicked FormLiveBoard::search");
+<<<<<<< HEAD
 		Controller::GetInstance()->retrieveLiveBoardResults();
 	}else if(actionId == CLEAR_ACTION){
+=======
+		waitingPopup->SetShowState(true);
+		waitingPopup->Show();
+		Controller::GetInstance()->retrieveLiveBoardResults();
+	} else if (actionId == CLEAR_ACTION) {
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 		AppLog("Clicked FormLiveBoard::clear");
+		Controller::GetInstance()->clearLiveboard();
+	} else if (actionId == CANCEL_REQUEST) {
+		AppLogDebug("popup cancel button pressed");
+		Controller::GetInstance()->cancelRequest();
+		hideWaitingPopup();
 	}
 }
 
+<<<<<<< HEAD
 void FormLiveboard::RequestRedraw (bool show) const{
 	AppLog("FormLiveboard::RequestRedraw");
 	Station* station =  liveBoardRequest->getStation();
 	if(station != null){
 		stationEditField->SetText(station->getName());
 	}
+=======
+void FormLiveboard::RequestRedraw(bool show) const {
+	AppLog("FormLiveboard::RequestRedraw");
+	Station* station = liveBoardRequest->getStation();
+	if (station != null) {
+		stationEditField->SetText(station->getName());
+	} else {
+		stationEditField->SetText("");
+	}
+
+	DateTime* time = (liveBoardRequest->getDateTime());
+
+	if (time != null) {
+		editTime->SetTime(*time);
+	} else {
+		editTime->SetCurrentTime();
+	}
+
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 	Form::RequestRedraw(show);
 }
 
 /*
+<<<<<<< HEAD
  * ITouch Event Listener methods
+=======
+ * ITouchEventListener & ITimeChanged methods
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
  */
-void FormLiveboard::OnTouchMoved(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
-void FormLiveboard::OnTouchLongPressed(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
-void FormLiveboard::OnTouchReleased(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
-void FormLiveboard::OnTouchFocusIn(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
-void FormLiveboard::OnTouchDoublePressed(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
-void FormLiveboard::OnTouchFocusOut(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo){}
-void FormLiveboard::OnTouchPressed(const Osp::Ui::Control & source, const Osp::Graphics::Point & currentPosition, const Osp::Ui::TouchEventInfo & touchInfo)
-{
+void FormLiveboard::OnTouchMoved(const Osp::Ui::Control & source,
+		const Osp::Graphics::Point & currentPosition,
+		const Osp::Ui::TouchEventInfo & touchInfo) {
+}
+void FormLiveboard::OnTouchLongPressed(const Osp::Ui::Control & source,
+		const Osp::Graphics::Point & currentPosition,
+		const Osp::Ui::TouchEventInfo & touchInfo) {
+}
+void FormLiveboard::OnTouchReleased(const Osp::Ui::Control & source,
+		const Osp::Graphics::Point & currentPosition,
+		const Osp::Ui::TouchEventInfo & touchInfo) {
+}
+void FormLiveboard::OnTouchFocusIn(const Osp::Ui::Control & source,
+		const Osp::Graphics::Point & currentPosition,
+		const Osp::Ui::TouchEventInfo & touchInfo) {
+}
+void FormLiveboard::OnTouchDoublePressed(const Osp::Ui::Control & source,
+		const Osp::Graphics::Point & currentPosition,
+		const Osp::Ui::TouchEventInfo & touchInfo) {
+}
+void FormLiveboard::OnTouchFocusOut(const Osp::Ui::Control & source,
+		const Osp::Graphics::Point & currentPosition,
+		const Osp::Ui::TouchEventInfo & touchInfo) {
+}
+void FormLiveboard::OnTouchPressed(const Osp::Ui::Control & source,
+		const Osp::Graphics::Point & currentPosition,
+		const Osp::Ui::TouchEventInfo & touchInfo) {
 	Controller* controller = Controller::GetInstance();
-	if(source.Equals(*stationEditField)){
+	if (source.Equals(*stationEditField)) {
 		AppLog("Clicked FormLiveboard::fromStationEditField");
 		controller->selectStation(liveBoardRequest->getStation());
 	}
 }
+void FormLiveboard::OnTimeChangeCanceled(const Osp::Ui::Control& source) {
 
+}
+
+void FormLiveboard::OnTimeChanged(const Osp::Ui::Control& source, int hour,
+		int minute) {
+	DateTime newTime = editTime->GetTime();
+	Controller::GetInstance()->setLiveboardTime(newTime);
+}
+
+void FormLiveboard::hideWaitingPopup() {
+	waitingPopup->SetShowState(false);
+	Draw();
+	Show();
+}
+
+void FormLiveboard::recalculateComponents() {
+
+	Rectangle bounds = this->GetClientAreaBounds();
+	int y = 10;
+	int border = 0.05 * bounds.width;
+	int widthBody = 0.9 * bounds.width;
+
+	int heightBody = int(1.0 / 6.0 * double(bounds.height));
+	/*
+	 * add Controls to form
+	 */
+	stationEditField->SetBounds(Rectangle(border, heightBody, widthBody,heightBody));
+	y+=heightBody;
+	//editTime->SetBounds(Rectangle(border,y,widthBody,heightBody));
+	Rectangle editTimeBounds = editTime->GetBounds();
+	int editTimeBorder = (bounds.width - editTimeBounds.width) / 2;
+	//reposition to align in the middle
+	editTime->SetPosition(editTimeBorder, 3 * heightBody);
+	this->RequestRedraw();
+}

@@ -10,7 +10,11 @@
 #include "Model/Trip.h"
 #include "model/IRailAPI.h"
 #include "model/AppData.h"
+<<<<<<< HEAD
 #include "controller/controller.h"
+=======
+#include "controller/Controller.h"
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 
 using namespace Osp::Net::Http;
 using namespace Osp::Base;
@@ -19,8 +23,8 @@ using namespace Osp::Base::Collection;
 LiveBoardRequestManager::LiveBoardRequestManager():
 	__pSession(null),
 	__pTransaction(null),
-	__pRequest(null)
-	//TODO set all null pointers
+	__pRequest(null),
+	addToResults(false)
 {
 }
 
@@ -41,8 +45,8 @@ void LiveBoardRequestManager::cancelRequest(){
 	}
 }
 
-void LiveBoardRequestManager::setRequest(LiveBoardRequest* req){
-
+void LiveBoardRequestManager::setRequest(LiveBoardRequest* req,bool addToResults_){
+	addToResults = addToResults_;
 	__pRequest = req;
 	String hostAddr = L"http://api.irail.be";
 
@@ -67,23 +71,13 @@ void LiveBoardRequestManager::setRequest(LiveBoardRequest* req){
 
 	String hostAddr2(L"http://api.irail.be/liveboard/?id=");
 	hostAddr2.Append(req->getStation()->getId());
-	/*
+
 	DateTime* dt = req->getDateTime();
 	if(dt){
 		//LocaleManager localeManager;
 		//localeManager.Construct();
 		//TimeZone timeZone = localeManager.GetSystemTimeZone();
 		//DateTime utcDateTime = timeZone.WallTimeToUtcTime(*req->getDateTime());
-		hostAddr2.Append(L"&date=");
-		if(dt->GetDay()<10)
-			hostAddr2.Append(L"0");
-		hostAddr2.Append(Integer::ToString(dt->GetDay()));
-		if(dt->GetMonth()<10)
-			hostAddr2.Append(L"0");
-		hostAddr2.Append(Integer::ToString(dt->GetMonth()));
-		String year;
-		Integer::ToString(dt->GetYear()).SubString(2,year);
-		hostAddr2.Append(year);
 
 		hostAddr2.Append(L"&time=");
 		if(dt->GetHour()<10)
@@ -93,7 +87,7 @@ void LiveBoardRequestManager::setRequest(LiveBoardRequest* req){
 			hostAddr2.Append(L"0");
 		hostAddr2.Append(Integer::ToString(dt->GetMinute()));
 	}
-	*/
+
 	AppLogDebug("request link: %S",hostAddr2.GetPointer());
 
 	r = __pHttpRequest->SetUri(hostAddr2);
@@ -145,13 +139,20 @@ void LiveBoardRequestManager::OnTransactionReadyToRead(Osp::Net::Http::HttpSessi
 		results = h.createLiveBoardList(buffer);
 	}
 	if(results != null){
+<<<<<<< HEAD
 		AppLog("parsing live board successfull");
+=======
+		if(!addToResults)
+			AppData::GetInstance()->getCurrentLiveBoardRequest()->clearResults();
+		AppLog("parsing live board successfull. #%S",Integer::ToString(results->GetCount()).GetPointer());
+>>>>>>> 84df178bf1f69ad621e514bc2e620facdb652e6c
 		AppData::GetInstance()->getCurrentLiveBoardRequest()->getResults()->AddItems(*results);
 		Controller::GetInstance()->switchToLiveBoardResults();
 	}else{
 		AppLog("parsing failed liveboards");
 	}
 }
+
 void LiveBoardRequestManager::OnTransactionAborted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, result r){}
 void LiveBoardRequestManager::OnTransactionReadyToWrite(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, int recommendedChunkSize){}
 void LiveBoardRequestManager::OnTransactionHeaderCompleted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, int headerLen, bool rs){}

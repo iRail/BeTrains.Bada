@@ -11,6 +11,7 @@ using namespace Osp::Base;
 using namespace Osp::Base::Collection;
 
 LiveBoardRequest::LiveBoardRequest() {
+	_time = null;
 	results.Construct(10); //default size = 10
 }
 
@@ -24,6 +25,7 @@ void LiveBoardRequest::clearResults(){
 		results.GetAt(i,result);
 		delete result;
 	}
+	results.RemoveAll();
 }
 
 Station*& LiveBoardRequest::getStation()
@@ -31,7 +33,7 @@ Station*& LiveBoardRequest::getStation()
 	return _station;
 }
 
-DateTime LiveBoardRequest::getTime() const
+DateTime* LiveBoardRequest::getDateTime() const
 {
 	return _time;
 }
@@ -41,11 +43,25 @@ void LiveBoardRequest::setStation(Station *station)
 	_station = station;
 }
 
-void LiveBoardRequest::setTime(Osp::Base::DateTime time)
+void LiveBoardRequest::setDateTime(Osp::Base::DateTime time)
 {
-	_time = time;
+	if(_time)
+		delete _time;
+	_time = new DateTime(time);
+}
+
+void LiveBoardRequest::clearTime(){
+	if(_time){
+		delete _time;
+		_time = null;
+	}
 }
 
 Osp::Base::Collection::ArrayListT<LiveBoardResult*>* LiveBoardRequest::getResults(){
 	return &results;
+}
+
+void LiveBoardRequest::clear(){
+	_station = null;
+	clearTime();
 }
