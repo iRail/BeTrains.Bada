@@ -1,4 +1,5 @@
 #include "model/AppData.h"
+using namespace Osp::Locales;
 
 AppData* AppData::__pInstance = null;
 bool AppData::__instanceFlag = false;
@@ -75,8 +76,28 @@ AppData::DistroyInstance(void)
 
 result AppData::initialiseStations(){
 	result r = E_SUCCESS;
-	//TODO load other languages station lists
-	String fileName(L"/Res/Files/nl.xml");
+	String languageCode;
+	r = SettingInfo::GetValue(L"Language", languageCode);
+	String lang = "en"; //DEFAULT
+	//AppLog("language: %S",languageCode.GetPointer());
+	//dont know how to use this enumerator LANGUAG_XXX
+	/*
+	if(languageCode.Equals(LANGUAGE_NLD))
+		lang = "nl";
+	else if(languageCode.Equals(LANGUAGE_FRA))
+		lang = "fr";
+	else if(languageCode.Equals(LANGUAGE_DEU))
+		lang = "fr";
+	*/
+
+	if(languageCode.Equals("NLD",false))
+		lang = "nl";
+	else if(languageCode.Equals("FRA",false))
+		lang = "fr";
+	else if(languageCode.Equals("DEU",false))
+		lang = "fr";
+
+	String fileName(L"/Res/Files/"+lang+".xml");
 	File *file = new File();
 	FileAttributes sourcefilemeta;
 	File::GetAttributes(fileName, sourcefilemeta);

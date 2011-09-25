@@ -24,6 +24,9 @@
         <Privilege>
             <Name>CALENDARBOOK</Name>
         </Privilege>
+		<Privilege>
+            <Name>SYSTEM_SERVICE</Name>
+        </Privilege>
     </Privileges>
     <DeviceProfile>
         <APIVersion>2.0</APIVersion>

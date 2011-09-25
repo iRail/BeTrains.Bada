@@ -39,6 +39,7 @@ private:
 	SelectStationForm* 		selectStationForm;
 	RoutePlannerResults*	routePlannerResults;
 	LiveBoardResults*		liveBoardResults;
+	WaitingPopup*			waitingPopup;
 
 	Form* 					prevForm;
 	Form* 					currentForm;
@@ -81,6 +82,10 @@ public:
 	void					newRequest();
 	void					newLiveboardRequest();
 	void 					getMoreResults();
+
+	//waitingpopup
+	void 					showPopup();
+	void 					hidePopup();
 
 };
 

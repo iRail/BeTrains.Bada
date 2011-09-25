@@ -21,11 +21,16 @@ class WaitingPopup:
 	public Osp::Ui::IActionEventListener
 {
 public:
-	WaitingPopup(Osp::Base::String title,int width,int height);
+	WaitingPopup();
 	virtual ~WaitingPopup();
 	virtual void OnActionPerformed(const Osp::Ui::Control& source, int actionId);
+
+	void Construct(int screenWidth, int screenHeight);
+	void showPopup(int screenWidth, int screenHeight);
+	void hidePopup();
+
 private:
-	static const int CANCEL_BUTTON_ID = 300;
+	static const int 					CANCEL_BUTTON_ID 	= 300;
 	Osp::Ui::Controls::Button* 			cancelButton;
 };
 

@@ -26,6 +26,7 @@ Controller::Controller() {
 	routePlannerResults = null;
 	liveBoardResults = null;
 	liveBoardResults = null;
+	waitingPopup = null;
 
 	prevForm = null;
 	currentForm = null;
@@ -124,6 +125,7 @@ void Controller::switchToLiveBoardResults() {
 }
 
 void Controller::switchToRoutePlannerResults() {
+	hidePopup();
 	if(formRoutePlanner != null)
 		formRoutePlanner->hideWaitingPopup();
 	if (currentForm == null || currentForm != (Form*) routePlannerResults) {
@@ -264,6 +266,7 @@ void Controller::newLiveboardRequest(){
 }
 
 void Controller::getMoreResults(){
+	showPopup();
 	Request* request = AppData::GetInstance()->getCurrentRequest();
 	Trip* lastTrip;
 	request->getTrips()->GetAt(request->getTrips()->GetCount()-1,lastTrip);
@@ -273,4 +276,26 @@ void Controller::getMoreResults(){
 	request->setDateTime(lastTripTime);
 	request->setIsDepart(true); //could be problems if on arrival, then the request is somewhat wrong
 	retrieveRoutePlannerResults(true);
+}
+
+void Controller::showPopup(){
+	int width = currentForm->GetClientAreaBounds().width;
+	int height = currentForm->GetClientAreaBounds().height;
+	//AppLog("width %S, height %S",Integer::ToString(width).GetPointer(),Integer::ToString(height).GetPointer());
+	if(waitingPopup==null){
+		AppLog("Controller::first construct popup");
+		waitingPopup = new WaitingPopup();
+		waitingPopup->Construct(width,height);
+	}
+	AppLog("show popup");
+	waitingPopup->showPopup(width,height);
+	currentForm->Draw();
+	currentForm->Show();
+}
+void Controller::hidePopup(){
+	AppLog("hide popup");
+	if(waitingPopup != null)
+		waitingPopup->hidePopup();
+	currentForm->Draw();
+	currentForm->Show();
 }
