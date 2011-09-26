@@ -180,12 +180,18 @@ void Controller::retrieveRoutePlannerResults(bool addToResults){
 		routeRequestManager->setRequest(AppData::GetInstance()->getCurrentRequest(),addToResults);
 	}else{
 		AppLog("request didnt validate");
+		this->hidePopup();
+		String errors="";
 		for(int i=0;i<request->getErrors()->GetCount();i++){
 			String error;
 			request->getErrors()->GetAt(i,error);
 			AppLog("error: %S",error.GetPointer());
+			errors+=error+"\n";
 		}
-		this->hidePopup();
+		MessageBox *messageBox = new MessageBox();
+		messageBox->Construct("errors", errors, MSGBOX_STYLE_OK, 3000);
+		int res;
+		messageBox->ShowAndWait(res);
 	}
 }
 
