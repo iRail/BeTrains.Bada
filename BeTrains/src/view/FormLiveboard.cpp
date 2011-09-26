@@ -12,7 +12,6 @@ FormLiveboard::FormLiveboard(void):
 
 FormLiveboard::~FormLiveboard(void) {
 	liveBoardRequest = null;
-	waitingPopup = null;
 }
 
 bool FormLiveboard::Initialize() {
@@ -45,7 +44,6 @@ bool FormLiveboard::Initialize() {
 	 * Calculate sizes for all controls
 	 */
 	Rectangle bounds = this->GetClientAreaBounds();
-	int y = 10;
 	int border = 0.05 * bounds.width;
 	int widthBody = 0.9 * bounds.width;
 
@@ -75,26 +73,7 @@ bool FormLiveboard::Initialize() {
 	editTime->SetCurrentTime();
 	editTime->AddTimeChangeEventListener(*this);
 	AddControl(*editTime);
-	//waitingPopup = new WaitingPopup("Loading request",bounds.width*0.6,bounds.height/3);
-	//waitingPopup->Construct(true,Dimension(bounds.width*0.6,bounds.height/3));
-	waitingPopup = new Popup();
-	int width = bounds.width * 0.85;
-	int height = bounds.height / 3;
-	AppLog("width %S height %S",Integer::ToString(width).GetPointer(),Integer::ToString(height).GetPointer());
-	//int width=400;
-	//int height=300;
 
-	Dimension dim(width, height);
-	waitingPopup->Construct(true, dim);
-	waitingPopup->SetTitleText(L"Loading...");
-
-	// Creates a button to close the Popup.
-	Button* button = new Button();
-	button->Construct(Rectangle(width * 0.15, height / 3, width * 0.6, height
-			/ 4), L"Cancel");
-	button->SetActionId(CANCEL_REQUEST);
-	button->AddActionEventListener(*this);
-	waitingPopup->AddControl(*button);
 	return true;
 }
 
@@ -114,14 +93,11 @@ void FormLiveboard::OnActionPerformed(const Osp::Ui::Control& source,
 	HeaderForm::OnActionPerformed(source, actionId);
 	if (actionId == SEARCH_ACTION) {
 		AppLog("Clicked FormLiveBoard::search");
+		Controller::GetInstance()->showPopup();
 		Controller::GetInstance()->retrieveLiveBoardResults();
 	} else if (actionId == CLEAR_ACTION) {
 		AppLog("Clicked FormLiveBoard::clear");
 		Controller::GetInstance()->clearLiveboard();
-	} else if (actionId == CANCEL_REQUEST) {
-		AppLogDebug("popup cancel button pressed");
-		Controller::GetInstance()->cancelRequest();
-		hideWaitingPopup();
 	}
 }
 
@@ -185,12 +161,6 @@ void FormLiveboard::OnTimeChanged(const Osp::Ui::Control& source, int hour,
 		int minute) {
 	DateTime newTime = editTime->GetTime();
 	Controller::GetInstance()->setLiveboardTime(newTime);
-}
-
-void FormLiveboard::hideWaitingPopup() {
-	waitingPopup->SetShowState(false);
-	Draw();
-	Show();
 }
 
 void FormLiveboard::recalculateComponents() {

@@ -18,6 +18,7 @@ Request::Request():
 
 {
 	_trips.Construct(10);
+	_errors.Construct(2);
 }
 
 Request::~Request() {
@@ -92,4 +93,22 @@ void Request::clear(){
 	_isDepart = true;
 	clearTime();
 	clearTrips();
+}
+
+bool Request::validate(){
+	_errors.RemoveAll();
+	bool validate = true;
+	if(_from == null){
+		validate = false;
+		_errors.Add("select a from station");
+	}
+	if(_to == null){
+		validate = false;
+		_errors.Add("select a to station");
+	}
+	return validate;
+}
+
+Osp::Base::Collection::ArrayListT<Osp::Base::String>* Request::getErrors(){
+	return &_errors;
 }

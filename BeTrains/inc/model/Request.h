@@ -31,19 +31,22 @@ public:
 	Osp::Base::DateTime* getDateTime() const;
 	bool isDepart() const;
 	Osp::Base::Collection::ArrayListT<Trip*>* getTrips();
+	Osp::Base::Collection::ArrayListT<Osp::Base::String>* getErrors();
 
 	//methods
 	void switchStations();
 	void clearTrips(); 	//removes all trips
 	void clearTime(); 	//removes time *set to now
 	void clear(); 		//removes all settings
+	bool validate();	//returns false if not correct
 
 private:
-	Station* _from;
-	Station* _to;
-	Osp::Base::DateTime* _pDateTime; //ownership
-	bool _isDepart;
-	Osp::Base::Collection::ArrayListT<Trip*> _trips; //ownership
+	Station* 									_from;
+	Station* 									_to;
+	Osp::Base::DateTime* 						_pDateTime; //ownership
+	bool 										_isDepart;
+	Osp::Base::Collection::ArrayListT<Trip*> 	_trips; //ownership
+	Osp::Base::Collection::ArrayListT<String>	_errors;
 };
 
 #endif /* REQUEST_H_ */

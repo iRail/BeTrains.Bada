@@ -108,8 +108,7 @@ void Controller::switchToFormRoutePlanner() {
 }
 
 void Controller::switchToLiveBoardResults() {
-	if(formLiveBoard != null)
-		formLiveBoard->hideWaitingPopup();
+	hidePopup();
 	if (currentForm == null || currentForm != (Form*) liveBoardResults) {
 			prevForm = currentForm;
 		if (liveBoardResults == null) {
@@ -126,8 +125,6 @@ void Controller::switchToLiveBoardResults() {
 
 void Controller::switchToRoutePlannerResults() {
 	hidePopup();
-	if(formRoutePlanner != null)
-		formRoutePlanner->hideWaitingPopup();
 	if (currentForm == null || currentForm != (Form*) routePlannerResults) {
 		prevForm = currentForm;
 		if(routePlannerResults ==null){
@@ -173,11 +170,23 @@ void Controller::setPreviousForm(){
 }
 
 void Controller::retrieveRoutePlannerResults(bool addToResults){
-	if(routeRequestManager != null)
-		delete routeRequestManager;
-	routeRequestManager = new RouteRequestManager();
-	AppLog("set request");
-	routeRequestManager->setRequest(AppData::GetInstance()->getCurrentRequest(),addToResults);
+	Request* request = AppData::GetInstance()->getCurrentRequest();
+	if(request->validate() == true){
+		AppLog("request validated");
+		if(routeRequestManager != null)
+			delete routeRequestManager;
+		routeRequestManager = new RouteRequestManager();
+		AppLog("set request");
+		routeRequestManager->setRequest(AppData::GetInstance()->getCurrentRequest(),addToResults);
+	}else{
+		AppLog("request didnt validate");
+		for(int i=0;i<request->getErrors()->GetCount();i++){
+			String error;
+			request->getErrors()->GetAt(i,error);
+			AppLog("error: %S",error.GetPointer());
+		}
+		this->hidePopup();
+	}
 }
 
 //if add to results is false==default then the results get cleared before adding the new onces from the last request
@@ -283,19 +292,18 @@ void Controller::showPopup(){
 	int height = currentForm->GetClientAreaBounds().height;
 	//AppLog("width %S, height %S",Integer::ToString(width).GetPointer(),Integer::ToString(height).GetPointer());
 	if(waitingPopup==null){
-		AppLog("Controller::first construct popup");
 		waitingPopup = new WaitingPopup();
 		waitingPopup->Construct(width,height);
 	}
-	AppLog("show popup");
 	waitingPopup->showPopup(width,height);
 	currentForm->Draw();
 	currentForm->Show();
 }
+
 void Controller::hidePopup(){
-	AppLog("hide popup");
-	if(waitingPopup != null)
+	if(waitingPopup != null){
 		waitingPopup->hidePopup();
+	}
 	currentForm->Draw();
 	currentForm->Show();
 }

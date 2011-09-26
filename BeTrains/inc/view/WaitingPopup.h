@@ -17,7 +17,6 @@ using namespace Osp::Base;
 using namespace Osp::App;
 
 class WaitingPopup:
-	public Osp::Ui::Controls::Popup,
 	public Osp::Ui::IActionEventListener
 {
 public:
@@ -30,8 +29,12 @@ public:
 	void hidePopup();
 
 private:
-	static const int 					CANCEL_BUTTON_ID 	= 300;
+	static const int 					CANCEL_ACTION 	= 300;
+
 	Osp::Ui::Controls::Button* 			cancelButton;
+	Osp::Ui::Controls::Popup*			popup;
+	Osp::Ui::Controls::MessageBox* 		msgbox;
+	Osp::Ui::Controls::Button* 			button;
 };
 
 #endif /* WAITINGPOPUP_H_ */

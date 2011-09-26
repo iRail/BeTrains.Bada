@@ -26,7 +26,6 @@ public:
 	virtual void   	OnActionPerformed(const Osp::Ui::Control& source, int actionId);
 	virtual void    recalculateComponents();
 	void 			RequestRedraw (bool show=true) const;
-	void 			hideWaitingPopup();
 
 	/*
 	 * ITouchEventListeners
@@ -45,7 +44,6 @@ public:
 	 */
 	static const int SEARCH_ACTION = 301;
 	static const int CLEAR_ACTION = 302;
-	static const int CANCEL_REQUEST	= 303;
 
 private:
 
