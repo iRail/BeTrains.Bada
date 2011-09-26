@@ -65,3 +65,17 @@ void LiveBoardRequest::clear(){
 	_station = null;
 	clearTime();
 }
+
+Osp::Base::Collection::ArrayListT<Osp::Base::String>* LiveBoardRequest::getErrors(){
+	return &_errors;
+}
+
+bool LiveBoardRequest::validate(){
+	_errors.RemoveAll();
+	bool validate = true;
+	if(_station == null){
+		validate = false;
+		_errors.Add("select a station");
+	}
+	return validate;
+}

@@ -197,10 +197,27 @@ void Controller::retrieveRoutePlannerResults(bool addToResults){
 
 //if add to results is false==default then the results get cleared before adding the new onces from the last request
 void Controller::retrieveLiveBoardResults(bool addToResults){
-	if(liveBoardRequestManager != null)
-		delete liveBoardRequestManager;
-	liveBoardRequestManager = new LiveBoardRequestManager();
-	liveBoardRequestManager->setRequest(AppData::GetInstance()->getCurrentLiveBoardRequest(),addToResults);
+	LiveBoardRequest* request = AppData::GetInstance()->getCurrentLiveBoardRequest();
+		if(request->validate() == true){
+			if(liveBoardRequestManager != null)
+				delete liveBoardRequestManager;
+			liveBoardRequestManager = new LiveBoardRequestManager();
+			liveBoardRequestManager->setRequest(AppData::GetInstance()->getCurrentLiveBoardRequest(),addToResults);
+		}else{
+			AppLog("live board request didnt validate");
+			this->hidePopup();
+			String errors="";
+			for(int i=0;i<request->getErrors()->GetCount();i++){
+				String error;
+				request->getErrors()->GetAt(i,error);
+				AppLog("error: %S",error.GetPointer());
+				errors+=error+"\n";
+			}
+			MessageBox *messageBox = new MessageBox();
+			messageBox->Construct("errors", errors, MSGBOX_STYLE_OK, 3000);
+			int res;
+			messageBox->ShowAndWait(res);
+		}
 }
 
 void Controller::clearRoutePlanner(){

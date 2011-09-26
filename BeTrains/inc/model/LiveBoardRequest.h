@@ -21,6 +21,7 @@ public:
 	void clearResults();
 	void clearTime();
 	void clear();
+	bool validate();	//returns false if not correct
 
     void setStation(Station *station);
     void setDateTime(Osp::Base::DateTime time);
@@ -29,11 +30,13 @@ public:
     Osp::Base::DateTime getTime() const;
     Osp::Base::DateTime* getDateTime() const;
     Osp::Base::Collection::ArrayListT<LiveBoardResult*>* getResults();
+    Osp::Base::Collection::ArrayListT<Osp::Base::String>* getErrors();
 
 private:
-    Osp::Base::DateTime* _time;
-    Station *_station;
+    Osp::Base::DateTime* 								_time;
+    Station *											_station;
     Osp::Base::Collection::ArrayListT<LiveBoardResult*> results; //ownership over all liveboardresults
+    Osp::Base::Collection::ArrayListT<Osp::Base::String> _errors;
 };
 
 #endif /* LIVEBOARDREQUEST_H_ */
