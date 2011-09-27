@@ -9,6 +9,7 @@
 #include "view/HeaderForm.h"
 #include "model/Connection.h"
 #include "model/Trip.h"
+#include "view/Utils.h"
 
 using namespace Osp::App;
 using namespace Osp::Base;
@@ -264,9 +265,9 @@ void Controller::setIsDeparture(bool isDeparture){
 }
 
 void Controller::saveToCalendar(int index){
-	Trip* trip=null;
-	result r = AppData::GetInstance()->getCurrentRequest()->getTrips()->GetAt(index,trip);
-	if(r==E_SUCCESS && trip !=null){
+	Trip* trip = null;
+	result r = AppData::GetInstance()->getCurrentRequest()->getTrips()->GetAt(index, trip);
+	if (r == E_SUCCESS && trip != null) {
 		Osp::Social::Calendarbook* calendarbook = new Calendarbook();
 		calendarbook->Construct(null);
 		CalEvent event;
@@ -274,15 +275,35 @@ void Controller::saveToCalendar(int index){
 		event.SetCategory(EVENT_CATEGORY_APPOINTMENT);
 		Connection* first;
 		Connection* last;
-		trip->getConnections()->GetAt(0,first);
-		trip->getConnections()->GetAt(trip->getConnections()->GetCount()-1,last);
-		ConnectionNode* firstNode=first->getStartConnectionNode();
-		ConnectionNode* lastNode=last->getEndConnectionNode();
-		r = event.SetSubject(firstNode->getStation()->getName() + "-" + lastNode->getStation()->getName());
-		DateTime start= firstNode->getDateTime();
-		DateTime end  = lastNode->getDateTime();
+		trip->getConnections()->GetAt(0, first);
+		trip->getConnections()->GetAt(trip->getConnections()->GetCount() - 1,
+				last);
+		ConnectionNode* firstNode = first->getStartConnectionNode();
+		ConnectionNode* lastNode = last->getEndConnectionNode();
+		r = event.SetSubject(firstNode->getStation()->getName() + "-"
+				+ lastNode->getStation()->getName());
+		DateTime start = firstNode->getDateTime();
+		DateTime end = lastNode->getDateTime();
 		r = event.SetStartAndEndTime(start, end);
-		String desc="testje";
+		String desc = "";
+
+		for (int i = 0; i < trip->getConnections()->GetCount(); i++) {
+			Connection* conn = null;
+			trip->getConnections()->GetAt(i, conn);
+
+			String fromTime = Utils::formatTime(conn->getStartConnectionNode()->getDateTime());
+			String toTime = Utils::formatTime(conn->getEndConnectionNode()->getDateTime());
+			String fromDelay = Utils::formatDelay(conn->getStartConnectionNode()->getDelay());
+			String toDelay = Utils::formatDelay(conn->getEndConnectionNode()->getDelay());
+
+			String fromStation = String(conn->getStartConnectionNode()->getStation()->getName());
+			String toStation = String(conn->getEndConnectionNode()->getStation()->getName());
+			String fromPlatform = String(conn->getStartConnectionNode()->getPlatform());
+			String toPlatform = String(conn->getEndConnectionNode()->getPlatform());
+			desc += fromStation + " " + fromTime 	+ " p:" + fromPlatform	+"\n";
+			desc += toStation 	+ " " + 	toTime 	+ " p:" + toPlatform	+"\n";
+		}
+
 		event.SetDescription(desc);
 		calendarbook->AddEvent(event);
 
