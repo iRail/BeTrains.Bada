@@ -9,6 +9,7 @@
 
 using namespace Osp::Base;
 using namespace Osp::Base::Collection;
+using namespace Osp::App;
 
 LiveBoardRequest::LiveBoardRequest() {
 	_time = null;
@@ -71,11 +72,14 @@ Osp::Base::Collection::ArrayListT<Osp::Base::String>* LiveBoardRequest::getError
 }
 
 bool LiveBoardRequest::validate(){
+	AppResource* appRes = Application::GetInstance()->GetAppResource();
 	_errors.RemoveAll();
 	bool validate = true;
 	if(_station == null){
 		validate = false;
-		_errors.Add("select a station");
+		String error;
+		appRes->GetString(L"ERROR_STATION", error);
+		_errors.Add(error);
 	}
 	return validate;
 }

@@ -9,6 +9,7 @@
 
 using namespace Osp::Base;
 using namespace Osp::Base::Collection;
+using namespace Osp::App;
 
 Request::Request():
 	_from(null),
@@ -96,15 +97,20 @@ void Request::clear(){
 }
 
 bool Request::validate(){
+	AppResource* appRes = Application::GetInstance()->GetAppResource();
 	_errors.RemoveAll();
 	bool validate = true;
 	if(_from == null){
 		validate = false;
-		_errors.Add("select a from station");
+		String error;
+		appRes->GetString(L"ERROR_FROM", error);
+		_errors.Add(error);
 	}
 	if(_to == null){
 		validate = false;
-		_errors.Add("select a to station");
+		String error;
+		appRes->GetString(L"ERROR_TO", error);
+		_errors.Add(error);
 	}
 	return validate;
 }

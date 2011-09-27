@@ -9,6 +9,7 @@
 #define LIVEBOARDREQUEST_H_
 
 #include <FBase.h>
+#include <FApp.h>
 #include "Model/Station.h"
 #include "Model/LiveBoardResult.h"
 

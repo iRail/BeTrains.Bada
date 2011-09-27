@@ -9,6 +9,7 @@
 #define REQUEST_H_
 
 #include <FBase.h>
+#include <FApp.h>
 #include "Model/Station.h"
 #include "Model/Trip.h"
 

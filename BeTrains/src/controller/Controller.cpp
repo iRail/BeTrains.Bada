@@ -189,10 +189,12 @@ void Controller::retrieveRoutePlannerResults(bool addToResults){
 			AppLog("error: %S",error.GetPointer());
 			errors+=error+"\n";
 		}
-		MessageBox *messageBox = new MessageBox();
-		messageBox->Construct("errors", errors, MSGBOX_STYLE_OK, 3000);
+		MessageBox messageBox;
+		String errorTitle;
+		Application::GetInstance()->GetAppResource()->GetString(L"C_ERRORS", errorTitle);
+		messageBox.Construct(errorTitle, errors, MSGBOX_STYLE_OK, 3000);
 		int res;
-		messageBox->ShowAndWait(res);
+		messageBox.ShowAndWait(res);
 	}
 }
 
@@ -215,10 +217,12 @@ void Controller::retrieveLiveBoardResults(bool addToResults){
 				AppLog("error: %S",error.GetPointer());
 				errors+=error+"\n";
 			}
-			MessageBox *messageBox = new MessageBox();
-			messageBox->Construct("errors", errors, MSGBOX_STYLE_OK, 3000);
+			MessageBox messageBox;
+			String errorTitle;
+			Application::GetInstance()->GetAppResource()->GetString(L"C_ERRORS", errorTitle);
+			messageBox.Construct(errorTitle, errors, MSGBOX_STYLE_OK, 3000);
 			int res;
-			messageBox->ShowAndWait(res);
+			messageBox.ShowAndWait(res);
 		}
 }
 
