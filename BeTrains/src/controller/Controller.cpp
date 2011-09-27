@@ -172,7 +172,7 @@ void Controller::setPreviousForm(){
 void Controller::retrieveRoutePlannerResults(bool addToResults){
 	Request* request = AppData::GetInstance()->getCurrentRequest();
 	if(request->validate() == true){
-		AppLog("request validated");
+		this->showPopup();
 		if(routeRequestManager != null)
 			delete routeRequestManager;
 		routeRequestManager = new RouteRequestManager();
@@ -199,6 +199,7 @@ void Controller::retrieveRoutePlannerResults(bool addToResults){
 void Controller::retrieveLiveBoardResults(bool addToResults){
 	LiveBoardRequest* request = AppData::GetInstance()->getCurrentLiveBoardRequest();
 		if(request->validate() == true){
+			this->showPopup();
 			if(liveBoardRequestManager != null)
 				delete liveBoardRequestManager;
 			liveBoardRequestManager = new LiveBoardRequestManager();
@@ -298,7 +299,7 @@ void Controller::newLiveboardRequest(){
 }
 
 void Controller::getMoreResults(){
-	showPopup();
+	//showPopup();
 	Request* request = AppData::GetInstance()->getCurrentRequest();
 	Trip* lastTrip;
 	request->getTrips()->GetAt(request->getTrips()->GetCount()-1,lastTrip);
@@ -316,7 +317,6 @@ void Controller::showPopup(){
 	//AppLog("width %S, height %S",Integer::ToString(width).GetPointer(),Integer::ToString(height).GetPointer());
 	if(waitingPopup==null){
 		waitingPopup = new WaitingPopup();
-		waitingPopup->Construct(width,height);
 	}
 	waitingPopup->showPopup(width,height);
 	currentForm->Draw();

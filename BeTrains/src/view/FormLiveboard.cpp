@@ -93,7 +93,6 @@ void FormLiveboard::OnActionPerformed(const Osp::Ui::Control& source,
 	HeaderForm::OnActionPerformed(source, actionId);
 	if (actionId == SEARCH_ACTION) {
 		AppLog("Clicked FormLiveBoard::search");
-		Controller::GetInstance()->showPopup();
 		Controller::GetInstance()->retrieveLiveBoardResults();
 	} else if (actionId == CLEAR_ACTION) {
 		AppLog("Clicked FormLiveBoard::clear");

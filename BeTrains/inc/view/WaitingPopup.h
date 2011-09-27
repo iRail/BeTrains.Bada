@@ -24,11 +24,13 @@ public:
 	virtual ~WaitingPopup();
 	virtual void OnActionPerformed(const Osp::Ui::Control& source, int actionId);
 
-	void Construct(int screenWidth, int screenHeight);
+
 	void showPopup(int screenWidth, int screenHeight);
 	void hidePopup();
 
 private:
+	void Construct(int screenWidth, int screenHeight);
+
 	static const int 					CANCEL_ACTION 	= 300;
 
 	Osp::Ui::Controls::Button* 			cancelButton;

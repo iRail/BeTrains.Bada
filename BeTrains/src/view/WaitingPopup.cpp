@@ -15,8 +15,7 @@ using namespace Osp::App;
 
 WaitingPopup::WaitingPopup():
 	cancelButton(null),
-	popup(null),
-	msgbox(null)
+	popup(null)
 {
 }
 
@@ -36,19 +35,7 @@ void WaitingPopup::Construct(int screenWidth, int screenHeight){
 		width = 0.9*screenWidth;
 		height = screenHeight/2;
 	}
-	//AppLog("width %S, height %S",Integer::ToString(width).GetPointer(),Integer::ToString(height).GetPointer());
-	//popup = new Popup();
-	//popup->Construct(true,Dimension(390,200));
-	//msgbox = new MessageBox();
-	//msgbox->Construct("loading","",MSGBOX_STYLE_CANCEL);
-	//Popup::Construct(true,Dimension(390,200));
 	AppLog("WaitingPopup::first construct popup");
-	//cancelButton = new Button();
-	//cancelButton->Construct(Rectangle(5,50,380,150),L"Cancel");
-	//cancelButton->Construct(Rectangle(0,0,width,height*0.9),L"Cancel");
-	//cancelButton->SetActionId(CANCEL_BUTTON_ID);
-	//cancelButton->AddActionEventListener(*this);
-	//AddControl(*cancelButton);
 
 	popup = new Popup();
 	Dimension dim(width, height);
@@ -63,6 +50,15 @@ void WaitingPopup::Construct(int screenWidth, int screenHeight){
 
 }
 void WaitingPopup::showPopup(int screenWidth, int screenHeight){
+	AppLog("show popup");
+	if(popup != null){
+		button->RemoveActionEventListener(*this);
+		popup->RemoveAllControls();
+		delete popup;
+	}
+
+	Construct(screenWidth,screenHeight);
+	/*
 	int width, height;
 	if(screenWidth < screenHeight){
 		//portrait
@@ -73,14 +69,29 @@ void WaitingPopup::showPopup(int screenWidth, int screenHeight){
 		width = 0.9*screenWidth;
 		height = screenHeight/2;
 	}
+
+	Dimension dim(width, height);
+	popup->Construct(true, dim);
+	popup->SetTitleText(L"Loading...");
+	// Creates a button to close the Popup.
+	button = new Button();
+	button->Construct(Rectangle(0.15*width, 0, 0.70*width, 0.5*height), L"Cancel");
+	button->SetActionId(CANCEL_ACTION);
+	button->AddActionEventListener(*this);
+	popup->AddControl(*button);
+
+
+	/*
 	popup->SetSize(width,height);
 	button->SetBounds(0.15*width, 0, 0.70*width, 0.5*height);
+	*/
 	popup->SetShowState(true);
 	popup->Show();
 }
 
 void WaitingPopup::hidePopup(){
-	popup->SetShowState(false);
+	if(popup != null)
+		popup->SetShowState(false);
 }
 
 void WaitingPopup::OnActionPerformed(const Osp::Ui::Control &source, int actionId)

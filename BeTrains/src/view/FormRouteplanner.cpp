@@ -191,7 +191,6 @@ void FormRouteplanner::OnActionPerformed(const Osp::Ui::Control& source,
 	HeaderForm::OnActionPerformed(source, actionId);
 	if (actionId == SEARCH_ACTION) {
 		AppLog("Clicked FormRoutePlanner::search");
-		Controller::GetInstance()->showPopup();
 		Controller::GetInstance()->retrieveRoutePlannerResults();
 	} else if (actionId == CLEAR_ACTION) {
 		AppLog("Clicked FormRoutePlanner::clear");
