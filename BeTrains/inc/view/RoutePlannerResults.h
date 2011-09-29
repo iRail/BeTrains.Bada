@@ -32,7 +32,7 @@ public:
 
 	//Action performed Listener
 	virtual void 	OnActionPerformed(const Osp::Ui::Control& source, int actionId);
-
+	virtual void 	recalculateComponents();
 
 	/*
 	 * ITouchEventListener
@@ -80,9 +80,12 @@ private:
 	CustomListItemFormat*	format;
 	CustomListItemFormat*	subListFormat;
 	ContextMenu* 			contextMenu;
+	ScrollPanel* 			scrollPanel;
+	Button* 				moreButton;
 
 	//help methods
 	void addTrip(Trip* trip)const;
+	void assembleComponents();
 };
 
 #endif	//_RoutePlannerResults_H_

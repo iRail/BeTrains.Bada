@@ -31,6 +31,7 @@ public:
 
 	//Action performed Listener
 	virtual void 	OnActionPerformed(const Osp::Ui::Control& source, int actionId);
+	virtual void 	recalculateComponents();
 
 	//implements IListViewItemEventListener
 	virtual void OnListViewContextItemStateChanged(Osp::Ui::Controls::ListView &listView, int index, int elementId, Osp::Ui::Controls::ListContextItemStatus state);
@@ -63,6 +64,7 @@ private:
 
 	//Compontents
 	ListView*				list;
+
 };
 
 #endif	//_LiveBoardResults_H_

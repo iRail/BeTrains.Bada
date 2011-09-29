@@ -172,3 +172,10 @@ void LiveBoardResults::RequestRedraw(bool show) {
 	list->UpdateList();
 	Form::RequestRedraw(show);
 }
+
+void LiveBoardResults::recalculateComponents(){
+	Rectangle bounds = GetClientAreaBounds();
+	list->SetBounds(0,0,bounds.width,bounds.height);
+	Form::RequestRedraw();
+}
+

@@ -19,147 +19,7 @@ RoutePlannerResults::~RoutePlannerResults(void) {
 
 bool RoutePlannerResults::Initialize() {
 
-	/*
-	 * I18N
-	 */
-	String refresh = "Refresh";
-	String back = "Back";
-	String empty = "Empty List";
-	String saveToCalendar = "Save to calendar";
-	String direct = "Direct";
-	String more = "More";
-	AppResource* appRes = Application::GetInstance()->GetAppResource();
-	appRes->GetString(L"RP_RES_REFRESH", refresh);
-	appRes->GetString(L"RP_RES_BACK", back);
-	appRes->GetString(L"RP_RES_EMPTY", empty);
-	appRes->GetString(L"RP_RES_SAVE_TO_CAL", saveToCalendar);
-	appRes->GetString(L"RP_RES_MORE", more);
-
-	this->RemoveAllControls();
-	HeaderForm::Initialize(true, true); //enables left and right softkey
-	this->request = AppData::GetInstance()->getCurrentRequest();
-	/*
-	 * get Data from current request from appdata
-	 */
-	request = AppData::GetInstance()->getCurrentRequest(); // no ownership offcourse
-
-	this->SetSoftkeyText(SOFTKEY_0, refresh);
-	this->SetSoftkeyActionId(SOFTKEY_0, REFRESH_ACTION);
-	this->AddSoftkeyActionListener(SOFTKEY_0, *this);
-
-	this->SetSoftkeyText(SOFTKEY_1, back);
-	this->SetSoftkeyActionId(SOFTKEY_1, BACK_ACTION);
-	this->AddSoftkeyActionListener(SOFTKEY_1, *this);
-
-	/*
-	 * Calculate sizes for all controls
-	 */
-	Rectangle bounds = this->GetClientAreaBounds();
-	int titleHeight = bounds.height / 12;
-	int height = bounds.height / 7;
-	if (bounds.width > bounds.height)
-		height = bounds.width / 7;
-	int width = bounds.width;
-
-	/*
-	 * Construct title label
-	 */
-	titleLabel = new Label();
-	titleLabel->Construct(Rectangle(0, 0, bounds.width, titleHeight),
-			L"station - station");
-	AddControl(*titleLabel);
-
-
-	/*
-	 * scrollpanel
-	 */
-	ScrollPanel* scrollPanel = new ScrollPanel();
-	scrollPanel->Construct(Rectangle(0, titleHeight, bounds.width, bounds.height- titleHeight));
-	AddControl(*scrollPanel);
-	/*
-	 * More Button
-	 */
-	Button* moreButton = new Button();
-	moreButton->Construct(Rectangle(0,bounds.height - 2*titleHeight,bounds.width,titleHeight),more);
-	moreButton->SetActionId(MORE_ACTION);
-	moreButton->AddActionEventListener(*this);
-	scrollPanel->AddControl(*moreButton);
-
-	/*
-	 * Construct a ListView
-	 */
-	list = new ExpandableList();
-	list->Construct(Rectangle(0, 0, bounds.width, bounds.height - 2*titleHeight), CUSTOM_LIST_STYLE_NORMAL, true);
-	//list->Construct(Rectangle(0,0,bounds.width,bounds.height),CUSTOM_LIST_STYLE_NORMAL,true);
-	list->SetTextOfEmptyList(empty);
-	list->AddTouchEventListener(*this);
-	scrollPanel->AddControl(*list);
-
-	/*
-	 * Create context menu
-	 */
-	contextMenu = new ContextMenu;
-	contextMenu->Construct(Point(50, 50), CONTEXT_MENU_STYLE_LIST);
-	contextMenu->AddItem(saveToCalendar, SAVE_CALENDAR_ACTION);
-	contextMenu->AddActionEventListener(*this);
-
-	//CREATE FORMAT
-	format = new CustomListItemFormat();
-	format->Construct();
-	format->AddElement(LIST_ITEM_TIMES, Rectangle(0, 0, 0.6 * width, 0.5
-			* height), 0.5 * height, Color::COLOR_WHITE, Color::COLOR_WHITE);
-	//DELAY ELEMENT
-	format->AddElement(LIST_ITEM_DELAYS, Rectangle(0.6 * width, 0, 0.4 * width,
-			0.5 * height), 0.5 * height, Color::COLOR_RED, Color::COLOR_RED);
-	//date
-	format->AddElement(LIST_ITEM_DATE, Rectangle(0.35 * width, 0.5 * height,
-			0.4 * width, 0.5 * height), 0.35 * height, Color::COLOR_GREY,
-			Color::COLOR_GREY);
-	//DURATION
-	format->AddElement(LIST_ITEM_DURATION, Rectangle(0, 0.5 * height, 0.35
-			* width, 0.5 * height), 0.5 * height, Color::COLOR_WHITE,
-			Color::COLOR_WHITE);
-	//Number of trains
-	format->AddElement(LIST_ITEM_NUMBER_CONNECTIONS, Rectangle(0.75 * width,
-			0.5 * height, 0.25 * width, 0.5 * height), 0.35 * height,
-			Color::COLOR_WHITE, Color::COLOR_WHITE);
-
-	//CREATE SUBLISTFORMAT
-	subListFormat = new CustomListItemFormat();
-	Color timeColor = Color::COLOR_GREEN;
-	Color delayColor = Color::COLOR_RED;
-	Color stationColor = Color::COLOR_WHITE;
-	Color platformColor = Color::COLOR_WHITE;
-	Color vehicleColor = Color::COLOR_GREY;
-
-	subListFormat->Construct();
-	subListFormat->AddElement(SUBLIST_FROM_TIME, Rectangle(0, 0, 0.2 * width,
-			0.33 * height), 0.33 * height, timeColor, timeColor);
-	subListFormat->AddElement(SUBLIST_FROM_DELAY, Rectangle(0.2 * width, 0, 0.2
-			* width, 0.33 * height), 0.33 * height, delayColor, delayColor);
-	subListFormat->AddElement(SUBLIST_FROM_STATION, Rectangle(0.4 * width, 0,
-			0.50 * width, 0.33 * height), 0.33 * height, stationColor,
-			stationColor);
-	subListFormat->AddElement(SUBLIST_FROM_PLATFORM, Rectangle(0.9 * width, 0,
-			0.1 * width, 0.33 * height), 0.33 * height, platformColor,
-			platformColor);
-
-	subListFormat->AddElement(SUBLIST_VEHICLE, Rectangle(0.2 * width, 0.33
-			* height, 0.8 * width, 0.33 * height), 0.33 * height, vehicleColor,
-			vehicleColor);
-
-	subListFormat->AddElement(SUBLIST_TO_TIME, Rectangle(0, 0.66 * height, 0.2
-			* width, 0.33 * height), 0.33 * height, timeColor, timeColor);
-	subListFormat->AddElement(SUBLIST_TO_DELAY, Rectangle(0.2 * width, 0.66
-			* height, 0.2 * width, 0.33 * height), 0.33 * height, delayColor,
-			delayColor);
-	subListFormat->AddElement(SUBLIST_TO_STATION, Rectangle(0.4 * width, 0.66
-			* height, 0.50 * width, 0.33 * height), 0.33 * height,
-			stationColor, stationColor);
-	subListFormat->AddElement(SUBLIST_TO_PLATFORM, Rectangle(0.9 * width, 0.66
-			* height, 0.1 * width, 0.33 * height), 0.33 * height,
-			platformColor, platformColor);
-
+	this->assembleComponents();
 	return true;
 }
 
@@ -192,7 +52,7 @@ void RoutePlannerResults::OnActionPerformed(const Osp::Ui::Control& source,
 		//in contrary to pressing on the header button route planner, that should give an empty form
 		AppLog("Clicked RoutePlannerResults::back");
 		Controller::GetInstance()->setPreviousForm();
-	}else if(actionId == MORE_ACTION){
+	} else if (actionId == MORE_ACTION) {
 
 		AppLog("Clicked RoutePlannerResults::More");
 		Controller::GetInstance()->getMoreResults();
@@ -262,7 +122,8 @@ void RoutePlannerResults::addTrip(Trip* trip) const {
 	Rectangle bounds = this->GetClientAreaBounds();
 	int height = bounds.height / 7;
 	if (bounds.width > bounds.height)
-		height = bounds.width / 7;
+		height = bounds.height / 3;
+
 	CustomListItem * newItem = new CustomListItem();
 	newItem->Construct(height);
 	newItem->SetItemFormat(*format);
@@ -363,4 +224,173 @@ void RoutePlannerResults::OnTouchReleased(const Osp::Ui::Control &source,
 		const Osp::Graphics::Point &currentPosition,
 		const Osp::Ui::TouchEventInfo &touchInfo) {
 }
+void RoutePlannerResults::assembleComponents() {
+	/*
+	 * I18N
+	 */
+	String refresh = "Refresh";
+	String back = "Back";
+	String empty = "Empty List";
+	String saveToCalendar = "Save to calendar";
+	String direct = "Direct";
+	String more = "More";
+	AppResource* appRes = Application::GetInstance()->GetAppResource();
+	appRes->GetString(L"RP_RES_REFRESH", refresh);
+	appRes->GetString(L"RP_RES_BACK", back);
+	appRes->GetString(L"RP_RES_EMPTY", empty);
+	appRes->GetString(L"RP_RES_SAVE_TO_CAL", saveToCalendar);
+	appRes->GetString(L"RP_RES_MORE", more);
 
+	this->RemoveAllControls();
+	HeaderForm::Initialize(true, true); //enables left and right softkey
+	this->request = AppData::GetInstance()->getCurrentRequest();
+	/*
+	 * get Data from current request from appdata
+	 */
+	request = AppData::GetInstance()->getCurrentRequest(); // no ownership offcourse
+
+	this->SetSoftkeyText(SOFTKEY_0, refresh);
+	this->SetSoftkeyActionId(SOFTKEY_0, REFRESH_ACTION);
+	this->AddSoftkeyActionListener(SOFTKEY_0, *this);
+
+	this->SetSoftkeyText(SOFTKEY_1, back);
+	this->SetSoftkeyActionId(SOFTKEY_1, BACK_ACTION);
+	this->AddSoftkeyActionListener(SOFTKEY_1, *this);
+
+	/*
+	 * Calculate sizes for all controls
+	 */
+	Rectangle bounds = this->GetClientAreaBounds();
+	int height = bounds.height / 7;
+	if (bounds.width > bounds.height)
+		height = bounds.height / 3;
+	int titleHeight = height / 2;
+	int width = bounds.width;
+
+	/*
+	 * Construct title label
+	 */
+	if (titleLabel == null) {
+		delete titleLabel;
+	}
+	titleLabel = new Label();
+	titleLabel->Construct(Rectangle(0, 0, bounds.width, titleHeight),
+			L"station - station");
+	AddControl(*titleLabel);
+
+	/*
+	 * scrollpanel
+	 */
+	if (scrollPanel == null) {
+		delete scrollPanel;
+	}
+	scrollPanel = new ScrollPanel();
+	scrollPanel->Construct(Rectangle(0, titleHeight, bounds.width,
+			bounds.height - titleHeight));
+	AddControl(*scrollPanel);
+	/*
+	 * More Button
+	 */
+	if (moreButton == null) {
+		delete moreButton;
+	}
+	moreButton = new Button();
+	moreButton->Construct(Rectangle(0, bounds.height - 2 * titleHeight,
+			bounds.width, titleHeight), more);
+	moreButton->SetActionId(MORE_ACTION);
+	moreButton->AddActionEventListener(*this);
+	scrollPanel->AddControl(*moreButton);
+
+	/*
+	 * Construct a ListView
+	 */
+	if (list == null) {
+		delete list;
+	}
+	list = new ExpandableList();
+	list->Construct(Rectangle(0, 0, bounds.width, bounds.height - 2
+			* titleHeight), CUSTOM_LIST_STYLE_NORMAL, true);
+	//list->Construct(Rectangle(0,0,bounds.width,bounds.height),CUSTOM_LIST_STYLE_NORMAL,true);
+	list->SetTextOfEmptyList(empty);
+	list->AddTouchEventListener(*this);
+	scrollPanel->AddControl(*list);
+
+	/*
+	 * Create context menu
+	 */
+	if (contextMenu == null) {
+		delete contextMenu;
+	}
+	contextMenu = new ContextMenu();
+	contextMenu->Construct(Point(50, 50), CONTEXT_MENU_STYLE_LIST);
+	contextMenu->AddItem(saveToCalendar, SAVE_CALENDAR_ACTION);
+	contextMenu->AddActionEventListener(*this);
+
+	//CREATE FORMAT
+	if (format == null) {
+		delete format;
+	}
+	format = new CustomListItemFormat();
+	format->Construct();
+	format->AddElement(LIST_ITEM_TIMES, Rectangle(0, 0, 0.6 * width, 0.5
+			* height), 0.5 * height, Color::COLOR_WHITE, Color::COLOR_WHITE);
+	//DELAY ELEMENT
+	format->AddElement(LIST_ITEM_DELAYS, Rectangle(0.6 * width, 0, 0.4 * width,
+			0.5 * height), 0.5 * height, Color::COLOR_RED, Color::COLOR_RED);
+	//date
+	format->AddElement(LIST_ITEM_DATE, Rectangle(0.35 * width, 0.5 * height,
+			0.4 * width, 0.5 * height), 0.35 * height, Color::COLOR_GREY,
+			Color::COLOR_GREY);
+	//DURATION
+	format->AddElement(LIST_ITEM_DURATION, Rectangle(0, 0.5 * height, 0.35
+			* width, 0.5 * height), 0.5 * height, Color::COLOR_WHITE,
+			Color::COLOR_WHITE);
+	//Number of trains
+	format->AddElement(LIST_ITEM_NUMBER_CONNECTIONS, Rectangle(0.75 * width,
+			0.5 * height, 0.25 * width, 0.5 * height), 0.35 * height,
+			Color::COLOR_WHITE, Color::COLOR_WHITE);
+
+	//CREATE SUBLISTFORMAT
+	if (subListFormat == null) {
+		delete subListFormat;
+	}
+	subListFormat = new CustomListItemFormat();
+	Color timeColor = Color::COLOR_GREEN;
+	Color delayColor = Color::COLOR_RED;
+	Color stationColor = Color::COLOR_WHITE;
+	Color platformColor = Color::COLOR_WHITE;
+	Color vehicleColor = Color::COLOR_GREY;
+
+	subListFormat->Construct();
+	subListFormat->AddElement(SUBLIST_FROM_TIME, Rectangle(0, 0, 0.2 * width,
+			0.33 * height), 0.33 * height, timeColor, timeColor);
+	subListFormat->AddElement(SUBLIST_FROM_DELAY, Rectangle(0.2 * width, 0, 0.2
+			* width, 0.33 * height), 0.33 * height, delayColor, delayColor);
+	subListFormat->AddElement(SUBLIST_FROM_STATION, Rectangle(0.4 * width, 0,
+			0.50 * width, 0.33 * height), 0.33 * height, stationColor,
+			stationColor);
+	subListFormat->AddElement(SUBLIST_FROM_PLATFORM, Rectangle(0.9 * width, 0,
+			0.1 * width, 0.33 * height), 0.33 * height, platformColor,
+			platformColor);
+
+	subListFormat->AddElement(SUBLIST_VEHICLE, Rectangle(0.2 * width, 0.33
+			* height, 0.8 * width, 0.33 * height), 0.33 * height, vehicleColor,
+			vehicleColor);
+
+	subListFormat->AddElement(SUBLIST_TO_TIME, Rectangle(0, 0.66 * height, 0.2
+			* width, 0.33 * height), 0.33 * height, timeColor, timeColor);
+	subListFormat->AddElement(SUBLIST_TO_DELAY, Rectangle(0.2 * width, 0.66
+			* height, 0.2 * width, 0.33 * height), 0.33 * height, delayColor,
+			delayColor);
+	subListFormat->AddElement(SUBLIST_TO_STATION, Rectangle(0.4 * width, 0.66
+			* height, 0.50 * width, 0.33 * height), 0.33 * height,
+			stationColor, stationColor);
+	subListFormat->AddElement(SUBLIST_TO_PLATFORM, Rectangle(0.9 * width, 0.66
+			* height, 0.1 * width, 0.33 * height), 0.33 * height,
+			platformColor, platformColor);
+
+}
+void RoutePlannerResults::recalculateComponents() {
+	this->assembleComponents();
+	this->RequestRedraw();
+}
