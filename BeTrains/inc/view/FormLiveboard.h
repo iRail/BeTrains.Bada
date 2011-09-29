@@ -58,6 +58,11 @@ private:
 	Osp::Ui::Controls::EditField* 		stationEditField;
 	Osp::Ui::Controls::EditTime*		editTime;
 	Popup*								waitingPopup;
+
+	/*
+	 * methods
+	 */
+	void 								assembleComponents();
 };
 
 #endif	//_FormLiveboard_H_

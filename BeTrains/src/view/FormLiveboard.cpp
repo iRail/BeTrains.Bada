@@ -5,9 +5,8 @@ using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
 using namespace Osp::Graphics;
 
-FormLiveboard::FormLiveboard(void):
-	liveBoardRequest(null)
-{
+FormLiveboard::FormLiveboard(void) :
+	liveBoardRequest(null) {
 }
 
 FormLiveboard::~FormLiveboard(void) {
@@ -15,6 +14,74 @@ FormLiveboard::~FormLiveboard(void) {
 }
 
 bool FormLiveboard::Initialize() {
+	/*
+	 * I18N
+	 */
+	/*
+	 String search = "zoekt";
+	 String clear = "wis";
+	 String station = "station";
+	 AppResource* appRes = Application::GetInstance()->GetAppResource();
+	 appRes->GetString(L"LB_SEARCH", search);
+	 appRes->GetString(L"LB_CLEAR", clear);
+	 appRes->GetString(L"LB_STATION", station);
+
+	 /*
+	 * Set softkeys
+	 */
+	/*
+	 HeaderForm::Initialize(true, true);
+	 this->SetSoftkeyText(SOFTKEY_0, search);
+	 this->SetSoftkeyActionId(SOFTKEY_0, SEARCH_ACTION);
+	 this->AddSoftkeyActionListener(SOFTKEY_0, *this);
+
+	 this->SetSoftkeyText(SOFTKEY_1, clear);
+	 this->SetSoftkeyActionId(SOFTKEY_1, CLEAR_ACTION);
+	 this->AddSoftkeyActionListener(SOFTKEY_1, *this);
+
+	 liveBoardRequest = AppData::GetInstance()->getCurrentLiveBoardRequest();
+
+	 /*
+	 * Calculate sizes for all controls
+	 */
+	/*
+	 Rectangle bounds = this->GetClientAreaBounds();
+	 int border = 0.05 * bounds.width;
+	 int widthBody = 0.9 * bounds.width;
+
+	 int heightBody = int(1.0 / 6.0 * double(bounds.height));
+	 /*
+	 * add Controls to form
+	 */
+	/*
+	 stationEditField = new EditField();
+	 stationEditField->Construct(Rectangle(border, heightBody, widthBody,
+	 heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true,
+	 100);
+	 stationEditField->SetTitleText(station);
+	 AddControl(*stationEditField);
+	 stationEditField->AddTouchEventListener(*this);
+	 stationEditField->SetEnabled(false);//prevents opening default text input
+	 stationEditField->BeginBlock();
+
+	 editTime = new EditTime();
+	 Rectangle editTimeBounds = editTime->GetBounds();
+	 editTime->Construct(Osp::Graphics::Point(0, 3 * heightBody), L"pick a time");
+	 //get size from this editbounds
+	 editTimeBounds = editTime->GetBounds();
+	 int editTimeBorder = (bounds.width - editTimeBounds.width) / 2;
+	 //re postition to align in the middle
+	 editTime->SetPosition(editTimeBorder, 3 * heightBody);
+	 editTime->Set24HourNotationEnabled(true);
+	 editTime->SetCurrentTime();
+	 editTime->AddTimeChangeEventListener(*this);
+	 AddControl(*editTime);*/
+	this->assembleComponents();
+
+	return true;
+}
+
+void FormLiveboard::assembleComponents() {
 	/*
 	 * I18N
 	 */
@@ -47,34 +114,39 @@ bool FormLiveboard::Initialize() {
 	int border = 0.05 * bounds.width;
 	int widthBody = 0.9 * bounds.width;
 
-	int heightBody = int(1.0 / 6.0 * double(bounds.height));
+	int heightBody = int(1.0 / 3.0 * double(bounds.height));
+
 	/*
 	 * add Controls to form
 	 */
+	if (stationEditField == null) {
+		delete stationEditField;
+	}
 	stationEditField = new EditField();
-	stationEditField->Construct(Rectangle(border, heightBody, widthBody,
+	stationEditField->Construct(Rectangle(border, heightBody/2, widthBody,
 			heightBody), EDIT_FIELD_STYLE_NORMAL, INPUT_STYLE_FULLSCREEN, true,
 			100);
 	stationEditField->SetTitleText(station);
-	AddControl(*stationEditField);
 	stationEditField->AddTouchEventListener(*this);
 	stationEditField->SetEnabled(false);//prevents opening default text input
 	stationEditField->BeginBlock();
+	AddControl(*stationEditField);
 
+	if (editTime == null) {
+		delete editTime;
+	}
 	editTime = new EditTime();
 	Rectangle editTimeBounds = editTime->GetBounds();
-	editTime->Construct(Osp::Graphics::Point(0, 3 * heightBody), L"pick a time");
+	editTime->Construct(Osp::Graphics::Point(0, heightBody), L"Pick a time");
 	//get size from this editbounds
 	editTimeBounds = editTime->GetBounds();
 	int editTimeBorder = (bounds.width - editTimeBounds.width) / 2;
 	//re postition to align in the middle
-	editTime->SetPosition(editTimeBorder, 3 * heightBody);
+	editTime->SetPosition(editTimeBorder, 1.5* heightBody);
 	editTime->Set24HourNotationEnabled(true);
 	editTime->SetCurrentTime();
 	editTime->AddTimeChangeEventListener(*this);
 	AddControl(*editTime);
-
-	return true;
 }
 
 result FormLiveboard::OnInitializing(void) {
@@ -164,21 +236,23 @@ void FormLiveboard::OnTimeChanged(const Osp::Ui::Control& source, int hour,
 
 void FormLiveboard::recalculateComponents() {
 
-	Rectangle bounds = this->GetClientAreaBounds();
-	int y = 10;
-	int border = 0.05 * bounds.width;
-	int widthBody = 0.9 * bounds.width;
+	/*Rectangle bounds = this->GetClientAreaBounds();
+	 int y = 10;
+	 int border = 0.05 * bounds.width;
+	 int widthBody = 0.9 * bounds.width;
 
-	int heightBody = int(1.0 / 6.0 * double(bounds.height));
-	/*
+	 int heightBody = int(1.0 / 6.0 * double(bounds.height));
+	 /*
 	 * add Controls to form
 	 */
-	stationEditField->SetBounds(Rectangle(border, heightBody, widthBody,heightBody));
-	y+=heightBody;
-	//editTime->SetBounds(Rectangle(border,y,widthBody,heightBody));
-	Rectangle editTimeBounds = editTime->GetBounds();
-	int editTimeBorder = (bounds.width - editTimeBounds.width) / 2;
-	//reposition to align in the middle
-	editTime->SetPosition(editTimeBorder, 3 * heightBody);
+	/*stationEditField->SetBounds(Rectangle(border, heightBody, widthBody,
+	 heightBody));
+	 y += heightBody;
+	 //editTime->SetBounds(Rectangle(border,y,widthBody,heightBody));
+	 Rectangle editTimeBounds = editTime->GetBounds();
+	 int editTimeBorder = (bounds.width - editTimeBounds.width) / 2;
+	 //reposition to align in the middle
+	 editTime->SetPosition(editTimeBorder, 3 * heightBody);*/
+	this->assembleComponents();
 	this->RequestRedraw();
 }
