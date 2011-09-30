@@ -326,14 +326,28 @@ void Controller::newLiveboardRequest(){
 void Controller::getMoreResults(){
 	//showPopup();
 	Request* request = AppData::GetInstance()->getCurrentRequest();
-	Trip* lastTrip;
-	request->getTrips()->GetAt(request->getTrips()->GetCount()-1,lastTrip);
-	Connection* firstConn;
-	lastTrip->getConnections()->GetAt(0,firstConn);
-	DateTime lastTripTime = firstConn->getStartConnectionNode()->getDateTime();
-	request->setDateTime(lastTripTime);
-	request->setIsDepart(true); //could be problems if on arrival, then the request is somewhat wrong
-	retrieveRoutePlannerResults(true);
+	if(request->getTrips()->GetCount() > 0){
+		Trip* lastTrip;
+		request->getTrips()->GetAt(request->getTrips()->GetCount()-1,lastTrip);
+		Connection* firstConn;
+		lastTrip->getConnections()->GetAt(0,firstConn);
+		DateTime lastTripTime = firstConn->getStartConnectionNode()->getDateTime();
+		request->setDateTime(lastTripTime);
+		request->setIsDepart(true); //could be problems if on arrival, then the request is somewhat wrong
+		retrieveRoutePlannerResults(true);
+	}
+}
+
+void Controller::getMoreLiveBoardResults(){
+	//showPopup();
+	LiveBoardRequest* request = AppData::GetInstance()->getCurrentLiveBoardRequest();
+	if(request->getResults()->GetCount() > 0){
+		LiveBoardResult* lastResult;
+		request->getResults()->GetAt(request->getResults()->GetCount()-1,lastResult);
+		request->setDateTime(lastResult->getDateTime());
+		retrieveLiveBoardResults(true);
+	}
+	//else do nothing
 }
 
 void Controller::showPopup(){

@@ -82,6 +82,7 @@ public:
 	void					newRequest();
 	void					newLiveboardRequest();
 	void 					getMoreResults();
+	void 					getMoreLiveBoardResults();
 
 	//waitingpopup
 	void 					showPopup();

@@ -57,6 +57,7 @@ public:
 	static const int DELAY 					= 402;
 	static const int PLATFORM 				= 403;
 	static const int STATION				= 404;
+	static const int MORE					= 405;
 
 private:
 	//DATA
@@ -64,7 +65,6 @@ private:
 
 	//Compontents
 	ListView*				list;
-
 };
 
 #endif	//_LiveBoardResults_H_

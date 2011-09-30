@@ -13,6 +13,7 @@
     <text id="STATION_SELECT_CANCEL">Cancel</text>
     <text id="LB_STATION">Station</text>
     <text id="LB_SEARCH">Search</text>
+    <text id="LB_RES_MORE">More..</text>
     <text id="RP_CANCEL">Cancel</text>
     <text id="STATION_EMPTY_LIST">Empty list</text>
     <text id="RP_DEPARTURE">Departure</text>
@@ -20,9 +21,9 @@
     <text id="RP_FROM">From</text>
     <text id="LB_RES_TO_CAL">Save to calendar</text>
     <text id="RP_RES_REFRESH">Refresh</text>
-    <text id="RP_RES_SAVE_TO_CAL">Save to calendar</text>
-    <text id="LB_RES_REFRESH">Refresh</text>
     <text id="RP_PICK_TIME">Pick your time and date</text>
+    <text id="LB_RES_REFRESH">Refresh</text>
+    <text id="RP_RES_SAVE_TO_CAL">Save to calendar</text>
     <text id="ERROR_STATION">a station is required</text>
     <text id="RP_SEARCH">Search</text>
     <text id="RP_ARRIVAL">Arrival</text>
@@ -33,7 +34,7 @@
     <text id="WP_CANCEL">Cancel</text>
     <text id="RP_RES_DIRECT">Direct</text>
     <text id="STATION_SELECT_CLEAR">Clear</text>
-    <text id="RP_TO">To</text>
     <text id="LB_CLEAR">Clear</text>
+    <text id="RP_TO">To</text>
     <text id="ERROR_TO">a to station is required</text>
 </string_table>

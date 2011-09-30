@@ -29,11 +29,11 @@ void WaitingPopup::Construct(int screenWidth, int screenHeight){
 	if(screenWidth < screenHeight){
 		//portrait
 		width = 0.9*screenWidth;
-		height = screenHeight/4;
+		height = screenHeight/3;
 	}else{
 		//landscape
 		width = 0.9*screenWidth;
-		height = screenHeight/2;
+		height = screenHeight/1.5;
 	}
 	AppLog("WaitingPopup::first construct popup");
 
@@ -43,7 +43,7 @@ void WaitingPopup::Construct(int screenWidth, int screenHeight){
 	popup->SetTitleText(L"Loading...");
 	// Creates a button to close the Popup.
 	button = new Button();
-	button->Construct(Rectangle(0.15*width, 0, 0.70*width, 0.5*height), L"Cancel");
+	button->Construct(Rectangle(0.15*width, 0.2*height, 0.70*width, 0.35*height), L"Cancel");
 	button->SetActionId(CANCEL_ACTION);
 	button->AddActionEventListener(*this);
 	popup->AddControl(*button);

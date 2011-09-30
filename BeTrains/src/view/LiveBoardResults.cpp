@@ -69,7 +69,12 @@ bool LiveBoardResults::Initialize() {
 /*
  * implements IListViewItemEventListener
  */
-void LiveBoardResults::OnListViewItemStateChanged(Osp::Ui::Controls::ListView &listView, int index, int elementId, Osp::Ui::Controls::ListItemStatus status){}
+void LiveBoardResults::OnListViewItemStateChanged(Osp::Ui::Controls::ListView &listView, int index, int elementId, Osp::Ui::Controls::ListItemStatus status){
+	if(elementId == MORE){
+		//MORE BUTTON PRESSED
+		Controller::GetInstance()->getMoreLiveBoardResults();
+	}
+}
 
 void LiveBoardResults::OnListViewItemSwept(Osp::Ui::Controls::ListView &listView, int index, Osp::Ui::Controls::SweepDirection direction){}
 
@@ -86,46 +91,49 @@ LiveBoardResults::CreateItem(int index, int itemWidth)
 	int itemHeight = bounds.height/8;
 	if(bounds.width>bounds.height)
 		itemHeight = bounds.width /8;
-
-	/*
-	 * Get the trip from the index id
-	 */
-	LiveBoardResult* result;
-	liveBoardRequest->getResults()->GetAt(index, result);
-	/*
-	 * Get trip data
-	 */
-	String time = Utils::formatTime(result->getDateTime());
-	String delay = Utils::formatDelay(result->getDelay());
-	String station = result->getStation()->getName();
-	String platform = result->getPlatform();
-
-	//create custom item with right size, height is calculated with amount of connections
 	CustomItem* item = new CustomItem();
 
-	item->Construct(Osp::Graphics::Dimension(itemWidth,itemHeight), LIST_ANNEX_STYLE_NORMAL); //+itemHeight*amountConnections
-	item->AddElement(Rectangle(0				, 0					, itemWidth*0.75	, 0.5*itemHeight), STATION		, station	, 0.5*itemHeight	, Color::COLOR_WHITE	, Color::COLOR_WHITE	, Color::COLOR_WHITE);
-	item->AddElement(Rectangle(0				, 0.5*itemHeight	, itemWidth*0.75	, 0.5*itemHeight), TIME			, time		, 0.5*itemHeight	, Color::COLOR_WHITE	, Color::COLOR_WHITE	, Color::COLOR_WHITE);
-	item->AddElement(Rectangle(itemWidth*0.75	, 0					, itemWidth*0.25	, 0.5*itemHeight), PLATFORM		, platform	, 0.5*itemHeight	, Color::COLOR_WHITE	, Color::COLOR_BLUE		, Color::COLOR_BLUE);
-	item->AddElement(Rectangle(itemWidth*0.75	, 0.5*itemHeight	, itemWidth*0.25	, 0.5*itemHeight), DELAY		, delay  	, 0.5*itemHeight	, Color::COLOR_RED		, Color::COLOR_BLUE		, Color::COLOR_BLUE);
+	//normal elements
+	if(index < liveBoardRequest->getResults()->GetCount()){
 
-	/*
-	item->Construct(Osp::Graphics::Dimension(itemWidth, itemHeight),
-			LIST_ANNEX_STYLE_NORMAL); //+itemHeight*amountConnections
-	item->AddElement(Rectangle(0, 0, itemWidth * 0.75, 0.5 * itemHeight),
-			STATION, station, 0.5 * itemHeight, Color::COLOR_WHITE,
-			Color::COLOR_WHITE, Color::COLOR_WHITE);
-	item->AddElement(Rectangle(0, 0.5 * itemHeight, itemWidth * 0.75, 0.5
-			* itemHeight), TIME, time, 0.5 * itemHeight, Color::COLOR_WHITE,
-			Color::COLOR_WHITE, Color::COLOR_WHITE);
-	item->AddElement(Rectangle(itemWidth * 0.75, 0, itemWidth * 0.25, 0.5
-			* itemHeight), PLATFORM, platform, 0.5 * itemHeight,
-			Color::COLOR_WHITE, Color::COLOR_BLUE, Color::COLOR_BLUE);
-	item->AddElement(Rectangle(itemWidth * 0.75, 0.5 * itemHeight, itemWidth
-			* 0.25, 0.5 * itemHeight), DELAY, delay, 0.5 * itemHeight,
-			Color::COLOR_RED, Color::COLOR_BLUE, Color::COLOR_BLUE);
-	*/
+		/*
+		 * Get the trip from the index id
+		 */
+		LiveBoardResult* result;
+		liveBoardRequest->getResults()->GetAt(index, result);
+		/*
+		 * Get trip data
+		 */
+		String time = Utils::formatTime(result->getDateTime());
+		String delay = Utils::formatDelay(result->getDelay());
+		String station = result->getStation()->getName();
+		String platform = result->getPlatform();
 
+		//create custom item with right size, height is calculated with amount of connections
+
+		item->Construct(Osp::Graphics::Dimension(itemWidth,itemHeight), LIST_ANNEX_STYLE_NORMAL); //+itemHeight*amountConnections
+		item->AddElement(Rectangle(0				, 0					, itemWidth*0.75	, 0.5*itemHeight), STATION		, station	, 0.5*itemHeight	, Color::COLOR_WHITE	, Color::COLOR_WHITE	, Color::COLOR_WHITE);
+		item->AddElement(Rectangle(0				, 0.5*itemHeight	, itemWidth*0.75	, 0.5*itemHeight), TIME			, time		, 0.5*itemHeight	, Color::COLOR_WHITE	, Color::COLOR_WHITE	, Color::COLOR_WHITE);
+		item->AddElement(Rectangle(itemWidth*0.75	, 0					, itemWidth*0.25	, 0.5*itemHeight), PLATFORM		, platform	, 0.5*itemHeight	, Color::COLOR_WHITE	, Color::COLOR_BLUE		, Color::COLOR_BLUE);
+		item->AddElement(Rectangle(itemWidth*0.75	, 0.5*itemHeight	, itemWidth*0.25	, 0.5*itemHeight), DELAY		, delay  	, 0.5*itemHeight	, Color::COLOR_RED		, Color::COLOR_BLUE		, Color::COLOR_BLUE);
+
+	}else{
+		//MORE ELEMENT
+		item->Construct(Osp::Graphics::Dimension(itemWidth,itemHeight), LIST_ANNEX_STYLE_NORMAL); //+itemHeight*amountConnections
+		//item->AddElement(Rectangle(0, 0, itemWidth,itemHeight), MORE, "more..", 0.7*itemHeight, Color::COLOR_WHITE	, Color::COLOR_WHITE	, Color::COLOR_WHITE);
+		EnrichedText* moreText = new EnrichedText();
+		moreText->Construct(Dimension(itemWidth,itemHeight));
+		moreText->SetHorizontalAlignment(TEXT_ALIGNMENT_CENTER);
+		moreText->SetVerticalAlignment(TEXT_ALIGNMENT_MIDDLE);
+		String more= "More...";
+		AppResource* appRes = Application::GetInstance()->GetAppResource();
+		appRes->GetString(L"LB_RES_MORE", more);
+		TextElement* textElement = new TextElement();
+		textElement->Construct(more);
+		textElement->SetTextColor(Color::COLOR_WHITE);
+		moreText->Add(*textElement);
+		item->AddElement(Rectangle(0,0,itemWidth,itemHeight),MORE,*moreText);
+	}
 	return item;
 }
 
@@ -138,7 +146,7 @@ LiveBoardResults::DeleteItem(int index, Osp::Ui::Controls::ListItemBase* item, i
 int
 LiveBoardResults::GetItemCount(void)
 {
-	return liveBoardRequest->getResults()->GetCount();
+	return liveBoardRequest->getResults()->GetCount()+1; //for the more element
 }
 
 result LiveBoardResults::OnInitializing(void) {

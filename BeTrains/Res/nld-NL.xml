@@ -13,6 +13,7 @@
     <text id="STATION_SELECT_CANCEL">Annuleer</text>
     <text id="LB_STATION">Station</text>
     <text id="LB_SEARCH">Zoek</text>
+    <text id="LB_RES_MORE">Later..</text>
     <text id="RP_CANCEL">Annuleer</text>
     <text id="STATION_EMPTY_LIST">Lege lijst</text>
     <text id="RP_DEPARTURE">Vertrek</text>
@@ -20,9 +21,9 @@
     <text id="RP_FROM">Van</text>
     <text id="LB_RES_TO_CAL">Zet op de kalender</text>
     <text id="RP_RES_REFRESH">Refresh</text>
-    <text id="RP_RES_SAVE_TO_CAL">Bewaar op de kalender</text>
-    <text id="LB_RES_REFRESH">Vernieuw</text>
     <text id="RP_PICK_TIME">Kies je tijd en datum</text>
+    <text id="LB_RES_REFRESH">Vernieuw</text>
+    <text id="RP_RES_SAVE_TO_CAL">Bewaar op de kalender</text>
     <text id="ERROR_STATION">een station is verplicht</text>
     <text id="RP_SEARCH">Zoek</text>
     <text id="RP_ARRIVAL">Aankomst</text>
@@ -33,7 +34,7 @@
     <text id="WP_CANCEL">Annuleer</text>
     <text id="RP_RES_DIRECT">Direct</text>
     <text id="STATION_SELECT_CLEAR">Wis</text>
-    <text id="RP_TO">Naar</text>
     <text id="LB_CLEAR">Reset</text>
+    <text id="RP_TO">Naar</text>
     <text id="ERROR_TO">een naar station is verplicht</text>
 </string_table>
