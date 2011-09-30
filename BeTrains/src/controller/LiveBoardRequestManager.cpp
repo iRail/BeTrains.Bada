@@ -142,6 +142,7 @@ void LiveBoardRequestManager::OnTransactionReadyToRead(Osp::Net::Http::HttpSessi
 		Controller::GetInstance()->switchToLiveBoardResults();
 	}else{
 		AppLog("parsing failed liveboards");
+		Controller::GetInstance()->showServerErrorMessage();
 	}
 }
 

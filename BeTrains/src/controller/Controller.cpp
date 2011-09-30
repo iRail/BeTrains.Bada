@@ -369,3 +369,16 @@ void Controller::hidePopup(){
 	currentForm->Draw();
 	currentForm->Show();
 }
+
+void Controller::showServerErrorMessage(){
+	cancelRequest();
+	MessageBox messageBox;
+	String errorTitle="errors";
+	String serverError="Server Error";
+	Application::GetInstance()->GetAppResource()->GetString(L"C_ERRORS", errorTitle);
+	Application::GetInstance()->GetAppResource()->GetString(L"C_SERVER_ERROR", serverError);
+	messageBox.Construct(errorTitle, serverError, MSGBOX_STYLE_OK, 9000);
+	int res;
+	messageBox.ShowAndWait(res);
+	hidePopup();
+}

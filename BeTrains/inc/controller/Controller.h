@@ -88,6 +88,9 @@ public:
 	void 					showPopup();
 	void 					hidePopup();
 
+	//error message
+	void					showServerErrorMessage();
+
 };
 
 #endif /* CONTROLLER_H_ */

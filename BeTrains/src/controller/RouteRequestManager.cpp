@@ -155,7 +155,8 @@ void RouteRequestManager::OnTransactionReadyToRead(Osp::Net::Http::HttpSession& 
 		Controller::GetInstance()->switchToRoutePlannerResults();
 	}
 	else{
-		AppLog("parsing failed");
+		AppLogDebug("parsing failed");
+		Controller::GetInstance()->showServerErrorMessage();
 	}
 	//write to file
 	/*

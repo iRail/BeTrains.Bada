@@ -35,15 +35,19 @@ void WaitingPopup::Construct(int screenWidth, int screenHeight){
 		width = 0.9*screenWidth;
 		height = screenHeight/1.5;
 	}
-	AppLog("WaitingPopup::first construct popup");
-
+	//I18N
+	String loading,cancel;
+	AppResource* appRes = Application::GetInstance()->GetAppResource();
+	appRes->GetString(L"WP_LOADING", loading);
+	appRes->GetString(L"WP_CANCEL", cancel);
 	popup = new Popup();
 	Dimension dim(width, height);
 	popup->Construct(true, dim);
-	popup->SetTitleText(L"Loading...");
+
+	popup->SetTitleText(loading);
 	// Creates a button to close the Popup.
 	button = new Button();
-	button->Construct(Rectangle(0.15*width, 0.2*height, 0.70*width, 0.35*height), L"Cancel");
+	button->Construct(Rectangle(0.15*width, 0.2*height, 0.70*width, 0.35*height), cancel);
 	button->SetActionId(CANCEL_ACTION);
 	button->AddActionEventListener(*this);
 	popup->AddControl(*button);
