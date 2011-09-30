@@ -112,6 +112,12 @@ bool Request::validate(){
 		appRes->GetString(L"ERROR_TO", error);
 		_errors.Add(error);
 	}
+	if(_to == _from && _to != null){
+		validate = false;
+		String error;
+		appRes->GetString(L"ERROR_SAME_STATIONS", error);
+		_errors.Add(error);
+	}
 	return validate;
 }
 
