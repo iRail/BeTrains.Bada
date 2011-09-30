@@ -66,6 +66,7 @@ public:
 	static const int STATION_2				= 407;
 	static const int PLATFORM_1				= 408;
 	static const int PLATFORM_2				= 409;
+	static const int MORE					= 410;
 
 private:
 	//DATA
@@ -79,6 +80,7 @@ private:
 	ExpandableList*			list;
 	CustomListItemFormat*	format;
 	CustomListItemFormat*	subListFormat;
+	CustomListItemFormat*	moreFormat;
 	ContextMenu* 			contextMenu;
 	ScrollPanel* 			scrollPanel;
 	Button* 				moreButton;
@@ -86,6 +88,7 @@ private:
 	//help methods
 	void addTrip(Trip* trip)const;
 	void assembleComponents();
+	void addMoreItem()const;
 };
 
 #endif	//_RoutePlannerResults_H_

@@ -12,7 +12,9 @@ using namespace Osp::Base;
 using namespace Osp::Ui;
 using namespace Osp::Ui::Controls;
 
-HeaderForm::HeaderForm(void) {
+HeaderForm::HeaderForm(void)
+	:headerIndex(HEADER_ID_ROUTE_PLANNER)
+{
 }
 
 HeaderForm::~HeaderForm(void) {
@@ -31,7 +33,7 @@ bool HeaderForm::Initialize(bool leftbutton, bool rightbutton) {
 
 result HeaderForm::OnInitializing(int index) {
 	result r = E_SUCCESS;
-
+	headerIndex = index;
 	/*
 	 * I18N
 	 */
@@ -85,10 +87,12 @@ result HeaderForm::OnTerminating(void) {
 
 void HeaderForm::OnActionPerformed(const Osp::Ui::Control& source, int actionId) {
 	if (actionId == this->ACTION_HEADER_ID_ROUTE_PLANNER){
+		GetHeader()->SetItemSelected(headerIndex);
 		Controller::GetInstance()->newRequest();
 		Controller::GetInstance()->switchToFormRoutePlanner();
 	}
 	if (actionId == this->ACTION_HEADER_ID_LIVEBOARD){
+		GetHeader()->SetItemSelected(headerIndex);
 		Controller::GetInstance()->newLiveboardRequest();
 		Controller::GetInstance()->switchToFormLiveBoard();
 	}

@@ -45,6 +45,9 @@ public:
 	 */
 	static const int HEADER_ID_LIVEBOARD = 1;
 	static const int HEADER_ID_ROUTE_PLANNER = 0;
+private:
+	//forms liveboard or routeplanner
+	int headerIndex;
 };
 
 #endif /* HEADERFORM_H_ */

@@ -85,9 +85,9 @@ void Controller::switchToFormLiveBoard() {
 			formLiveBoard->Initialize();
 		}
 		currentForm = formLiveBoard;
-		Header* header = currentForm->GetHeader();
-		header->SetItemSelected(HeaderForm::HEADER_ID_LIVEBOARD);
-		header->SetItemSelected(HeaderForm::HEADER_ID_LIVEBOARD);
+		//Header* header = currentForm->GetHeader();
+		//header->SetItemSelected(HeaderForm::HEADER_ID_LIVEBOARD);
+		//header->SetItemSelected(HeaderForm::HEADER_ID_LIVEBOARD);
 		SetCurrentForm(currentForm);
 	}
 	formLiveBoard->RequestRedraw();
@@ -101,8 +101,8 @@ void Controller::switchToFormRoutePlanner() {
 			formRoutePlanner->Initialize();
 		}
 		currentForm = formRoutePlanner;
-		Header* header = currentForm->GetHeader();
-		header->SetItemSelected(HeaderForm::HEADER_ID_ROUTE_PLANNER);
+		//Header* header = currentForm->GetHeader();
+		//header->SetItemSelected(HeaderForm::HEADER_ID_ROUTE_PLANNER);
 		SetCurrentForm(currentForm);
 	}
 	formRoutePlanner->RequestRedraw();
@@ -305,7 +305,7 @@ void Controller::saveToCalendar(int index){
 			String fromPlatform = String(conn->getStartConnectionNode()->getPlatform());
 			String toPlatform = String(conn->getEndConnectionNode()->getPlatform());
 			desc += fromStation + " " + fromTime 	+ " p:" + fromPlatform	+"\n";
-			desc += toStation 	+ " " + 	toTime 	+ " p:" + toPlatform	+"\n";
+			desc += toStation 	+ " " + toTime 		+ " p:" + toPlatform	+"\n";
 		}
 
 		event.SetDescription(desc);

@@ -9,16 +9,16 @@ using namespace Osp::Ui::Controls;
 using namespace Osp::Graphics;
 
 RoutePlannerResults::RoutePlannerResults(void) :
-	request(null), format(null), subListFormat(null) {
+	request(null), format(null), subListFormat(null),moreFormat(null) {
 }
 
 RoutePlannerResults::~RoutePlannerResults(void) {
 	delete format;
 	delete subListFormat;
+	delete moreFormat;
 }
 
 bool RoutePlannerResults::Initialize() {
-
 	this->assembleComponents();
 	return true;
 }
@@ -42,7 +42,6 @@ void RoutePlannerResults::OnActionPerformed(const Osp::Ui::Control& source,
 	HeaderForm::OnActionPerformed(source, actionId);
 	if (actionId == REFRESH_ACTION) {
 		AppLog("Clicked RoutePlannerResults::refresh");
-
 		//show waiting popup with cancel interaction -> that then should go back to previous results
 		//when the results got back succesfull, only then the old results must be deleted and replaced by new
 		//this makes sure if we press cancel, we remain the previous results
@@ -52,10 +51,6 @@ void RoutePlannerResults::OnActionPerformed(const Osp::Ui::Control& source,
 		//in contrary to pressing on the header button route planner, that should give an empty form
 		AppLog("Clicked RoutePlannerResults::back");
 		Controller::GetInstance()->setPreviousForm();
-	} else if (actionId == MORE_ACTION) {
-
-		AppLog("Clicked RoutePlannerResults::More");
-		Controller::GetInstance()->getMoreResults();
 	}
 }
 
@@ -73,7 +68,8 @@ void RoutePlannerResults::RequestRedraw(bool show) const {
 		trips->GetAt(i, trip);
 		addTrip(trip);
 	}
-
+	this->addMoreItem();
+	list->ScrollToTop();
 	Form::RequestRedraw(show);
 }
 
@@ -212,18 +208,26 @@ void RoutePlannerResults::OnTouchLongPressed(const Osp::Ui::Control &source,
 		//AppLog("RoutePlannerResults::OnTouchLongPressed mainitem:%S",Integer::ToString(mainIndex).GetPointer());
 	}
 }
+
 void RoutePlannerResults::OnTouchMoved(const Osp::Ui::Control &source,
 		const Osp::Graphics::Point &currentPosition,
 		const Osp::Ui::TouchEventInfo &touchInfo) {
 }
-void RoutePlannerResults::OnTouchPressed(const Osp::Ui::Control &source,
-		const Osp::Graphics::Point &currentPosition,
-		const Osp::Ui::TouchEventInfo &touchInfo) {
+void RoutePlannerResults::OnTouchPressed(const Osp::Ui::Control &source,const Osp::Graphics::Point &currentPosition,const Osp::Ui::TouchEventInfo &touchInfo){
+	if (&source == list) {
+		int sub = -1;
+		int mainIndex = -1;
+		list->GetItemIndexFromPosition(currentPosition, mainIndex, sub);
+		if (mainIndex == request->getTrips()->GetCount())
+			Controller::GetInstance()->getMoreResults();
+	}
 }
+
 void RoutePlannerResults::OnTouchReleased(const Osp::Ui::Control &source,
 		const Osp::Graphics::Point &currentPosition,
 		const Osp::Ui::TouchEventInfo &touchInfo) {
 }
+
 void RoutePlannerResults::assembleComponents() {
 	/*
 	 * I18N
@@ -278,42 +282,21 @@ void RoutePlannerResults::assembleComponents() {
 			L"station - station");
 	AddControl(*titleLabel);
 
-	/*
-	 * scrollpanel
-	 */
-	if (scrollPanel == null) {
-		delete scrollPanel;
-	}
-	scrollPanel = new ScrollPanel();
-	scrollPanel->Construct(Rectangle(0, titleHeight, bounds.width,
-			bounds.height - titleHeight));
-	AddControl(*scrollPanel);
-	/*
-	 * More Button
-	 */
-	if (moreButton == null) {
-		delete moreButton;
-	}
-	moreButton = new Button();
-	moreButton->Construct(Rectangle(0, bounds.height - 2 * titleHeight,
-			bounds.width, titleHeight), more);
-	moreButton->SetActionId(MORE_ACTION);
-	moreButton->AddActionEventListener(*this);
-	scrollPanel->AddControl(*moreButton);
+
+	//scrollPanel->Construct(Rectangle(0, titleHeight, bounds.width, bounds.height - titleHeight));
 
 	/*
-	 * Construct a ListView
+	 * Construct a Expandable list
 	 */
 	if (list == null) {
 		delete list;
 	}
 	list = new ExpandableList();
-	list->Construct(Rectangle(0, 0, bounds.width, bounds.height - 2
-			* titleHeight), CUSTOM_LIST_STYLE_NORMAL, true);
-	//list->Construct(Rectangle(0,0,bounds.width,bounds.height),CUSTOM_LIST_STYLE_NORMAL,true);
+	list->Construct(Rectangle(0, titleHeight, bounds.width, bounds.height - 1	* titleHeight), CUSTOM_LIST_STYLE_NORMAL, true);
+
 	list->SetTextOfEmptyList(empty);
 	list->AddTouchEventListener(*this);
-	scrollPanel->AddControl(*list);
+	AddControl(*list);
 
 	/*
 	 * Create context menu
@@ -360,6 +343,7 @@ void RoutePlannerResults::assembleComponents() {
 	Color stationColor = Color::COLOR_WHITE;
 	Color platformColor = Color::COLOR_WHITE;
 	Color vehicleColor = Color::COLOR_GREY;
+	Color moreColor = Color::COLOR_WHITE;
 
 	subListFormat->Construct();
 	subListFormat->AddElement(SUBLIST_FROM_TIME, Rectangle(0, 0, 0.2 * width,
@@ -388,9 +372,31 @@ void RoutePlannerResults::assembleComponents() {
 	subListFormat->AddElement(SUBLIST_TO_PLATFORM, Rectangle(0.9 * width, 0.66
 			* height, 0.1 * width, 0.33 * height), 0.33 * height,
 			platformColor, platformColor);
-
+	if(moreFormat != null){
+		delete moreFormat;
+	}
+	moreFormat = new CustomListItemFormat();
+	moreFormat->Construct();
+	moreFormat->AddElement(MORE, Rectangle(0.3*width, 0.2*height, 0.7*width, 0.5*height), 0.5* height,moreColor, moreColor);
 }
+
 void RoutePlannerResults::recalculateComponents() {
 	this->assembleComponents();
 	this->RequestRedraw();
+}
+
+void RoutePlannerResults::addMoreItem() const{
+	CustomListItem * newItem = new CustomListItem();
+	Rectangle bounds = this->GetClientAreaBounds();
+	int height = bounds.height / 7;
+	if (bounds.width > bounds.height)
+		height = bounds.height / 3;
+	newItem->Construct(height);
+	newItem->SetItemFormat(*moreFormat);
+	String more= "More...";
+	AppResource* appRes = Application::GetInstance()->GetAppResource();
+	appRes->GetString(L"RP_RES_MORE", more);
+	newItem->SetElement(MORE, more);
+	int itemNumber = list->GetItemCount();
+	list->AddItem(*newItem, itemNumber);
 }
