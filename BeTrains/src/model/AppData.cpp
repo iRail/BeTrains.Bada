@@ -124,9 +124,11 @@ Station* AppData::getStationById(const String& id){
 		}
 		i++;
 	}
+	/*
 	if(found == null){
 		AppLog("Station not found id: %S",id.GetPointer());
 	}
+	*/
 	return found;
 }
 

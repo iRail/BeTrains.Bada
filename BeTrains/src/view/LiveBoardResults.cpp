@@ -166,16 +166,16 @@ result LiveBoardResults::OnTerminating(void) {
 void LiveBoardResults::OnActionPerformed(const Osp::Ui::Control& source,int actionId) {
 	HeaderForm::OnActionPerformed(source,actionId);
 	if(actionId == REFRESH_ACTION){
-		AppLog("Clicked LiveBoardResults::refresh");
+		//AppLog("Clicked LiveBoardResults::refresh");
 		Controller::GetInstance()->retrieveLiveBoardResults();
 	}else if(actionId == BACK_ACTION){
-		AppLog("Clicked LiveBoardResults::back");
+		//AppLog("Clicked LiveBoardResults::back");
 		Controller::GetInstance()->setPreviousForm();
 	}
 }
 
 void LiveBoardResults::RequestRedraw(bool show) {
-	AppLog("LiveBoardResults::RequestRedraw");
+	//AppLog("LiveBoardResults::RequestRedraw");
 	liveBoardRequest = AppData::GetInstance()->getCurrentLiveBoardRequest();
 	list->UpdateList();
 	Form::RequestRedraw(show);

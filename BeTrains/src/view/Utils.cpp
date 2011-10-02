@@ -15,7 +15,7 @@ Utils::Utils()
 
 Utils::~Utils()
 {
-	AppLogDebug("Utils is destroyed!");
+	//AppLogDebug("Utils is destroyed!");
 }
 
 Osp::Graphics::Bitmap* Utils::GetBitmapN(const Osp::Base::String& name)
@@ -27,7 +27,7 @@ Osp::Graphics::Bitmap* Utils::GetBitmapN(const Osp::Base::String& name)
 	fullname.Append(name);
 
 	pImage->Construct();
-	AppLogDebug("%S",fullname.GetPointer());
+	//AppLogDebug("%S",fullname.GetPointer());
 	if(fullname.EndsWith(L"jpg"))
 	{
 		pBitmap = pImage->DecodeN(fullname, BITMAP_PIXEL_FORMAT_RGB565);

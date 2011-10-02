@@ -177,16 +177,16 @@ void Controller::retrieveRoutePlannerResults(bool addToResults){
 		if(routeRequestManager != null)
 			delete routeRequestManager;
 		routeRequestManager = new RouteRequestManager();
-		AppLog("set request");
+		//AppLog("set request");
 		routeRequestManager->setRequest(AppData::GetInstance()->getCurrentRequest(),addToResults);
 	}else{
-		AppLog("request didnt validate");
+		//AppLog("request didnt validate");
 		this->hidePopup();
 		String errors="";
 		for(int i=0;i<request->getErrors()->GetCount();i++){
 			String error;
 			request->getErrors()->GetAt(i,error);
-			AppLog("error: %S",error.GetPointer());
+			//AppLog("error: %S",error.GetPointer());
 			errors+=error+"\n";
 		}
 		MessageBox messageBox;
@@ -208,13 +208,13 @@ void Controller::retrieveLiveBoardResults(bool addToResults){
 			liveBoardRequestManager = new LiveBoardRequestManager();
 			liveBoardRequestManager->setRequest(AppData::GetInstance()->getCurrentLiveBoardRequest(),addToResults);
 		}else{
-			AppLog("live board request didnt validate");
+			//AppLog("live board request didnt validate");
 			this->hidePopup();
 			String errors="";
 			for(int i=0;i<request->getErrors()->GetCount();i++){
 				String error;
 				request->getErrors()->GetAt(i,error);
-				AppLog("error: %S",error.GetPointer());
+				//AppLog("error: %S",error.GetPointer());
 				errors+=error+"\n";
 			}
 			MessageBox messageBox;
@@ -311,7 +311,7 @@ void Controller::saveToCalendar(int index){
 		event.SetDescription(desc);
 		calendarbook->AddEvent(event);
 
-		AppLog("Controller::save to calendar");
+		//AppLog("Controller::save to calendar");
 	}
 }
 

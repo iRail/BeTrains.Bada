@@ -27,7 +27,7 @@ public:
 	void OnTransactionHeaderCompleted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, int headerLen, bool rs);
 	void OnTransactionCompleted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction);
 	void OnTransactionCertVerificationRequiredN(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, Osp::Base::String* pCert);
-	int getRoutePlannerRegistryIndex(); //returns current index of history
+	//int getRoutePlannerRegistryIndex(); //returns current index of history
 private:
 	Osp::Net::Http::HttpSession* 			__pSession; 	//ownership
 	Osp::Net::Http::HttpTransaction* 		__pTransaction; //ownership

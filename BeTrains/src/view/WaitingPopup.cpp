@@ -24,7 +24,7 @@ WaitingPopup::~WaitingPopup()
 }
 
 void WaitingPopup::Construct(int screenWidth, int screenHeight){
-	AppLog("WaitingPopup::Construct");
+	//AppLog("WaitingPopup::Construct");
 	int width, height;
 	if(screenWidth < screenHeight){
 		//portrait
@@ -54,7 +54,7 @@ void WaitingPopup::Construct(int screenWidth, int screenHeight){
 
 }
 void WaitingPopup::showPopup(int screenWidth, int screenHeight){
-	AppLog("show popup");
+	//AppLog("show popup");
 	if(popup != null){
 		button->RemoveActionEventListener(*this);
 		popup->RemoveAllControls();
@@ -101,7 +101,7 @@ void WaitingPopup::hidePopup(){
 void WaitingPopup::OnActionPerformed(const Osp::Ui::Control &source, int actionId)
 {
 	if(actionId == CANCEL_ACTION){
-		AppLogDebug("popup cancel button pressed");
+		//AppLogDebug("popup cancel button pressed");
 		Controller::GetInstance()->cancelRequest();
 		Controller::GetInstance()->hidePopup(); //this also redraws current form, so it gets removed again
 	}

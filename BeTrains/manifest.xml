@@ -2,15 +2,12 @@
 <Manifest>
     <Id>0f6oera8cc</Id>
     <Secret>15EDEBB5A259EC004B1394CA3DF9CA05</Secret>
-  <AppVersion>0.0.1</AppVersion>
+  <AppVersion>1.0.0</AppVersion>
   <ManifestVersion>1.2</ManifestVersion>
   <AppType>C++App</AppType>
     <Privileges>
         <Privilege>
             <Name>LOCAL_CONTENT</Name>
-        </Privilege>
-        <Privilege>
-            <Name>LOCATION</Name>
         </Privilege>
         <Privilege>
             <Name>IMAGE</Name>
@@ -20,12 +17,6 @@
         </Privilege>
         <Privilege>
             <Name>NET</Name>
-        </Privilege>
-        <Privilege>
-            <Name>CALENDARBOOK</Name>
-        </Privilege>
-		<Privilege>
-            <Name>SYSTEM_SERVICE</Name>
         </Privilege>
     </Privileges>
     <DeviceProfile>

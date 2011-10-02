@@ -98,24 +98,24 @@ void RouteRequestManager::setRequest(Request* req,bool addToResults_){
 		hostAddr2.Append(Integer::ToString(dt->GetMinute()));
 	}
 
-	AppLog("request link: %S",hostAddr2.GetPointer());
+	//AppLog("request link: %S",hostAddr2.GetPointer());
 
 	r = __pHttpRequest->SetUri(hostAddr2);
 	if(IsFailed(r))
-		AppLog("SetUri failed. (%s)\n", GetErrorMessage(r));
+		AppLogDebug("SetUri failed. (%s)\n", GetErrorMessage(r));
 
 	r = __pHttpRequest->SetMethod(NET_HTTP_METHOD_GET);
 	if(IsFailed(r))
-		AppLog("SetMethod failed. (%s)\n", GetErrorMessage(r));
+		AppLogDebug("SetMethod failed. (%s)\n", GetErrorMessage(r));
 
 	// Header Setting
 	HttpHeader* pHttpHeader = null;
 	pHttpHeader = __pHttpRequest->GetHeader();
 	if (null == pHttpHeader){
 		r = GetLastResult();
-		AppLog("Uri Setting failed. (%s)\n", GetErrorMessage(r));
+		AppLogDebug("Uri Setting failed. (%s)\n", GetErrorMessage(r));
 		r = pHttpHeader->AddField(L"Content-Length", L"1024");
-		if (IsFailed(r))AppLog("Header Setting failed. (%s)\n", GetErrorMessage(r));
+		if (IsFailed(r))AppLogDebug("Header Setting failed. (%s)\n", GetErrorMessage(r));
 	}
 
 	r = __pTransaction->Submit();
@@ -151,11 +151,11 @@ void RouteRequestManager::OnTransactionReadyToRead(Osp::Net::Http::HttpSession& 
 		if(!addToResults)
 			AppData::GetInstance()->getCurrentRequest()->clearTrips();
 		AppData::GetInstance()->getCurrentRequest()->getTrips()->AddItems(*trips);
-		AppLog("parsing succesfull");
+		//AppLog("parsing succesfull");
 		Controller::GetInstance()->switchToRoutePlannerResults();
 	}
 	else{
-		AppLogDebug("parsing failed");
+		//AppLogDebug("parsing failed");
 		Controller::GetInstance()->showServerErrorMessage();
 	}
 	//write to file
@@ -165,60 +165,6 @@ void RouteRequestManager::OnTransactionReadyToRead(Osp::Net::Http::HttpSession& 
 	f.Construct(L"/Home/history/RP"+ Integer::ToString(fileIndex) + ".xml",L"w+",false);
 	f.Write(*buffer);
 	*/
-}
-
-int RouteRequestManager::getRoutePlannerRegistryIndex(){
-    Registry reg;
-    String regPathName(L"/Home/register.ini");
-
-    // section name
-    String historySection(L"history");
-
-    //entries
-    String routePlannerAmountEntry(L"RPA");
-    String liveBoardAmountEntry("LBA");
-
-    int routePlannerAmount=-1;
-    result r = E_SUCCESS;
-
-    r = reg.Construct(regPathName, true); // create a new registry if not exists
-    if(IsFailed(r)){
-        AppLog("failed create registry");
-    	goto CATCH;
-    }
-
-    // create sections
-    r = reg.AddSection(historySection);
-
-    r = reg.GetValue(historySection,routePlannerAmountEntry , routePlannerAmount);
-    if(IsFailed(r)){
-    	AppLog("get val failed/ prob creating new one");
-    	r = reg.AddValue(historySection,routePlannerAmountEntry,0);
-    	if(IsFailed(r)){
-    		AppLog("creating entry failed");
-    	}
-    	//routePlannerAmount=-1; //perhaps no value is here
-    }
-    //routePlannerAmount++;
-    //routePlannerAmount = routePlannerAmount%AppData::HISTORY_AMOUNT;
-
-    r = reg.SetValue(historySection, routePlannerAmountEntry, routePlannerAmount);
-    if(IsFailed(r)){
-    	AppLog("set value failed");
-    	goto CATCH;
-    }
-
-    // write to the register
-    r = reg.Flush();
-    if(IsFailed(r)){
-        AppLog("flushing failed");
-    	goto CATCH;
-    }
-    return routePlannerAmount;
-
-    CATCH:
-		// Do some error handling
-		return 0;
 }
 
 void RouteRequestManager::OnTransactionAborted(Osp::Net::Http::HttpSession& httpSession, Osp::Net::Http::HttpTransaction& httpTransaction, result r){}

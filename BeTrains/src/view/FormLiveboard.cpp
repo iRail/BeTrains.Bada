@@ -167,16 +167,16 @@ void FormLiveboard::OnActionPerformed(const Osp::Ui::Control& source,
 		int actionId) {
 	HeaderForm::OnActionPerformed(source, actionId);
 	if (actionId == SEARCH_ACTION) {
-		AppLog("Clicked FormLiveBoard::search");
+		//AppLog("Clicked FormLiveBoard::search");
 		Controller::GetInstance()->retrieveLiveBoardResults();
 	} else if (actionId == CLEAR_ACTION) {
-		AppLog("Clicked FormLiveBoard::clear");
+		//AppLog("Clicked FormLiveBoard::clear");
 		Controller::GetInstance()->clearLiveboard();
 	}
 }
 
 void FormLiveboard::RequestRedraw(bool show) const {
-	AppLog("FormLiveboard::RequestRedraw");
+	//AppLog("FormLiveboard::RequestRedraw");
 	Station* station = liveBoardRequest->getStation();
 	if (station != null) {
 		stationEditField->SetText(station->getName());
@@ -223,7 +223,7 @@ void FormLiveboard::OnTouchPressed(const Osp::Ui::Control & source,
 		const Osp::Ui::TouchEventInfo & touchInfo) {
 	Controller* controller = Controller::GetInstance();
 	if (source.Equals(*stationEditField)) {
-		AppLog("Clicked FormLiveboard::fromStationEditField");
+		//AppLog("Clicked FormLiveboard::fromStationEditField");
 		controller->selectStation(liveBoardRequest->getStation());
 	}
 }

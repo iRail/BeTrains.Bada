@@ -29,7 +29,7 @@ OspMain(int argc, char *pArgv[])
 {
 	result r = E_SUCCESS;
 
-	AppLog("Application started.");
+	//AppLog("Application started.");
 	ArrayList* pArgs = new ArrayList();
 	pArgs->Construct();
 	for (int i = 0; i < argc; i++)
@@ -46,7 +46,7 @@ OspMain(int argc, char *pArgv[])
 
 	pArgs->RemoveAll(true);
 	delete pArgs;
-	AppLog("Application finished.");
+	//AppLog("Application finished.");
 
 	return static_cast<int>(r);
 }

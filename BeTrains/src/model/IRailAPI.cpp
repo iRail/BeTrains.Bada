@@ -382,7 +382,7 @@ ArrayListT<LiveBoardResult*> * IRailAPI::createLiveBoardList(ByteBuffer* buf){
 
 	}
 
-	AppLog("done parsing liveboard xml");
+	//AppLog("done parsing liveboard xml");
 	return results;
 }
 

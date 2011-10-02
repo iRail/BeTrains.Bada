@@ -190,19 +190,19 @@ void FormRouteplanner::OnActionPerformed(const Osp::Ui::Control& source,
 		int actionId) {
 	HeaderForm::OnActionPerformed(source, actionId);
 	if (actionId == SEARCH_ACTION) {
-		AppLog("Clicked FormRoutePlanner::search");
+		//AppLog("Clicked FormRoutePlanner::search");
 		Controller::GetInstance()->retrieveRoutePlannerResults();
 	} else if (actionId == CLEAR_ACTION) {
-		AppLog("Clicked FormRoutePlanner::clear");
+		//AppLog("Clicked FormRoutePlanner::clear");
 		Controller::GetInstance()->clearRoutePlanner();
 	} else if (actionId == SWITCH_ACTION) {
-		AppLog("Clicked FormRoutePlanner::switch");
+		//AppLog("Clicked FormRoutePlanner::switch");
 		Controller::GetInstance()->switchRequestStations();
 	} else if (actionId == IS_ARRIVAL) {
-		AppLog("The request must be on arrival time.");
+		//AppLog("The request must be on arrival time.");
 		Controller::GetInstance()->setIsDeparture(false);
 	} else if (actionId == IS_DEPARTURE) {
-		AppLog("The request must be on departure time.");
+		//AppLog("The request must be on departure time.");
 		Controller::GetInstance()->setIsDeparture(true);
 	}
 }
@@ -251,22 +251,22 @@ void FormRouteplanner::OnTouchPressed(const Osp::Ui::Control & source,
 		const Osp::Ui::TouchEventInfo & touchInfo) {
 	Controller* controller = Controller::GetInstance();
 	if (source.Equals(*fromStationEditField)) {
-		AppLog("Clicked FormRoutePlanner::fromStationEditField");
+		//AppLog("Clicked FormRoutePlanner::fromStationEditField");
 
 		//Station* from =  request->getFromStation();
 		controller->selectStation(request->getFromStation());
 	} else if (source.Equals(*toStationEditField)) {
-		AppLog("Clicked FormRoutePlanner::toStationEditField");
+		//AppLog("Clicked FormRoutePlanner::toStationEditField");
 		controller->selectStation(request->getToStation());
 	} else if (source.Equals(*editTimeDateField)) {
-		AppLog("Clicked FormRoutePlanner::EditDateTimeField");
+		//AppLog("Clicked FormRoutePlanner::EditDateTimeField");
 		dateTimePicker->SetShowState(true);
 		dateTimePicker->Show();
 	}
 }
 
 void FormRouteplanner::RequestRedraw(bool show) const {
-	AppLog("FormRouteplanner::RequestRedraw");
+	//AppLog("FormRouteplanner::RequestRedraw");
 	Station* from = (request->getFromStation());
 	Station* to = (request->getToStation());
 	if (from != null) {
@@ -293,14 +293,14 @@ void FormRouteplanner::RequestRedraw(bool show) const {
 }
 
 void FormRouteplanner::recalculateComponents() {
-	AppLog("Recalculate components!!");
+	//AppLog("Recalculate components!!");
 	/*
 	 * Calculate sizes for all controls
 	 */
 	Rectangle bounds = this->GetClientAreaBounds();
 	scrollPanel->SetBounds(Rectangle(0,0,bounds.width,bounds.height));
-	AppLog("width: %S", Integer::ToString(bounds.width).GetPointer());
-	AppLog("width: %S", Integer::ToString(bounds.height).GetPointer());
+	//AppLog("width: %S", Integer::ToString(bounds.width).GetPointer());
+	//AppLog("width: %S", Integer::ToString(bounds.height).GetPointer());
 
 	//int x = bounds.x;
 	int y = 10;

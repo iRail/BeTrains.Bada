@@ -88,11 +88,11 @@ void LiveBoardRequestManager::setRequest(LiveBoardRequest* req,bool addToResults
 
 	r = __pHttpRequest->SetUri(hostAddr2);
 	if(IsFailed(r))
-		AppLog("SetUri failed. (%s)\n", GetErrorMessage(r));
+		AppLogDebug("SetUri failed. (%s)\n", GetErrorMessage(r));
 
 	r = __pHttpRequest->SetMethod(NET_HTTP_METHOD_GET);
 	if(IsFailed(r))
-		AppLog("SetMethod failed. (%s)\n", GetErrorMessage(r));
+		AppLogDebug("SetMethod failed. (%s)\n", GetErrorMessage(r));
 
 	// Header Setting
 	HttpHeader* pHttpHeader = null;
@@ -101,7 +101,7 @@ void LiveBoardRequestManager::setRequest(LiveBoardRequest* req,bool addToResults
 		r = GetLastResult();
 		AppLogDebug("Uri Setting failed. (%s)\n", GetErrorMessage(r));
 		r = pHttpHeader->AddField(L"Content-Length", L"1024");
-		if (IsFailed(r))AppLog("Header Setting failed. (%s)\n", GetErrorMessage(r));
+		if (IsFailed(r))AppLogDebug("Header Setting failed. (%s)\n", GetErrorMessage(r));
 	}
 
 	r = __pTransaction->Submit();
@@ -137,11 +137,11 @@ void LiveBoardRequestManager::OnTransactionReadyToRead(Osp::Net::Http::HttpSessi
 	if(results != null){
 		if(!addToResults)
 			AppData::GetInstance()->getCurrentLiveBoardRequest()->clearResults();
-		AppLog("parsing live board successfull. #%S",Integer::ToString(results->GetCount()).GetPointer());
+		//AppLog("parsing live board successfull. #%S",Integer::ToString(results->GetCount()).GetPointer());
 		AppData::GetInstance()->getCurrentLiveBoardRequest()->getResults()->AddItems(*results);
 		Controller::GetInstance()->switchToLiveBoardResults();
 	}else{
-		AppLog("parsing failed liveboards");
+		//AppLog("parsing failed liveboards");
 		Controller::GetInstance()->showServerErrorMessage();
 	}
 }

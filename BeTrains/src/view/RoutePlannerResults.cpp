@@ -41,7 +41,7 @@ void RoutePlannerResults::OnActionPerformed(const Osp::Ui::Control& source,
 		int actionId) {
 	HeaderForm::OnActionPerformed(source, actionId);
 	if (actionId == REFRESH_ACTION) {
-		AppLog("Clicked RoutePlannerResults::refresh");
+		//AppLog("Clicked RoutePlannerResults::refresh");
 		//show waiting popup with cancel interaction -> that then should go back to previous results
 		//when the results got back succesfull, only then the old results must be deleted and replaced by new
 		//this makes sure if we press cancel, we remain the previous results
@@ -49,13 +49,13 @@ void RoutePlannerResults::OnActionPerformed(const Osp::Ui::Control& source,
 	} else if (actionId == BACK_ACTION) {
 		//goes back to the request. so we could edit the form we already made.
 		//in contrary to pressing on the header button route planner, that should give an empty form
-		AppLog("Clicked RoutePlannerResults::back");
+		//AppLog("Clicked RoutePlannerResults::back");
 		Controller::GetInstance()->setPreviousForm();
 	}
 }
 
 void RoutePlannerResults::RequestRedraw(bool show) const {
-	AppLog("RoutePlannerResults::RequestRedraw");
+	//AppLog("RoutePlannerResults::RequestRedraw");
 	//load data
 	titleLabel->SetText(request->getFromStation()->getName() + " - "
 			+ request->getToStation()->getName());

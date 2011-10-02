@@ -16,7 +16,7 @@ using namespace Osp::Graphics;
 SelectStationForm::SelectStationForm(void):
 		selectedStation(null)
 {
-	AppLog("SelectStation constructor");
+	//AppLog("SelectStation constructor");
 }
 
 SelectStationForm::~SelectStationForm(void) {
@@ -105,7 +105,7 @@ result SelectStationForm::OnInitializing() {
 	result r = E_SUCCESS;
 	this->editField->ShowKeypad();
 	this->RequestRedraw(true);
-	AppLog("SelectStationForm::OnInitializing()");
+	//AppLog("SelectStationForm::OnInitializing()");
 	return r;
 }
 
@@ -146,7 +146,7 @@ void SelectStationForm::OnListViewItemStateChanged(
 	//AppLog("SelectStationForm::OnListViewItemStateChanged index:%S",Integer::ToString(index).GetPointer());
 	Station* selectedStation_;
 	suggestionStations.GetAt(index, selectedStation_);
-	AppLog("Select Station %S",selectedStation_->getNameN()->GetPointer());
+	//AppLog("Select Station %S",selectedStation_->getNameN()->GetPointer());
 	*selectedStation = selectedStation_;
 	Controller::GetInstance()->GetInstance()->setPreviousForm();
 }
